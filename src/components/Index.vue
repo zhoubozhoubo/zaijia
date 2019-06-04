@@ -1,5 +1,15 @@
 <template>
   <div class="index">
+    <!--location-->
+    <van-row class="locationRow">
+      <van-col span="6" offset="1">
+        <div @click="showArea">
+          <van-icon name="location"/>
+          <span>{{county}}</span>
+          <van-icon name="arrow-down"/>
+        </div>
+      </van-col>
+    </van-row>
     <!--banner-->
     <van-row class="bannerRow">
       <van-col span="24">
@@ -16,6 +26,15 @@
         <img :src="link.src" />
       </van-col>
     </van-row>
+    <!--order-->
+    <van-row class="orderRow">
+      <van-col span="6" offset="17">
+        <div class="orderSelect" @click="showOrder">
+          <span>{{order}}</span>
+          <van-icon name="arrow-down" />
+        </div>
+      </van-col>
+    </van-row>
     <!--task-->
     <van-list v-model="loading"
               :finished="finished"
@@ -25,15 +44,27 @@
                 :key="item"
                 :title="item"/>-->
       <van-row class="taskRow" v-for="(task, taskIndex) in taskList" :key="taskIndex">
-        <van-col span="3" offset="1">
-          <img :src="task.src"/>
-        </van-col>
-        <van-col span="18" offset="1" class="taskContent">
-          <h1>【360借条】新人注册+红包</h1>
-          <h2><span class="money">20元/次</span>剩余29次</h2>
-        </van-col>
+        <div @click="goTaskDetails">
+          <van-col span="3" offset="1">
+            <img :src="task.src"/>
+          </van-col>
+          <van-col span="18" offset="1" class="taskContent">
+            <h1>【360借条】新人注册+红包</h1>
+            <h2><span class="money">20元/次</span>剩余29次</h2>
+          </van-col>
+        </div>
       </van-row>
     </van-list>
+    <!--areaShow-->
+    <van-popup v-model="areaShow" position="bottom" :overlay="true">
+      <van-area :area-list="areaList" value="110101" title="城市" :columns-num="2" @confirm="confirmArea" @cancel="cancelArea"/>
+    </van-popup>
+    <!--orderShow-->
+    <van-actionsheet
+      v-model="orderShow"
+      :actions="orderList"
+      @select="selectOrder"
+    />
   </div>
 </template>
 
@@ -90,7 +121,45 @@ export default {
       ],
       list: [],
       loading: false,
-      finished: false
+      finished: false,
+      county: '成都',
+      areaShow: false,
+      areaList: {
+        province_list: {
+          110000: '北京市',
+          120000: '天津市'
+        },
+        city_list: {
+          110100: '北京市',
+          110200: '县',
+          120100: '天津市',
+          120200: '县'
+        },
+        county_list: {
+          110101: '东城区',
+          110102: '西城区',
+          110105: '朝阳区',
+          110106: '丰台区',
+          120101: '和平区',
+          120102: '河东区',
+          120103: '河西区',
+          120104: '南开区',
+          120105: '河北区'
+        }
+      },
+      order: '默认排序',
+      orderShow: false,
+      orderList: [
+        {
+          name: '默认排序'
+        },
+        {
+          name: '最新发布'
+        },
+        {
+          name: '人气'
+        }
+      ]
     }
   },
   methods: {
@@ -109,6 +178,28 @@ export default {
         }
       }, 500)
     },
+    showArea () {
+      console.log('showArea')
+      this.areaShow = true
+    },
+    confirmArea (res) {
+      console.log('confirmArea')
+      this.county = res[1].name
+      this.areaShow = false
+    },
+    cancelArea () {
+      console.log('cancelArea')
+      this.areaShow = false
+    },
+    showOrder () {
+      console.log('showOrder')
+      this.orderShow = true
+    },
+    selectOrder (item) {
+      console.log('selectOrder')
+      this.order = item.name
+      this.orderShow = false
+    },
     goTaskDetails () {
       console.log('goTaskDetails')
       this.$router.push({
@@ -121,12 +212,31 @@ export default {
 </script>
 
 <style scoped>
+  .locationRow{
+    height: 40px;
+    background-color: #3f3f3f;
+    color: #fff;
+    font-size: 16px;
+    line-height: 40px;
+  }
+  .locationRow span{
+    margin: 0 5px;
+  }
   .bannerRow img{
     width: 100%;
   }
   .linkRow{
     margin: 15px 0;
     text-align: center;
+  }
+  .orderRow{
+    font-size: 14px;
+  }
+  .orderRow .orderSelect{
+    text-align: right;
+  }
+  .orderRow span{
+    margin-right: 5px;
   }
   .taskRow img{
     margin-top: 6.5px;
