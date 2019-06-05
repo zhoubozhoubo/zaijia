@@ -120,6 +120,13 @@
       onRead(file) {
         console.log('onRead')
         console.log(file)
+      },
+      submitData () {
+        console.log('submitData')
+        this.$router.push({
+          name: 'SubmitSuccess',
+          params: { id: 12 }
+        })
       }
     },
     created() {

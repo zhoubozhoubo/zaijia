@@ -1,0 +1,136 @@
+<template>
+  <div class="notice">
+
+    <van-row class="navRow">
+      <van-col span="2" offset="1">
+        <van-icon name="arrow-left" size="20px" class="nav_icon" @click="goBack"/>
+      </van-col>
+      <van-col span="18" class="nav_title">
+        <span>最新通知</span>
+      </van-col>
+    </van-row>
+    <div class="nav_block"></div>
+
+    <!--notice-->
+    <van-list v-model="loading"
+              :finished="finished"
+              finished-text="没有更多了"
+              @load="onLoad">
+      <van-row class="taskRow" v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
+        <div @click="readNotice(noticeIndex)">
+          <van-col span="22" offset="1">
+            <h1 :class="{'not_read':notice.is_read === 0}">{{notice.name}}<span>{{notice.time}}</span></h1>
+            <p>{{notice.content}}</p>
+          </van-col>
+        </div>
+      </van-row>
+    </van-list>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Notice',
+  data () {
+    return {
+      list: [],
+      loading: false,
+      finished: false,
+      noticeList: [
+        {
+          name: '消息通知1',
+          time: '2019-06-05 12:00',
+          content: '消息通知消息通知消息通知消息通知',
+          is_read: 0
+        },
+        {
+          name: '消息通知2',
+          time: '2019-06-05 12:00',
+          content: '消息通知消息通知消息通知消息通知消息通知消息通知消息通知消息通知',
+          is_read: 0
+        },
+        {
+          name: '消息通知3',
+          time: '2019-06-05 12:00',
+          content: '消息通知消息通知消息通知消息通知消息通知消息通知消息通知消息通知',
+          is_read: 1
+        }
+      ]
+    }
+  },
+  methods: {
+    goBack () {
+      this.$router.back()
+    },
+    onLoad () {
+      // 异步更新数据
+      setTimeout(() => {
+        for (let i = 0; i < 10; i++) {
+          this.list.push(this.list.length + 1)
+        }
+        // 加载状态结束
+        this.loading = false
+
+        // 数据全部加载完成
+        if (this.list.length >= 40) {
+          this.finished = true
+        }
+      }, 500)
+    },
+    readNotice (index) {
+      console.log('readNotice')
+      this.noticeList[index].is_read = 1;
+    }
+  },
+  created () {
+  }
+}
+</script>
+<style>
+  .nav_block{
+    height: 40px;
+  }
+</style>
+<style scoped>
+  .navRow{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #3f3f3f;
+    color: #fff;
+    font-size: 16px;
+    line-height: 40px;
+  }
+  .navRow .nav_icon{
+    float: left;
+    line-height: 40px;
+  }
+  .navRow .nav_title{
+    text-align: center;
+  }
+  .notice h1,p{
+    margin: 0;
+  }
+  .notice .taskRow{
+    padding: 5px 0;
+  }
+  .notice .taskRow h1{
+    font-size: 18px;
+    line-height: 35px;
+  }
+  .notice .taskRow .not_read{
+    color: #FFA500;
+  }
+  .notice .taskRow h1 span{
+    float: right;
+    font-size: 12px;
+    line-height: 35px;
+    color: #808080;
+  }
+  .notice .taskRow p{
+    font-size: 15px;
+    color: #696969;
+    line-height: 25px;
+  }
+</style>
