@@ -1,27 +1,27 @@
 <template>
-  <div class="myIncome">
+  <div class="myWithdraw">
 
     <van-row class="navRow">
       <van-col span="2" offset="1">
         <van-icon name="arrow-left" size="20px" class="nav_icon" @click="goBack"/>
       </van-col>
       <van-col span="18" class="nav_title">
-        <span>个人收入</span>
+        <span>提现记录</span>
       </van-col>
     </van-row>
     <div class="nav_block"></div>
 
-    <!--incomelist-->
+    <!--withdrawlist-->
     <van-list v-model="loading"
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad">
-      <van-row class="income_list" v-for="(income, incomeIndex) in incomeList" :key="incomeIndex">
+      <van-row class="withdraw_list" v-for="(withdraw, withdrawIndex) in withdrawList" :key="withdrawIndex">
         <van-col span="16" offset="1">
-          <h1>在 {{income.time}} 完成了任务</h1>
+          <h1>{{withdraw.time}}</h1>
         </van-col>
         <van-col span="5" offset="1" class="money">
-          <span>+{{income.money}}</span>
+          <span>-{{withdraw.money}}</span>
         </van-col>
       </van-row>
     </van-list>
@@ -31,27 +31,27 @@
 
 <script>
 export default {
-  name: 'MyIncome',
+  name: 'MyWithdraw',
   data () {
     return {
       list: [],
       loading: false,
       finished: false,
-      incomeList:[
+      withdrawList:[
         {
-          time: '2019-06-05 12:34',
+          time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
-          time: '2019-06-05 12:34',
+          time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
-          time: '2019-06-05 12:34',
+          time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
-          time: '2019-06-05 12:34',
+          time: '2019-06-05 12:34:45',
           money: '23.12'
         }
       ]
@@ -104,18 +104,19 @@ export default {
   .navRow .nav_title{
     text-align: center;
   }
-  .myIncome h1{
+  .myWithdraw h1{
     margin: 0;
   }
-  .myIncome .income_list{
+  .myWithdraw .withdraw_list{
     padding: 10px 0;
     border-bottom: 1px solid #F5F5F5;
   }
-  .myIncome .income_list h1{
+  .myWithdraw .withdraw_list h1{
     font-size: 16px;
+    line-height: 30px;
     color: #808080;
   }
-  .myIncome .income_list .money{
+  .myWithdraw .withdraw_list .money{
     font-size: 16px;
     color: #FFA500;
     line-height: 30px;

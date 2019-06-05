@@ -4,10 +4,13 @@
     <van-row class="locationRow">
       <van-col span="6" offset="1">
         <div @click="showArea">
-          <van-icon name="location"/>
+          <van-icon name="location" size="20px" class="location"/>
           <span>{{county}}</span>
-          <van-icon name="arrow-down"/>
+          <van-icon name="arrow-down" size="20px" class="select"/>
         </div>
+      </van-col>
+      <van-col span="1" offset="15">
+        <van-icon name="manager" size="20px" @click="goUser" class="user"/>
       </van-col>
     </van-row>
     <!--banner-->
@@ -178,6 +181,12 @@ export default {
         }
       }, 500)
     },
+    goUser () {
+      console.log('goUser')
+      this.$router.push({
+        name: 'User'
+      })
+    },
     showArea () {
       console.log('showArea')
       this.areaShow = true
@@ -217,10 +226,16 @@ export default {
     background-color: #3f3f3f;
     color: #fff;
     font-size: 16px;
+  }
+  .locationRow .location,.locationRow .select,.locationRow .user{
     line-height: 40px;
   }
+  .locationRow .location,.locationRow .user{
+    float: left;
+  }
   .locationRow span{
-    margin: 0 5px;
+    float: left;
+    margin: 10px 5px 0;
   }
   .bannerRow img{
     width: 100%;

@@ -10,6 +10,7 @@ import Notice from '@/components/Notice'
 import MyTeam from '@/components/MyTeam'
 import TeamIncome from '@/components/TeamIncome'
 import MyIncome from '@/components/MyIncome'
+import MyWithdraw from '@/components/MyWithdraw'
 
 Vue.use(Router)
 
@@ -64,6 +65,11 @@ export default new Router({
       path: '/MyIncome',
       name: 'MyIncome',
       component: MyIncome
+    },
+    {
+      path: '/MyWithdraw',
+      name: 'MyWithdraw',
+      component: MyWithdraw
     }
   ]
 })

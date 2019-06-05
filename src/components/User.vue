@@ -22,17 +22,17 @@
       <van-col span="12" class="income_content">
         <div @click="goMyIncome">
           <h2>个人收入</h2>
-          <h1>￥0.00</h1>
+          <h1>￥0.00<van-icon name="eye-o" size="20px"/></h1>
         </div>
       </van-col>
       <van-col span="12" class="income_content">
         <div @click="goTeamIncome">
           <h2>团队收入</h2>
-          <h1>￥0.00</h1>
+          <h1>￥0.00<van-icon name="eye-o" size="20px"/></h1>
         </div>
       </van-col>
       <van-col span="12" class="income_content">
-        <van-button>提现</van-button>
+        <van-button @click="goWithdraw">提现</van-button>
       </van-col>
     </van-row>
 
@@ -92,6 +92,12 @@ export default {
       console.log('goTeamIncome')
       this.$router.push({
         name: 'TeamIncome'
+      })
+    },
+    goWithdraw () {
+      console.log('goWithdraw')
+      this.$router.push({
+        name: 'MyWithdraw'
       })
     },
     goMyTask () {
@@ -170,6 +176,12 @@ export default {
     color: #FFA500;
     line-height: 30px;
     margin-bottom: 5px;
+    display: inline-block;
+  }
+  .user .user_income h1 .van-icon{
+    float: right;
+    margin-left: 5px;
+    line-height: 28px;
   }
   .user .user_income h2{
     font-size: 16px;
@@ -202,7 +214,7 @@ export default {
   .user .other_info{
     text-align: center;
     padding: 10px 0;
-    margin: 40px 0 60px;
+    margin: 60px 0 100px;
     background-color: #fff;
   }
   .user .other_info h1{
