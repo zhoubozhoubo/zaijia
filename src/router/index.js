@@ -5,6 +5,8 @@ import TaskDetails from '@/components/TaskDetails'
 import TaskSubmit from '@/components/TaskSubmit'
 import SubmitSuccess from '@/components/SubmitSuccess'
 import User from '@/components/User'
+import Register from '@/components/Register'
+import Login from '@/components/Login'
 import MyTask from '@/components/MyTask'
 import Notice from '@/components/Notice'
 import MyTeam from '@/components/MyTeam'
@@ -40,6 +42,16 @@ export default new Router({
       path: '/User',
       name: 'User',
       component: User
+    },
+    {
+      path: '/Register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login
     },
     {
       path: '/MyTask',

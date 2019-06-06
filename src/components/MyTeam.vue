@@ -58,19 +58,19 @@ export default {
       ],
       userList:[
         {
-          nickname: '成员a',
+          nickname: 'vuylfuyf',
           avatarurl: 'static/images/checkboxed.png'
         },
         {
-          nickname: '成员b',
+          nickname: 'UI个欧阳天勾引',
           avatarurl: 'static/images/checkboxed.png'
         },
         {
-          nickname: '成员c',
+          nickname: '存入防御塔',
           avatarurl: 'static/images/checkboxed.png'
         },
         {
-          nickname: '成员d',
+          nickname: '熊就会yugo',
           avatarurl: 'static/images/checkboxed.png'
         }
       ]
