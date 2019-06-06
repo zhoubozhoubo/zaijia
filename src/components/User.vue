@@ -7,7 +7,7 @@
         <img src="../../static/images/checkboxed.png"/>
       </van-col>
       <van-col span="17" offset="1">
-        <h1>昵称</h1>
+        <h1>昵称<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
         <h2><span>工号:</span>12351234</h2>
         <h2><span>推荐人:</span>慧元财富</h2>
       </van-col>
@@ -82,6 +82,12 @@ export default {
     }
   },
   methods: {
+    logOut () {
+      console.log('logOut')
+      this.$router.push({
+        name: 'Login'
+      })
+    },
     goMyIncome () {
       console.log('goMyIncome')
       this.$router.push({
@@ -97,7 +103,7 @@ export default {
     goWithdraw () {
       console.log('goWithdraw')
       this.$router.push({
-        name: 'MyWithdraw'
+        name: 'Withdraw'
       })
     },
     goMyTask () {
@@ -149,10 +155,17 @@ export default {
     border: 5px solid #808080;
   }
   .user .user_info h1{
+    display: inline-block;
     font-size: 20px;
     color: #FFA500;
     line-height: 40px;
     margin-top: 20px;
+  }
+  .user .user_info h1 .logout{
+    float: right;
+    margin-left: 10px;
+    line-height: 40px;
+    color: #C0C0C0;
   }
   .user .user_info h2{
     font-size: 16px;

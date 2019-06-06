@@ -14,17 +14,17 @@
     <van-row>
       <van-col span="22" offset="1" class="register_modal">
         <van-cell-group>
-          <van-field v-model="form.phone" placeholder="请输入手机号" />
-          <van-field v-model="form.code"
-                     center
-                     clearable
-                     placeholder="请输入短信验证码">
-            <van-button slot="button" size="small" class="get_code" @click="getCode">获取验证码</van-button>
+          <van-field v-model="form.phone" placeholder="请输入手机号">
+            <van-icon slot="left-icon" size="16px" name="phone-o" color="#00bcd4"/>
           </van-field>
-          <van-field
-            v-model="form.password"
-            type="password"
-            placeholder="请输入密码"/>
+          <van-field v-model="form.code" clearable placeholder="请输入短信验证码">
+            <van-icon slot="left-icon" size="16px" name="comment-o" color="#00bcd4"/>
+            <van-button slot="button" size="small" class="get_code" @click="getCode" v-if="!codeStatus">获取验证码</van-button>
+            <van-button slot="button" size="small" class="get_code" disabled v-else>重新获取({{countTime}})</van-button>
+          </van-field>
+          <van-field v-model="form.password" type="password" placeholder="请输入密码">
+            <van-icon slot="left-icon" size="16px" name="closed-eye" color="#00bcd4"/>
+          </van-field>
         </van-cell-group>
         <van-row>
           <van-col span="22" offset="1">
@@ -51,7 +51,10 @@ export default {
         phone: '',
         code: '',
         password: ''
-      }
+      },
+      codeStatus: false,
+      countTime: 60,
+      timer: ''
     }
   },
   methods: {
@@ -60,6 +63,8 @@ export default {
     },
     getCode () {
       console.log('getCode')
+      this.countTime = 60
+      this.countDown()
     },
     Register () {
       console.log('Register')
@@ -69,9 +74,28 @@ export default {
       this.$router.push({
         name: 'Login'
       })
+    },
+    countDown() {
+      this.codeStatus = true
+      this.timer = setInterval(() => {
+        this.countTime --
+        if (this.countTime === 0) {
+          clearInterval(this.timer);
+          this.codeStatus = false
+        }
+        if(this.countTime<10){
+          this.countTime="0"+this.countTime;
+        }
+      }, 1000);
     }
   },
   created () {
+  },
+  onHide:function() {
+    clearInterval(this.timer);
+  },
+  onUnload(){
+    clearInterval(this.timer);
   }
 }
 </script>

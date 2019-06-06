@@ -14,11 +14,12 @@
     <van-row>
       <van-col span="22" offset="1" class="login_modal">
         <van-cell-group>
-          <van-field v-model="form.phone" placeholder="请输入手机号" />
-          <van-field
-            v-model="form.password"
-            type="password"
-            placeholder="请输入密码"/>
+          <van-field v-model="form.phone" placeholder="请输入手机号">
+            <van-icon slot="left-icon" size="16px" name="phone-o" color="#00bcd4"/>
+          </van-field>
+          <van-field v-model="form.password" type="password" placeholder="请输入密码">
+            <van-icon slot="left-icon" size="16px" name="closed-eye" color="#00bcd4"/>
+          </van-field>
         </van-cell-group>
         <van-row>
           <van-col span="22" offset="1">
