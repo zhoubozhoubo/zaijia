@@ -9,6 +9,7 @@ import Register from '@/components/Register'
 import Login from '@/components/Login'
 import MyTask from '@/components/MyTask'
 import Notice from '@/components/Notice'
+import QrCode from '@/components/QrCode'
 import MyTeam from '@/components/MyTeam'
 import TeamIncome from '@/components/TeamIncome'
 import MyIncome from '@/components/MyIncome'
@@ -63,6 +64,11 @@ export default new Router({
       path: '/Notice',
       name: 'Notice',
       component: Notice
+    },
+    {
+      path: '/QrCode',
+      name: 'QrCode',
+      component: QrCode
     },
     {
       path: '/MyTeam',

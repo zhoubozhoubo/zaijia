@@ -51,7 +51,7 @@
         </div>
       </van-col>
       <van-col span="12" class="handle_content my_qr">
-        <div @click="goMyQr">
+        <div @click="goMyQrCode">
           <van-icon name="qr" size="30px" color="#000000"/>
           <h2>一键分享</h2>
         </div>
@@ -118,10 +118,10 @@ export default {
         name: 'Notice'
       })
     },
-    goMyQr () {
-      console.log('goMyQr')
+    goMyQrCode () {
+      console.log('goMyQrCode')
       this.$router.push({
-        name: 'MyQr'
+        name: 'QrCode'
       })
     },
     goMyTeam () {
