@@ -39,7 +39,7 @@
     <!--handle-->
     <van-row class="handle">
       <van-col span="12" class="handle_content my_qr">
-        <div @click="goMyQr">
+        <div @click="goMyQrCode">
           <van-icon name="gift-card-o" size="30px" color="#FF0000"/>
           <h2>邀请有礼</h2>
         </div>
