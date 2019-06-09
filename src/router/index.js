@@ -5,11 +5,15 @@ import TaskDetails from '@/components/TaskDetails'
 import TaskSubmit from '@/components/TaskSubmit'
 import SubmitSuccess from '@/components/SubmitSuccess'
 import User from '@/components/User'
+import Register from '@/components/Register'
+import Login from '@/components/Login'
 import MyTask from '@/components/MyTask'
 import Notice from '@/components/Notice'
+import QrCode from '@/components/QrCode'
 import MyTeam from '@/components/MyTeam'
 import TeamIncome from '@/components/TeamIncome'
 import MyIncome from '@/components/MyIncome'
+import Withdraw from '@/components/Withdraw'
 import MyWithdraw from '@/components/MyWithdraw'
 
 Vue.use(Router)
@@ -42,6 +46,16 @@ export default new Router({
       component: User
     },
     {
+      path: '/Register',
+      name: 'Register',
+      component: Register
+    },
+    {
+      path: '/Login',
+      name: 'Login',
+      component: Login
+    },
+    {
       path: '/MyTask',
       name: 'MyTask',
       component: MyTask
@@ -50,6 +64,11 @@ export default new Router({
       path: '/Notice',
       name: 'Notice',
       component: Notice
+    },
+    {
+      path: '/QrCode',
+      name: 'QrCode',
+      component: QrCode
     },
     {
       path: '/MyTeam',
@@ -65,6 +84,11 @@ export default new Router({
       path: '/MyIncome',
       name: 'MyIncome',
       component: MyIncome
+    },
+    {
+      path: '/Withdraw',
+      name: 'Withdraw',
+      component: Withdraw
     },
     {
       path: '/MyWithdraw',

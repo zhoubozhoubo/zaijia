@@ -18,7 +18,9 @@
               @load="onLoad">
       <van-row class="withdraw_list" v-for="(withdraw, withdrawIndex) in withdrawList" :key="withdrawIndex">
         <van-col span="16" offset="1">
-          <h1>{{withdraw.time}}</h1>
+          <h1 v-if="withdraw.way === 1">提现到<span class="wechat">微信账号：</span>"{{withdraw.account}}"</h1>
+          <h1 v-if="withdraw.way === 2">提现到<span class="alipay">支付宝账号：</span>"{{withdraw.account}}"</h1>
+          <h2>{{withdraw.time}}</h2>
         </van-col>
         <van-col span="5" offset="1" class="money">
           <span>-{{withdraw.money}}</span>
@@ -39,18 +41,26 @@ export default {
       finished: false,
       withdrawList:[
         {
+          way: 1,
+          account: 'fqwg34t4fwe',
           time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
+          way: 2,
+          account: 'fqwg34t4fwe',
           time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
+          way: 2,
+          account: 'fqwg34t4fwe',
           time: '2019-06-05 12:34:45',
           money: '23.12'
         },
         {
+          way: 1,
+          account: 'fqwg34t4fwe',
           time: '2019-06-05 12:34:45',
           money: '23.12'
         }
@@ -104,7 +114,7 @@ export default {
   .navRow .nav_title{
     text-align: center;
   }
-  .myWithdraw h1{
+  .myWithdraw h1,h2{
     margin: 0;
   }
   .myWithdraw .withdraw_list{
@@ -114,6 +124,17 @@ export default {
   .myWithdraw .withdraw_list h1{
     font-size: 16px;
     line-height: 30px;
+    color: #808080;
+  }
+  .myWithdraw .withdraw_list h1 .wechat{
+    color: #62b900;
+  }
+  .myWithdraw .withdraw_list h1 .alipay{
+    color: #1989fa;
+  }
+  .myWithdraw .withdraw_list h2{
+    font-size: 12px;
+    line-height: 20px;
     color: #808080;
   }
   .myWithdraw .withdraw_list .money{
