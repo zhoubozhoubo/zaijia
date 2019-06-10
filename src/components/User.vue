@@ -4,7 +4,7 @@
     <!--userinfo-->
     <van-row class="user_info">
       <van-col span="4" offset="1">
-        <img src="../../static/images/checkboxed.png"/>
+        <img src="https://wx.qlogo.cn/mmopen/vi_32/h3GVU1Iz7BaOmSSK6NrSBOibq9BzPMo4f4Gaic5pIS95CGMJEMouJQEjjSNPfjqbc11ibicnKJNqicFlLJatGQQNx2g/132"/>
       </van-col>
       <van-col span="17" offset="1">
         <h1>昵称<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
@@ -198,13 +198,17 @@ export default {
   }
   .user .user_info{
     height: 145px;
-    background-color: #555;
-    color: #eee;
+    /*color: #eee;*/
+    /*background-color: #555;*/
+    /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=501549062,1145138333&fm=26&gp=0.jpg");*/
+    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560156721470&di=a625d21781a90f48dcdf104095ca9403&imgtype=0&src=http%3A%2F%2Fimg3.redocn.com%2Ftupian%2F20150129%2Fhongsexiqingdonggantupianbeijing_3884592.jpg");
   }
   .user .user_info img{
+    width: 60px;
     margin-top: 50px;
     border-radius: 50%;
-    border: 5px solid #808080;
+    /*border: 5px solid #808080;*/
+    border: 5px solid #f6adc8;
   }
   .user .user_info h1{
     display: inline-block;
@@ -221,7 +225,8 @@ export default {
   }
   .user .user_info h2{
     font-size: 16px;
-    color: #C0C0C0;
+    /*color: #C0C0C0;*/
+    color: #FFF;
     line-height: 25px;
   }
   .user .user_info h2 span{
@@ -229,9 +234,10 @@ export default {
   }
   .user .user_income{
     height: 155px;
-    background-color: #555;
+    /*background-color: #555;*/
     color: #eee;
     margin-top: 1px;
+    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560157106571&di=fdb78efa626e913ad65ba352fe9deb33&imgtype=0&src=http%3A%2F%2Fpic2.16pic.com%2F00%2F00%2F96%2F16pic_96661_b.jpg");
   }
   .user .user_income .income_content{
     text-align: center;
@@ -250,7 +256,8 @@ export default {
   }
   .user .user_income h2{
     font-size: 16px;
-    color: #D3D3D3;
+    /*color: #D3D3D3;*/
+    color: #FFF;
     line-height: 30px;
     margin-top: 10px;
   }
@@ -258,8 +265,10 @@ export default {
     width: 60px;
     height: 30px;
     margin-top: 25px;
-    background-color: #ff3636;
-    border-color: #ff3636;
+    /*background-color: #ff3636;*/
+    /*border-color: #ff3636;*/
+    background-color: #FFA500;
+    border-color: #FFA500;
     color: #fff;
     line-height: 30px;
   }
