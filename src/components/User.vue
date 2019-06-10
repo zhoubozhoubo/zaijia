@@ -80,7 +80,7 @@
     <!--otherinfo-->
     <van-row>
       <van-col span="24" class="other_info">
-        <h1>慧元财富</h1>
+        <!--<h1>慧元财富</h1>-->
         <h2>做任务赚现金，真的可以‘躺着赚’</h2>
       </van-col>
     </van-row>
@@ -296,8 +296,8 @@ export default {
     color: #000;
   }
   .user .other_info h2{
-    font-size: 14px;
-    color: #808080;
+    font-size: 16px;
+    color: #ff3636;
   }
   .user .skill{
     width: 300px;
