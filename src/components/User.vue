@@ -9,6 +9,7 @@
       <van-col span="17" offset="1">
         <h1>昵称<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
         <h2><span>工号:</span>12351234</h2>
+        <h2><span>职务:</span>合伙人</h2>
         <h2><span>推荐人:</span>慧元财富</h2>
       </van-col>
     </van-row>
@@ -196,12 +197,12 @@ export default {
     margin: 0;
   }
   .user .user_info{
-    height: 130px;
+    height: 145px;
     background-color: #555;
     color: #eee;
   }
   .user .user_info img{
-    margin-top: 40px;
+    margin-top: 50px;
     border-radius: 50%;
     border: 5px solid #808080;
   }
@@ -221,7 +222,7 @@ export default {
   .user .user_info h2{
     font-size: 16px;
     color: #C0C0C0;
-    line-height: 30px;
+    line-height: 25px;
   }
   .user .user_info h2 span{
     margin-right: 5px;
@@ -278,7 +279,7 @@ export default {
   .user .other_info{
     text-align: center;
     padding: 10px 0;
-    margin: 60px 0 100px;
+    margin: 10px 0 50px;
     background-color: #fff;
   }
   .user .other_info h1{

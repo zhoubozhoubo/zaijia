@@ -17,6 +17,12 @@
       </van-col>
     </van-row>
 
+    <van-row>
+      <van-col span="22" offset="1">
+        <van-button>长按图片分享或保存</van-button>
+      </van-col>
+    </van-row>
+
   </div>
 </template>
 
@@ -61,5 +67,15 @@ export default {
   }
   .qrCode img{
     width: 100%;
+  }
+  .qrCode button{
+    width: 100%;
+    height: 40px;
+    margin: 10px 0 20px;
+    line-height: 40px;
+    font-size: 14px;
+    background-color: #00bcd4;
+    border-color: #00bcd4;
+    color: #FFF;
   }
 </style>
