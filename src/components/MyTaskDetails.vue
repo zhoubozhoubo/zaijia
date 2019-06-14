@@ -15,10 +15,10 @@
       <van-col span="22" offset="1">
         <van-row>
           <van-col span="18" class="title">
-            {{taskDetails.title}}
+            {{taskDetails.task.title}}
           </van-col>
           <van-col span="6" class="money">
-            ￥{{taskDetails.money}}<span>/次</span>
+            ￥{{taskDetails.task.money}}<span>/次</span>
           </van-col>
 
           <!--info-->
@@ -26,32 +26,32 @@
             截止日期：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.end_date}}
+            {{taskDetails.task.end_date}}
           </van-col>
           <van-col span="6" class="label_title">
             审核时长：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.check_duration}}小时
+            {{taskDetails.task.check_duration}}小时
           </van-col>
           <van-col span="6" class="label_title">
             完成时间：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.finish_duration}}小时
+            {{taskDetails.task.finish_duration}}小时
           </van-col>
           <van-col span="6" class="label_title">
             重复执行：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.is_repeat === 1 ? '是': '否'}}
+            {{taskDetails.task.is_repeat === 1 ? '是': '否'}}
           </van-col>
 
           <!--step-->
           <van-col span="24" class="label_title">
             任务说明
           </van-col>
-          <template v-for="(stepItem, stepIndex) in taskDetails.step">
+          <template v-for="(stepItem, stepIndex) in taskDetails.task.step">
             <van-col span="1" class="label_content text_content">
              {{stepIndex+1}}、
             </van-col>
@@ -63,12 +63,12 @@
 
 
           <!--link-->
-          <van-col span="23" offset="1" v-if="taskDetails.link">
+          <van-col span="23" offset="1" v-if="taskDetails.task.link">
             <a :href="taskDetails.link" class="link_button">打开链接</a>
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img">
+          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.task.show_img">
             <img :src="taskImg" />
           </van-col>
 
@@ -82,7 +82,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img">
+          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.task.submit_img">
             <img :src="img" />
           </van-col>
 
@@ -92,7 +92,7 @@
           <van-col span="1" class="label_content text_content red_content">
           </van-col>
           <van-col span="23" class="label_content text_content red_content">
-            {{taskDetails.take_care}}
+            {{taskDetails.task.take_care}}
           </van-col>
 
         </van-row>
@@ -103,22 +103,21 @@
     <!--receiveTask-->
     <van-row class="receive_row">
       <van-col span="22" offset="1">
-        <van-button class="receive_task" v-if="taskDetails.can_receive === 1" @click="receiveTask">领取任务</van-button>
-        <van-button class="receive_task" v-if="taskDetails.can_receive === 0">已领取</van-button>
-        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 0">执行中
+        <!--<van-button class="receive_task" v-if="taskDetails.can_receive === 1" @click="receiveTask">领取任务</van-button>-->
+        <van-button class="submit_data" v-if="taskDetails.status === 0" @click="submitData">提交材料
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核
+        <van-button class="submit_data" v-if="taskDetails.status === 1">待审核
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        &lt;!&ndash;<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>&ndash;&gt;
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 2">已通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 3">未通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 4">已放弃</van-button>-->
+        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>-->
+        <van-button class="submit_data" v-if="taskDetails.status === 2">已通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 3">未通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 4">已放弃</van-button>
       </van-col>
     </van-row>
   </div>
@@ -127,10 +126,10 @@
 <script>
   import { Toast } from 'vant';
 export default {
-  name: 'TaskDetails',
+  name: 'MyTaskDetails',
   data () {
     return {
-      task_id: this.$route.params.task_id,
+      id: this.$route.params.id,
       status: 0,
       taskDetails:[],
       countTime: '',
@@ -149,7 +148,7 @@ export default {
     },
     getTaskDetails () {
       let vm = this
-      this.axios.post(this.apiList.apiTaskDetails,{task_id: vm.task_id},{
+      this.axios.post(this.apiList.apiUserTaskDetails,{id: vm.id},{
         headers: {
           'token': localStorage.getItem('token')
         }
@@ -162,35 +161,6 @@ export default {
               vm.resetTime(vm.taskDetails.surplus_time)
             }
           }
-        }
-      })
-    },
-    // 领取任务
-    receiveTask () {
-      let vm = this
-      if(!localStorage.getItem('token')){
-        Toast('请先登录')
-        this.$router.push({
-          name: 'Login'
-        })
-        return
-      }
-      this.axios.post(this.apiList.apiAddTask,{
-        task_id: vm.task_id
-      },{
-        headers: {
-          'token': localStorage.getItem('token')
-        }
-      }).then(function (res) {
-        if (res.data.code === 1) {
-          Toast.success(res.data.msg)
-          vm.taskDetails.can_receive = 0
-          vm.taskDetails.status = 0
-          if(res.data.data.finish_duration>0){
-            vm.resetTime(res.data.data.finish_duration)
-          }
-        }else{
-          Toast(res.data.msg)
         }
       })
     },

@@ -27,17 +27,20 @@
       <van-row class="task_row" v-for="(myTask, myTaskIndex) in taskList" :key="myTaskIndex">
         <van-col span="22" offset="1" class="task_list">
           <van-row>
-            <van-col span="4" offset="1" class="img">
-              <img :src="myTask.task.task_type.img" />
-            </van-col>
-            <van-col span="17" offset="1" class="content">
-              <h1>
-                <span class="title">{{myTask.task.title}}</span>
-                <span class="number">/次</span>
-                <span class="money">￥{{myTask.task.money}}</span>
-              </h1>
-              <h2>已领取{{myTask.task.have_number}}次 通过率{{myTask.ratio}}%</h2>
-            </van-col>
+            <div @click="taskDetails(myTask.id)">
+              <van-col span="4" offset="1" class="img">
+                <img :src="myTask.task.task_type.img" />
+              </van-col>
+              <van-col span="17" offset="1" class="content">
+                <h1>
+                  <span class="title">{{myTask.task.title}}</span>
+                  <span class="number">/次</span>
+                  <span class="money">￥{{myTask.task.money}}</span>
+                </h1>
+                <h2>已领取{{myTask.task.have_number}}次 通过率{{myTask.ratio}}%</h2>
+              </van-col>
+            </div>
+
             <div class="clear"></div>
             <div style="height: 10px;"></div>
             <van-row class="handle" v-if="myTask.status === 0">
@@ -45,10 +48,10 @@
                 <h1><van-icon name="underway-o"/>1:00:57</h1>
               </van-col>
               <van-col span="6" offset="5">
-                <h3 @click="giveUp">放弃任务</h3>
+                <h3 @click="giveUp(myTask.id)">放弃任务</h3>
               </van-col>
               <van-col span="6">
-                <van-button @click="goOn">继续任务</van-button>
+                <van-button @click="goOn(myTask.id)">继续任务</van-button>
               </van-col>
             </van-row>
             <van-row class="handle" v-else-if="myTask.status === 1">
@@ -81,6 +84,7 @@ export default {
         status: 0,
         page:0
       },
+      id: '',
       loading: false,
       finished: false,
       statusList:[
@@ -141,19 +145,36 @@ export default {
       this.param.status = this.statusList[index].value
       this.initTaskList()
     },
-    giveUp () {
+    giveUp (id) {
       console.log('giveUp')
+      this.id = id
       this.giveUpShow = true
     },
-    goOn () {
+    goOn (id) {
       console.log('goOn')
       this.$router.push({
-        name: 'TaskDetails',
-        params: { id: 12 }
+        name: 'MyTaskDetails',
+        params: { id: id }
+      })
+    },
+    taskDetails (id) {
+      this.$router.push({
+        name: 'MyTaskDetails',
+        params: { id: id }
       })
     },
     confirmGiveUp () {
+      let vm = this
       console.log('confirmGiveUp')
+      this.axios.post(this.apiList.apiDelTask,{id:vm.id},{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.initTaskList()
+        }
+      })
     }
   },
   created () {

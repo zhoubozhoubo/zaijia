@@ -8,6 +8,7 @@ import User from '@/components/User'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import MyTask from '@/components/MyTask'
+import MyTaskDetails from '@/components/MyTaskDetails'
 import Notice from '@/components/Notice'
 import QrCode from '@/components/QrCode'
 import MyTeam from '@/components/MyTeam'
@@ -60,6 +61,11 @@ export default new Router({
       path: '/MyTask',
       name: 'MyTask',
       component: MyTask
+    },
+    {
+      path: '/MyTaskDetails',
+      name: 'MyTaskDetails',
+      component: MyTaskDetails
     },
     {
       path: '/Notice',

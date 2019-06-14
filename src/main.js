@@ -33,6 +33,7 @@ Vue.prototype.apiList={
   apiAddTask:         host+"5d0288178f14a",    //用户添加任务
   apiSubmitTask:      host+"5d02882d0a05a",    //用户提交任务
   apiDelTask:         host+"5d0288414ff33",    //用户放弃任务
+  apiUserTaskDetails: host+"5d0379759b283",    //用户任务详情
 }
 
 Vue.prototype.axios=Axios

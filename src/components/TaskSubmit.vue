@@ -18,7 +18,7 @@
             注意
           </van-col>
           <van-col span="24" class="content">
-            请详细阅读任务说明，并严格按照任务要求进行任务提交，随意填写会导致您本次任务提交无法通过审核，最终导致通过率下降；
+            {{taskDetails.task.take_care}}
           </van-col>
         </van-row>
 
@@ -27,10 +27,7 @@
             提交说明
           </van-col>
           <van-col span="24" class="content">
-            1、新人注册领红包页面截图
-            2、借条审核通过通知短信截图
-            3、借款成功短信截图
-            文字提交：姓名+手机号
+            {{taskDetails.task.submit_notice}}
           </van-col>
         </van-row>
 
@@ -38,8 +35,8 @@
           <van-col span="24" class="title">
             提交图片
           </van-col>
-          <van-col span="6" class="submit_img" v-for="(submitImg, submitImgIndex) in submitImgList" :key="submitImg.id">
-            <img :src="submitImg.src" />
+          <van-col span="6" class="submit_img" v-for="(img, imgIndex) in taskDetails.task.submit_img" :key="imgIndex">
+            <img :src="img" />
           </van-col>
         </van-row>
 
@@ -70,21 +67,32 @@
     <!--receiveTask-->
     <van-row class="receive_row">
       <van-col span="22" offset="1">
-        <van-button class="submit_data" @click="submitData">提交材料
+        <van-button class="submit_data" @click="submitData" v-if="taskDetails.status === 0">提交材料
           <span class="time">
-            <van-icon name="underway-o" class="clock"/>1:00:57
+            <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 1">待审核
+          <span class="time">
+            <van-icon name="underway-o" class="clock"/>{{countTime}}
+          </span>
+        </van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 2">已通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 3">未通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status === 4">已放弃</van-button>
       </van-col>
     </van-row>
   </div>
 </template>
 
 <script>
+  import { Toast } from 'vant';
   export default {
     name: 'TaskSubmit',
     data () {
       return {
+        id: this.$route.params.id,
+        taskDetails: [],
         submitImgList: [
           {
             id: 1,
@@ -110,26 +118,102 @@
         areaPlaceholder: '1、新人注册领红包页面截图\n' +
           '2、借条审核通过通知短信截图\n' +
           '3、借款成功短信截图\n' +
-          '文字提交：姓名+手机号'
+          '文字提交：姓名+手机号',
+        countTime: '',
+        timer: ''
       }
     },
+    created() {
+      this.init()
+    },
     methods: {
+      init () {
+        this.getTaskDetails()
+      },
       goBack () {
         this.$router.back()
+      },
+      getTaskDetails () {
+        let vm = this
+        this.axios.post(this.apiList.apiUserTaskDetails,{id: vm.id},{
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        }).then(function (res) {
+          if (res.data.code === 1) {
+            console.log(res)
+            vm.taskDetails = res.data.data
+            // 当状态为执行中、审核中时倒计时
+            if (vm.taskDetails.status === 0 || vm.taskDetails.status === 1) {
+              if (vm.taskDetails.surplus_time > 0) {
+                vm.resetTime(vm.taskDetails.surplus_time)
+              }
+            }
+          }
+        })
       },
       onRead(file) {
         console.log('onRead')
         console.log(file)
       },
       submitData () {
-        console.log('submitData')
-        this.$router.push({
-          name: 'SubmitSuccess',
-          params: { id: 12 }
+        let vm = this
+        this.axios.post(this.apiList.apiSubmitTask, {id: vm.taskDetails.id,submit_img: '',submit_text: ''}, {
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        }).then(function (res) {
+          if (res.data.code === 1) {
+            vm.$router.push({
+              name: 'SubmitSuccess'
+            })
+          }else{
+            Toast(res.data.msg)
+          }
         })
+      },
+      resetTime(hour) {
+        let vm = this
+        this.timer = setInterval(() => {
+          hour -= 1000;
+          let h = Math.floor(hour / (1000 * 60 * 60));
+          let m = Math.floor((hour % (1000 * 60 * 60)) / (1000 * 60));
+          let s = Math.floor((hour % (1000 * 60)) / 1000);
+          if (h == 0 && m == 0 && s == 0) {
+            clearInterval(vm.timer);
+            if(vm.taskDetails.status == 0){
+              vm.taskDetails.status = 4
+            }else if(vm.taskDetails.status == 1){
+              vm.taskDetails.status = 2
+            }
+            this.axios.post(this.apiList.apiUserTaskDetails, {id: vm.id}, {
+              headers: {
+                'token': localStorage.getItem('token')
+              }
+            }).then(function (res) {
+              if (res.data.code === 1) {
+
+              }
+            })
+          }
+          // if (h < 10) {
+          //   h = "0" + h;
+          // }
+          if (m < 10) {
+            m = "0" + m;
+          }
+          if (s < 10) {
+            s = "0" + s;
+          }
+          vm.countTime = h + ":" + m + ":" + s;
+        }, 1000);
       }
     },
-    created() {
+    onHide:function() {
+      clearInterval(this.timer);
+    },
+    onUnload(){
+      clearInterval(this.timer);
     }
   }
 </script>
@@ -173,6 +257,12 @@
   .taskSubmit .submit_img{
     text-align: center;
   }
+  .taskSubmit .submit_img img{
+    width: 60px;
+    height: 80px;
+    border: 1px solid #00BCD4;
+    border-radius: 4px;
+  }
   .taskSubmit .upload_img{
     height: 80px;
     text-align: center;
@@ -182,7 +272,7 @@
     margin: 25px 10px;
   }
   .taskSubmit .text_area{
-    height: 110px;
+    /*height: 100px!important;*/
     border-radius: 2px;
     border: 1px solid #ccc;
   }
