@@ -19,7 +19,7 @@
       <van-row class="taskRow" v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
         <div @click="readNotice(noticeIndex)">
           <van-col span="22" offset="1">
-            <h1 :class="{'not_read':notice.is_read === 0}">{{notice.name}}<span>{{notice.time}}</span></h1>
+            <h1 :class="{'not_read':notice.is_read === 0}">{{notice.title}}<span>{{notice.time}}</span></h1>
             <p>{{notice.content}}</p>
           </van-col>
         </div>
@@ -33,56 +33,43 @@ export default {
   name: 'Notice',
   data () {
     return {
-      list: [],
+      param: {
+        page:0
+      },
       loading: false,
       finished: false,
-      noticeList: [
-        {
-          name: '消息通知1',
-          time: '2019-06-05 12:00',
-          content: '消息通知消息通知消息通知消息通知',
-          is_read: 0
-        },
-        {
-          name: '消息通知2',
-          time: '2019-06-05 12:00',
-          content: '消息通知消息通知消息通知消息通知消息通知消息通知消息通知消息通知',
-          is_read: 0
-        },
-        {
-          name: '消息通知3',
-          time: '2019-06-05 12:00',
-          content: '消息通知消息通知消息通知消息通知消息通知消息通知消息通知消息通知',
-          is_read: 1
-        }
-      ]
+      noticeList: []
     }
+  },
+  created () {
   },
   methods: {
     goBack () {
       this.$router.back()
     },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiNoticeList,this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.noticeList = vm.noticeList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.noticeList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
+      })
     },
     readNotice (index) {
       console.log('readNotice')
       this.noticeList[index].is_read = 1;
     }
-  },
-  created () {
   }
 }
 </script>

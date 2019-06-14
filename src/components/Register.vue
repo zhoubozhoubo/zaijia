@@ -41,8 +41,8 @@
     </van-row>
   </div>
 </template>
-
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'Register',
   data () {
@@ -50,24 +50,47 @@ export default {
       form: {
         phone: '',
         code: '',
-        password: ''
+        password: '',
+        invitationCode: this.$route.query.invitationCode
       },
       codeStatus: false,
       countTime: 60,
       timer: ''
     }
   },
+  created () {
+  },
   methods: {
     goBack() {
       this.$router.back()
     },
     getCode () {
-      console.log('getCode')
-      this.countTime = 60
-      this.countDown()
+      let vm = this
+      this.axios.post(this.apiList.apiSendCode,{
+        phone: vm.form.phone
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          Toast.success(res.data.msg)
+          vm.countTime = 60
+          vm.countDown()
+          vm.form.code = res.data.data
+        }else{
+          Toast(res.data.msg)
+        }
+      })
     },
     Register () {
-      console.log('Register')
+      let vm = this
+      this.axios.post(this.apiList.apiRegister,vm.form).then(function (res) {
+        if (res.data.code === 1) {
+          Toast.success(res.data.msg)
+          vm.$router.push({
+            name: 'Login'
+          })
+        }else{
+          Toast(res.data.msg)
+        }
+      })
     },
     goLogin () {
       console.log('goLogin')
@@ -88,8 +111,6 @@ export default {
         }
       }, 1000);
     }
-  },
-  created () {
   },
   onHide:function() {
     clearInterval(this.timer);

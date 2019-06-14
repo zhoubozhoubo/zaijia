@@ -18,7 +18,7 @@
               @load="onLoad">
       <van-row class="income_list" v-for="(income, incomeIndex) in incomeList" :key="incomeIndex">
         <van-col span="16" offset="1">
-          <h1>在 {{income.time}} 完成了任务</h1>
+          <h1>在 "{{income.gmt_create}}" 完成了任务 "{{income.task.title}}"</h1>
         </van-col>
         <van-col span="5" offset="1" class="money">
           <span>+{{income.money}}</span>
@@ -34,27 +34,12 @@ export default {
   name: 'MyIncome',
   data () {
     return {
-      list: [],
+      param: {
+        page:0
+      },
       loading: false,
       finished: false,
-      incomeList:[
-        {
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        }
-      ]
+      incomeList:[]
     }
   },
   methods: {
@@ -62,20 +47,25 @@ export default {
       this.$router.back()
     },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiMyIncomeList,this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        console.log(res)
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.incomeList = vm.incomeList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.incomeList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
-    }
+      })
+    },
   },
   created () {
   }

@@ -13,7 +13,7 @@
 
     <van-row class="task_nav">
       <div v-for="(status, statusIndex) in statusList" :key="statusIndex" @click="selectStatus(statusIndex)">
-        <van-col class="task_nav_item" :class="{'actice':status.value === currentStatus}">
+        <van-col class="task_nav_item" :class="{'actice':status.value === param.status}">
           <span>{{status.name}}</span>
         </van-col>
       </div>
@@ -24,18 +24,23 @@
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad">
-      <van-row class="task_row" v-for="(task, taskIndex) in taskList" :key="taskIndex">
+      <van-row class="task_row" v-for="(myTask, myTaskIndex) in taskList" :key="myTaskIndex">
         <van-col span="22" offset="1" class="task_list">
           <van-row>
             <van-col span="4" offset="1" class="img">
-              <img src="../../static/images/checkboxed.png" />
+              <img :src="myTask.task.task_type.img" />
             </van-col>
             <van-col span="17" offset="1" class="content">
-              <h1>{{task.name}}<span class="number">/次</span><span class="money">￥{{task.money}}</span></h1>
-              <h2>已领取{{task.number}}次 通过率{{task.ratio}}%</h2>
+              <h1>
+                <span class="title">{{myTask.task.title}}</span>
+                <span class="number">/次</span>
+                <span class="money">￥{{myTask.task.money}}</span>
+              </h1>
+              <h2>已领取{{myTask.task.have_number}}次 通过率{{myTask.ratio}}%</h2>
             </van-col>
             <div class="clear"></div>
-            <van-row class="handle">
+            <div style="height: 10px;"></div>
+            <van-row class="handle" v-if="myTask.status === 0">
               <van-col span="6" offset="1">
                 <h1><van-icon name="underway-o"/>1:00:57</h1>
               </van-col>
@@ -44,6 +49,14 @@
               </van-col>
               <van-col span="6">
                 <van-button @click="goOn">继续任务</van-button>
+              </van-col>
+            </van-row>
+            <van-row class="handle" v-else-if="myTask.status === 1">
+              <van-col span="6" offset="1">
+                <h1><van-icon name="underway-o"/>1:00:57</h1>
+              </van-col>
+              <van-col span="6" offset="11">
+                <h3>审核中</h3>
               </van-col>
             </van-row>
           </van-row>
@@ -64,52 +77,35 @@ export default {
   name: 'MyTask',
   data () {
     return {
-      list: [],
+      param: {
+        status: 0,
+        page:0
+      },
       loading: false,
       finished: false,
-      currentStatus: 1,
       statusList:[
         {
           name: '执行中',
-          value: 1
+          value: 0
         },
         {
           name: '审核中',
-          value: 2
+          value: 1
         },
         {
           name: '已通过',
-          value: 3
+          value: 2
         },
         {
           name: '未通过',
-          value: 4
+          value: 3
         },
         {
           name: '已放弃',
-          value: 5
+          value: 4
         }
       ],
-      taskList: [
-        {
-          name: '兴业信用卡1',
-          money: '50.00',
-          number: 3,
-          ratio: 100,
-        },
-        {
-          name: '兴业信用卡2',
-          money: '50.00',
-          number: 3,
-          ratio: 100,
-        },
-        {
-          name: '兴业信用卡3',
-          money: '50.00',
-          number: 3,
-          ratio: 100,
-        }
-      ],
+      taskList: [],
       giveUpShow: false
     }
   },
@@ -117,23 +113,33 @@ export default {
     goBack () {
       this.$router.back()
     },
+    initTaskList () {
+      this.param.page = 0
+      this.taskList = []
+      this.onLoad()
+    },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiUserTaskList,this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.taskList = vm.taskList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.taskList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
+      })
     },
     selectStatus (index) {
-      this.currentStatus = this.statusList[index].value
+      this.param.status = this.statusList[index].value
+      this.initTaskList()
     },
     giveUp () {
       console.log('giveUp')
@@ -205,11 +211,20 @@ export default {
     box-shadow: 0 4px 5px #D3D3D3;;
   }
   .myTask .task_list img{
+    width: 60px;
     border-radius: 50%;
   }
   .myTask .task_list .content h1{
     font-size: 16px;
     color: #575757;
+  }
+  .myTask .task_list .content h1 .title{
+    float: left;
+    width: 70%;
+    display: block;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
   .myTask .task_list .content h1 .money{
     float: right;

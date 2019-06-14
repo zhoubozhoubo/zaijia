@@ -14,6 +14,8 @@
     <van-row>
       <van-col span="24">
         <img src="../../static/images/fenxiang.jpg"/>
+        <!--<div id="qrcode"></div>-->
+        <!--<div class="qrcode" ref="qrCodeUrl"></div>-->
       </van-col>
     </van-row>
 
@@ -27,18 +29,30 @@
 </template>
 
 <script>
+  // import QRCode from 'qrcodejs2'
 export default {
   name: 'QrCode',
   data () {
     return {
     }
   },
+  created () {
+    // this.creatQrCode()
+  },
   methods: {
+    // creatQrCode() {
+    //   var qrcode = new QRCode('qrcode', {
+    //     text: 'https://www.qtshe.com',
+    //     width: 100,
+    //     height: 100,
+    //     colorDark: '#000000',
+    //     colorLight: '#ffffff',
+    //     correctLevel: QRCode.CorrectLevel.H
+    //   })
+    // },
     goBack() {
       this.$router.back()
     }
-  },
-  created () {
   }
 }
 </script>

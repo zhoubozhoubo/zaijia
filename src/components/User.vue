@@ -7,8 +7,8 @@
         <img src="https://wx.qlogo.cn/mmopen/vi_32/h3GVU1Iz7BaOmSSK6NrSBOibq9BzPMo4f4Gaic5pIS95CGMJEMouJQEjjSNPfjqbc11ibicnKJNqicFlLJatGQQNx2g/132"/>
       </van-col>
       <van-col span="17" offset="1">
-        <h1>昵称<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
-        <h2><span>工号:</span>12351234</h2>
+        <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
+        <h2><span>工号:</span>{{userInfo.code}}</h2>
         <h2><span>职务:</span>合伙人</h2>
         <h2><span>推荐人:</span>慧元财富</h2>
       </van-col>
@@ -18,18 +18,18 @@
     <van-row class="user_income">
       <van-col span="12" class="income_content">
         <h2>总收入</h2>
-        <h1>￥0.00</h1>
+        <h1>￥{{userInfo.my_income + userInfo.team_income}}</h1>
       </van-col>
       <van-col span="12" class="income_content">
         <div @click="goMyIncome">
           <h2>个人收入</h2>
-          <h1>￥0.00<van-icon name="eye-o" size="20px"/></h1>
+          <h1>￥{{userInfo.my_income}}<van-icon name="eye-o" size="20px"/></h1>
         </div>
       </van-col>
       <van-col span="12" class="income_content">
         <div @click="goTeamIncome">
           <h2>团队收入</h2>
-          <h1>￥0.00<van-icon name="eye-o" size="20px"/></h1>
+          <h1>￥{{userInfo.team_income}}<van-icon name="eye-o" size="20px"/></h1>
         </div>
       </van-col>
       <van-col span="12" class="income_content">
@@ -121,11 +121,30 @@ export default {
   name: 'User',
   data () {
     return {
+      userInfo: [],
       skillShow: false,
       serviceShow: false
     }
   },
+  created () {
+    this.init()
+  },
   methods: {
+    init () {
+      this.getInfo()
+    },
+    getInfo () {
+      let vm = this
+      this.axios.post(this.apiList.apiInfo,'',{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.userInfo = res.data.data
+        }
+      })
+    },
     logOut () {
       console.log('logOut')
       this.$router.push({
@@ -182,8 +201,6 @@ export default {
         name: 'MyTeam'
       })
     }
-  },
-  created () {
   }
 }
 </script>

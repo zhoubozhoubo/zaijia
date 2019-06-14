@@ -18,9 +18,9 @@
               @load="onLoad">
       <van-row class="withdraw_list" v-for="(withdraw, withdrawIndex) in withdrawList" :key="withdrawIndex">
         <van-col span="16" offset="1">
-          <h1 v-if="withdraw.way === 1">提现到<span class="wechat">微信账号：</span>"{{withdraw.account}}"</h1>
-          <h1 v-if="withdraw.way === 2">提现到<span class="alipay">支付宝账号：</span>"{{withdraw.account}}"</h1>
-          <h2>{{withdraw.time}}</h2>
+          <h1 v-if="withdraw.withdraw_way_id === 2"><span class="wechat">{{withdraw.withdrawType.name}}：</span>"{{withdraw.account}}"</h1>
+          <h1 v-if="withdraw.withdraw_way_id === 1"><span class="alipay">{{withdraw.withdrawType.name}}：</span>"{{withdraw.account}}"</h1>
+          <h2>{{withdraw.gmt_create}}</h2>
         </van-col>
         <van-col span="5" offset="1" class="money">
           <span>-{{withdraw.money}}</span>
@@ -36,58 +36,39 @@ export default {
   name: 'MyWithdraw',
   data () {
     return {
-      list: [],
+      param: {
+        page:0
+      },
       loading: false,
       finished: false,
-      withdrawList:[
-        {
-          way: 1,
-          account: 'fqwg34t4fwe',
-          time: '2019-06-05 12:34:45',
-          money: '23.12'
-        },
-        {
-          way: 2,
-          account: 'fqwg34t4fwe',
-          time: '2019-06-05 12:34:45',
-          money: '23.12'
-        },
-        {
-          way: 2,
-          account: 'fqwg34t4fwe',
-          time: '2019-06-05 12:34:45',
-          money: '23.12'
-        },
-        {
-          way: 1,
-          account: 'fqwg34t4fwe',
-          time: '2019-06-05 12:34:45',
-          money: '23.12'
-        }
-      ]
+      withdrawList:[]
     }
+  },
+  created () {
   },
   methods: {
     goBack () {
       this.$router.back()
     },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiWithdrawList,this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.withdrawList = vm.withdrawList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.withdrawList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
+      })
     }
-  },
-  created () {
   }
 }
 </script>

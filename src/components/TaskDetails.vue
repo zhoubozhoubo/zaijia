@@ -15,10 +15,10 @@
       <van-col span="22" offset="1">
         <van-row>
           <van-col span="18" class="title">
-            【百度口碑】好评即可不下载
+            {{taskDetails.title}}
           </van-col>
           <van-col span="6" class="money">
-            ￥1<span>/次</span>
+            ￥{{taskDetails.money}}<span>/次</span>
           </van-col>
 
           <!--info-->
@@ -26,81 +26,59 @@
             截止日期：
           </van-col>
           <van-col span="18" class="label_content">
-            2019-06-30
+            {{taskDetails.end_date}}
           </van-col>
           <van-col span="6" class="label_title">
             审核时长：
           </van-col>
           <van-col span="18" class="label_content">
-            72小时
+            {{taskDetails.check_duration}}小时
           </van-col>
           <van-col span="6" class="label_title">
             完成时间：
           </van-col>
           <van-col span="18" class="label_content">
-            2小时
+            {{taskDetails.finish_duration}}小时
           </van-col>
           <van-col span="6" class="label_title">
             重复执行：
           </van-col>
           <van-col span="18" class="label_content">
-            是
+            {{taskDetails.is_repeat === 1 ? '是': '否'}}
           </van-col>
 
           <!--step-->
           <van-col span="24" class="label_title">
             任务说明
           </van-col>
-          <van-col span="1" class="label_content text_content">
-            1、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            （评语请加微信号377047364，备注：百度口碑+你的手机品牌，客服通过你的好友验证发评语给你）
-          </van-col>
-          <van-col span="1" class="label_content text_content">
-            2、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            一定要加客服等客服给你评语在做任务，不是客服给的评语不合格
-          </van-col>
-          <van-col span="1" class="label_content text_content">
-            3、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            （复制注意事项中的链接到浏览器进入，点击登陆账号，给五星好评+评语+上传图片即可
-          </van-col>
-          <van-col span="1" class="label_content text_content">
-            4、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            （需要有百度账号，如已有账号，直接登录评价，如果没有自行注册一个号
-          </van-col>
-          <van-col span="1" class="label_content text_content">
-            5、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            一人只能评论一次，设置不限次数是因为怕有的超时没办法提交
+          <template v-for="(stepItem, stepIndex) in taskDetails.step">
+            <van-col span="1" class="label_content text_content">
+             {{stepIndex+1}}、
+            </van-col>
+            <van-col span="23" class="label_content text_content">
+              {{stepItem}}
+            </van-col>
+          </template>
+
+
+
+          <!--link-->
+          <van-col span="23" offset="1" v-if="taskDetails.link">
+            <a :href="taskDetails.link" class="link_button">打开链接</a>
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskImgList" :key="taskImg.id">
-            <img :src="taskImg.src" />
+          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img" :key="taskImgIndex">
+            <img :src="taskImg" />
           </van-col>
 
           <van-col span="24" class="label_title">
             提交说明
           </van-col>
           <van-col span="1" class="label_content text_content">
-            1、
           </van-col>
           <van-col span="23" class="label_content text_content">
-            必须扫图中二维码
-          </van-col>
-          <van-col span="1" class="label_content text_content">
-            2、
-          </van-col>
-          <van-col span="23" class="label_content text_content">
-            成功之后必须有当天赠送的卡券
+            {{taskDetails.submit_notice}}
           </van-col>
 
           <!--img-->
@@ -112,16 +90,9 @@
             注意事项
           </van-col>
           <van-col span="1" class="label_content text_content red_content">
-            1、
           </van-col>
           <van-col span="23" class="label_content text_content red_content">
-            一个手机只能注册一次，注册过的用户不能再注册，新用户收到借条额度通过通知和成功借款的用户才有奖励，
-          </van-col>
-          <van-col span="1" class="label_content text_content red_content">
-            2、
-          </van-col>
-          <van-col span="23" class="label_content text_content red_content">
-            可以随意借一笔款，几天后还款，利息按日计算，红包可以抵扣利息。
+            {{taskDetails.take_care}}
           </van-col>
 
         </van-row>
@@ -135,7 +106,7 @@
         <van-button class="receive_task" v-if="status === 0" @click="receiveTask">领取任务</van-button>
         <van-button class="submit_data" v-if="status === 1" @click="submitData">提交材料
           <span class="time">
-            <van-icon name="underway-o" class="clock"/>1:00:57
+            <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
       </van-col>
@@ -144,12 +115,14 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'TaskDetails',
   data () {
     return {
-      id: this.$route.params.id,
+      task_id: this.$route.params.task_id,
       status: 0,
+      taskDetails:[],
       taskImgList: [
         {
           id: 1,
@@ -193,33 +166,84 @@ export default {
           src: 'static/images/checkboxed.png',
           url: ''
         }
-      ]
+      ],
+      countTime: '',
+      timer: ''
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
+    init () {
+      this.getTaskDetails()
+    },
     goBack () {
       this.$router.back()
     },
+    getTaskDetails () {
+      let vm = this
+      this.axios.get(this.apiList.apiTaskDetails,{
+        params: {
+          task_id: vm.task_id
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.taskDetails = res.data.data
+        }
+      })
+    },
+    // 领取任务
     receiveTask () {
       console.log('receiveTask')
-      this.status = 1
+      let vm = this
+      this.axios.post(this.apiList.apiAddTask,{
+        task_id: vm.task_id
+      },{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          Toast.success(res.data.msg)
+          vm.status = 1
+          vm.resetTime(res.data.data.finish_duration)
+        }else{
+          Toast(res.data.msg)
+        }
+      })
     },
+    // 提交材料
     submitData () {
       console.log('submitData')
       this.$router.push({
         name: 'TaskSubmit',
         params: { id: 12 }
       })
+    },
+    resetTime(hour) {
+      let vm = this
+      this.timer = setInterval(() => {
+        hour -= 1000;
+        let h = Math.floor(hour / (1000 * 60 * 60));
+        let m = Math.floor((hour % (1000 * 60 * 60)) / (1000 * 60));
+        let s = Math.floor((hour % (1000 * 60)) / 1000);
+        if (h == 0 && m == 0 && s == 0) {
+          clearInterval(vm.timer);
+          this.getTaskDetails();
+        }
+        // if (h < 10) {
+        //   h = "0" + h;
+        // }
+        if (m < 10) {
+          m = "0" + m;
+        }
+        if (s < 10) {
+          s = "0" + s;
+        }
+        vm.countTime = h + ":" + m + ":" + s;
+      }, 1000);
     }
-  },
-  created () {
-    // this.$http.post(this.myConfig.HttpUrl + '5c3479a1edb44', {
-    // }, {
-    // }).then((res) => {
-    //   console.log(res)
-    // }, (err) => {
-    //   console.log(err)
-    // })
   }
 }
 </script>
@@ -284,9 +308,28 @@ export default {
   .taskDetails .red_content{
     color: #ff618e;
   }
+  .taskDetails .link_button{
+    padding: 0 10px;
+    display: inline-block;
+    border: 1px solid #00BCD4;
+    background-color: #fff;
+    border-radius: 4px;
+    /*border-color: #00BCD4;*/
+    color: #00BCD4;
+    font-size: 16px;
+    height: 30px;
+    line-height: 32px;
+    margin: 10px 0;
+  }
   .taskDetails .task_img{
-    margin: 20px 0 10px;
+    margin: 10px 0 10px;
     text-align: center;
+  }
+  .taskDetails .task_img img{
+    width: 60px;
+    height: 80px;
+    border: 1px solid #00BCD4;
+    border-radius: 4px;
   }
   .taskDetails .receive_row{
     position: fixed;

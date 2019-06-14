@@ -2,14 +2,14 @@
   <div class="index">
     <!--location-->
     <van-row class="locationRow">
-      <van-col span="6" offset="1">
+      <van-col span="10" offset="1">
         <div @click="showArea">
           <van-icon name="location" size="20px" class="location"/>
           <span>{{county}}</span>
           <van-icon name="arrow-down" size="20px" class="select"/>
         </div>
       </van-col>
-      <van-col span="1" offset="15">
+      <van-col span="1" offset="11">
         <van-icon name="manager" size="20px" @click="goUser" class="user"/>
       </van-col>
     </van-row>
@@ -18,7 +18,9 @@
       <van-col span="24">
         <van-swipe :autoplay="3000" :height="200">
           <van-swipe-item v-for="(banner, bannerIndex) in bannerList" :key="bannerIndex">
-            <img :src="banner.src" />
+            <a :href="banner.url">
+              <img :src="banner.img"/>
+            </a>
           </van-swipe-item>
         </van-swipe>
       </van-col>
@@ -26,12 +28,14 @@
     <!--link-->
     <van-row class="linkRow">
       <van-col span="6" v-for="(link, linkIndex) in linkList" :key="linkIndex">
-        <img :src="link.src" />
+        <a :href="link.url">
+          <img :src="link.img"/>
+        </a>
       </van-col>
     </van-row>
     <!--order-->
     <van-row class="orderRow">
-      <van-col span="6" offset="17">
+      <van-col span="8" offset="15">
         <div class="orderSelect" @click="showOrder">
           <span>{{order}}</span>
           <van-icon name="arrow-down" />
@@ -43,17 +47,14 @@
               :finished="finished"
               finished-text="没有更多了"
               @load="onLoad">
-      <!--<van-cell v-for="item in list"
-                :key="item"
-                :title="item"/>-->
       <van-row class="taskRow" v-for="(task, taskIndex) in taskList" :key="taskIndex">
-        <div @click="goTaskDetails">
+        <div @click="goTaskDetails(task.task_id)">
           <van-col span="3" offset="1">
-            <img :src="task.src"/>
+            <img :src="task.taskType.img"/>
           </van-col>
           <van-col span="18" offset="1" class="taskContent">
-            <h1>【360借条】新人注册+红包</h1>
-            <h2><span class="money">20元/次</span>剩余29次</h2>
+            <h1>{{task.title}}</h1>
+            <h2><span class="money">{{task.money}}元/次</span>剩余{{task.surplus_number}}次</h2>
           </van-col>
         </div>
       </van-row>
@@ -76,116 +77,105 @@ export default {
   name: 'Index',
   data () {
     return {
-      bannerList: [
-        {
-          src: 'static/images/banner1.jpg',
-          url: ''
-        },
-        {
-          src: 'static/images/banner2.jpg',
-          url: ''
-        }
-      ],
-      linkList: [
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        }
-      ],
-      taskList: [
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        },
-        {
-          src: 'static/images/checkboxed.png',
-          url: ''
-        }
-      ],
-      list: [],
+      bannerList: [],
+      linkList: [],
+      taskList: [],
       loading: false,
       finished: false,
+      param: {
+        city: '',
+        order: 0,
+        page:0
+      },
       county: '成都',
       areaShow: false,
-      areaList: {
-        province_list: {
-          110000: '北京市',
-          120000: '天津市'
-        },
-        city_list: {
-          110100: '北京市',
-          110200: '县',
-          120100: '天津市',
-          120200: '县'
-        },
-        county_list: {
-          110101: '东城区',
-          110102: '西城区',
-          110105: '朝阳区',
-          110106: '丰台区',
-          120101: '和平区',
-          120102: '河东区',
-          120103: '河西区',
-          120104: '南开区',
-          120105: '河北区'
-        }
-      },
+      areaList: [],
       order: '默认排序',
       orderShow: false,
       orderList: [
         {
+          order: 0,
           name: '默认排序'
         },
         {
+          order: 1,
           name: '价格由高到低'
         },
         {
+          order: 2,
           name: '价格由低到高'
         },
         {
+          order: 3,
           name: '最新发布'
         },
         {
+          order: 4,
           name: '人气'
         }
       ]
     }
   },
+  created() {
+    this.init()
+  },
   methods: {
+    initTaskList () {
+      this.param.page = 0
+      this.taskList = []
+      this.areaShow = false
+      this.orderShow = false
+      this.onLoad()
+    },
+    init () {
+      this.getAreaList()
+      this.getBannerList()
+      this.getLinkList()
+    },
+    // 获取地区列表
+    getAreaList () {
+      let vm = this
+      this.axios.get(this.apiList.apiAreaList).then(function (res) {
+        if (res.data.code === 1) {
+          vm.areaList = res.data.data
+        }
+      })
+    },
+    // 获取轮播图列表
+    getBannerList () {
+      let vm = this
+      this.axios.get(this.apiList.apiBannerList).then(function (res) {
+        if (res.data.code === 1) {
+          vm.bannerList = res.data.data
+        }
+      })
+    },
+    // 获取链接列表
+    getLinkList () {
+      let vm = this
+      this.axios.get(this.apiList.apiLinkList).then(function (res) {
+        if (res.data.code === 1) {
+          vm.linkList = res.data.data
+        }
+      })
+    },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.get(this.apiList.apiTaskList,{
+        params: this.param
+      }).then(function (res) {
+        console.log(res)
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.taskList = vm.taskList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.taskList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
-        }
-      }, 500)
+      })
     },
     goUser () {
       console.log('goUser')
@@ -198,9 +188,10 @@ export default {
       this.areaShow = true
     },
     confirmArea (res) {
-      console.log('confirmArea')
+      console.log(res)
       this.county = res[1].name
-      this.areaShow = false
+      this.param.city = res[1].code
+      this.initTaskList()
     },
     cancelArea () {
       console.log('cancelArea')
@@ -213,13 +204,14 @@ export default {
     selectOrder (item) {
       console.log('selectOrder')
       this.order = item.name
-      this.orderShow = false
+      this.param.order = item.order
+      this.initTaskList()
     },
-    goTaskDetails () {
+    goTaskDetails (task_id) {
       console.log('goTaskDetails')
       this.$router.push({
         name: 'TaskDetails',
-        params: { id: 12 }
+        params: { task_id: task_id }
       })
     }
   }
@@ -245,10 +237,14 @@ export default {
   }
   .bannerRow img{
     width: 100%;
+    height: 200px;
   }
   .linkRow{
     margin: 15px 0;
     text-align: center;
+  }
+  .linkRow img{
+    width: 50px;
   }
   .orderRow{
     font-size: 14px;
@@ -260,6 +256,7 @@ export default {
     margin-right: 5px;
   }
   .taskRow img{
+    width: 50px;
     margin-top: 6.5px;
     border-radius: 50%;
   }

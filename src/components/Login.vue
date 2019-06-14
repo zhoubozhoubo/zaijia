@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { Toast } from 'vant';
 export default {
   name: 'Login',
   data () {
@@ -53,7 +54,24 @@ export default {
       this.$router.back()
     },
     Login () {
-      console.log('Login')
+      // Toast.loading({
+      //   mask: true,
+      //   message: '登录中...',
+      //   duration: 0
+      // });
+      let vm = this
+      this.axios.post(this.apiList.apiLogin,vm.form).then(function (res) {
+        // Toast.clear()
+        if (res.data.code === 1) {
+          localStorage.setItem('token',res.data.data.token)
+          Toast.success(res.data.msg)
+          vm.$router.push({
+            name: 'Index'
+          })
+        }else{
+          Toast(res.data.msg)
+        }
+      })
     },
     goRegister () {
       console.log('goRegister')

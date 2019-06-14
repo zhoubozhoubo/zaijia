@@ -13,7 +13,7 @@
 
     <van-row class="team_nav">
       <div v-for="(grade, gradeIndex) in gradeList" :key="gradeIndex" @click="selectGrade(gradeIndex)">
-        <van-col class="team_nav_item" :class="{'actice':grade.value === currentGrade}">
+        <van-col class="team_nav_item" :class="{'actice':grade.value === param.type}">
           <span>{{grade.name}}</span>
         </van-col>
       </div>
@@ -42,10 +42,12 @@ export default {
   name: 'MyTeam',
   data () {
     return {
-      list: [],
+      param: {
+        type: 1,
+        page:0
+      },
       loading: false,
       finished: false,
-      currentGrade: 1,
       gradeList:[
         {
           name: '一级团队',
@@ -56,50 +58,43 @@ export default {
           value: 2
         }
       ],
-      userList:[
-        {
-          nickname: 'vuylfuyf',
-          avatarurl: 'static/images/checkboxed.png'
-        },
-        {
-          nickname: 'UI个欧阳天勾引',
-          avatarurl: 'static/images/checkboxed.png'
-        },
-        {
-          nickname: '存入防御塔',
-          avatarurl: 'static/images/checkboxed.png'
-        },
-        {
-          nickname: '熊就会yugo',
-          avatarurl: 'static/images/checkboxed.png'
-        }
-      ]
+      userList:[]
     }
+  },
+  created () {
   },
   methods: {
     goBack () {
       this.$router.back()
     },
+    initUserList () {
+      this.param.page = 0
+      this.userList = []
+      this.onLoad()
+    },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiMyTeamList, this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.userList = vm.userList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.userList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
+      })
     },
     selectGrade (index) {
-      this.currentGrade = this.gradeList[index].value
+      this.param.type = this.gradeList[index].value
+      this.initUserList()
     }
-  },
-  created () {
   }
 }
 </script>

@@ -13,7 +13,7 @@
 
     <van-row class="team_nav">
       <div v-for="(grade, gradeIndex) in gradeList" :key="gradeIndex" @click="selectGrade(gradeIndex)">
-        <van-col class="team_nav_item" :class="{'actice':grade.value === currentGrade}">
+        <van-col class="team_nav_item" :class="{'actice':grade.value === param.type}">
           <span>{{grade.name}}</span>
         </van-col>
       </div>
@@ -26,7 +26,7 @@
               @load="onLoad">
       <van-row class="income_list" v-for="(income, incomeIndex) in incomeList" :key="incomeIndex">
         <van-col span="16" offset="1">
-          <h1>"{{income.nickname}}"在 {{income.time}} 完成了任务</h1>
+          <h1>"{{income.fromUser.nickname}}" 在 "{{income.gmt_create}}" 完成了任务 "{{income.task.title}}"</h1>
         </van-col>
         <van-col span="5" offset="1" class="money">
           <span>+{{income.money}}</span>
@@ -42,10 +42,12 @@ export default {
   name: 'TeamIncome',
   data () {
     return {
-      list: [],
+      param: {
+        type: 1,
+        page:0
+      },
       loading: false,
       finished: false,
-      currentGrade: 1,
       gradeList:[
         {
           name: '一级团队',
@@ -56,54 +58,43 @@ export default {
           value: 2
         }
       ],
-      incomeList:[
-        {
-          nickname: '成员a',
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          nickname: '成员a',
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          nickname: '成员c',
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        },
-        {
-          nickname: '成员d',
-          time: '2019-06-05 12:34',
-          money: '23.12'
-        }
-      ]
+      incomeList:[]
     }
+  },
+  created () {
   },
   methods: {
     goBack () {
       this.$router.back()
     },
+    initIncomeList () {
+      this.param.page = 0
+      this.incomeList = []
+      this.onLoad()
+    },
     onLoad () {
-      // 异步更新数据
-      setTimeout(() => {
-        for (let i = 0; i < 10; i++) {
-          this.list.push(this.list.length + 1)
+      let vm = this;
+      this.param.page++
+      this.axios.post(this.apiList.apiTeamIncomeList,this.param,{
+        headers: {
+          'token': localStorage.getItem('token')
         }
-        // 加载状态结束
-        this.loading = false
-
-        // 数据全部加载完成
-        if (this.list.length >= 40) {
-          this.finished = true
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.incomeList = vm.incomeList.concat(res.data.data.data)
+          // 数据全部加载完成
+          if (vm.incomeList.length >= res.data.data.total) {
+            vm.finished = true
+          }
         }
-      }, 500)
+      })
     },
     selectGrade (index) {
-      this.currentGrade = this.gradeList[index].value
+      this.param.type = this.gradeList[index].value
+      this.initIncomeList()
     }
-  },
-  created () {
   }
 }
 </script>
