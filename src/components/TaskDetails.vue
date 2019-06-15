@@ -20,6 +20,7 @@
           <van-col span="6" class="money">
             ￥{{taskDetails.money}}<span>/次</span>
           </van-col>
+          <div style="clear: both;"></div>
 
           <!--info-->
           <van-col span="6" class="label_title">

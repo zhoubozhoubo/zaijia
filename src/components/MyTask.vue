@@ -43,7 +43,7 @@
 
             <div class="clear"></div>
             <div style="height: 10px;"></div>
-            <van-row class="handle" v-if="myTask.status === 0">
+            <van-row class="handle" v-if="myTask.status == 0">
               <van-col span="6" offset="1">
                 <h1><van-icon name="underway-o"/>1:00:57</h1>
               </van-col>

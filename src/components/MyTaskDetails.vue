@@ -20,6 +20,7 @@
           <van-col span="6" class="money">
             ￥{{taskDetails.task.money}}<span>/次</span>
           </van-col>
+          <div style="clear: both;"></div>
 
           <!--info-->
           <van-col span="6" class="label_title">
@@ -104,20 +105,20 @@
     <van-row class="receive_row">
       <van-col span="22" offset="1">
         <!--<van-button class="receive_task" v-if="taskDetails.can_receive === 1" @click="receiveTask">领取任务</van-button>-->
-        <van-button class="submit_data" v-if="taskDetails.status === 0" @click="submitData">提交材料
+        <van-button class="submit_data" v-if="taskDetails.status == 0" @click="submitData">提交材料
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        <van-button class="submit_data" v-if="taskDetails.status === 1">待审核
+        <van-button class="submit_data" v-if="taskDetails.status == 1">待审核
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
         <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>-->
-        <van-button class="submit_data" v-if="taskDetails.status === 2">已通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.status === 3">未通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.status === 4">已放弃</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status == 2">已通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status == 3">未通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.status == 4">已放弃</van-button>
       </van-col>
     </van-row>
   </div>
