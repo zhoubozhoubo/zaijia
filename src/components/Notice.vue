@@ -17,9 +17,9 @@
               finished-text="没有更多了"
               @load="onLoad">
       <van-row class="taskRow" v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
-        <div @click="readNotice(noticeIndex)">
+        <div>
           <van-col span="22" offset="1">
-            <h1 :class="{'not_read':notice.is_read === 0}">{{notice.title}}<span>{{notice.time}}</span></h1>
+            <h1 :class="{'not_read':notice.is_read === 0}"><span class="title">{{notice.title}}</span><van-tag color="#FFA500" plain v-if="notice.is_read === 0" class="status" @click="readNotice(notice.id, noticeIndex)">标记已读</van-tag><span class="time">{{notice.gmt_create}}</span></h1>
             <p>{{notice.content}}</p>
           </van-col>
         </div>
@@ -29,6 +29,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'Notice',
   data () {
@@ -66,9 +67,21 @@ export default {
         }
       })
     },
-    readNotice (index) {
+    readNotice (id, index) {
       console.log('readNotice')
-      this.noticeList[index].is_read = 1;
+      let vm = this;
+      this.axios.post(this.apiList.apiReadNotice,{id: id},{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.noticeList[index].is_read = 1;
+          Toast('成功已读')
+        }else{
+          Toast('操作失败')
+        }
+      })
     }
   }
 }
@@ -109,13 +122,21 @@ export default {
   .notice .taskRow .not_read{
     color: #FFA500;
   }
-  .notice .taskRow h1 span{
+  .notice .taskRow h1 .title{
+    float: left;
+  }
+  .notice .taskRow h1 .status{
+    float: left;
+    margin: 8px 0 0 10px;
+  }
+  .notice .taskRow h1 .time{
     float: right;
     font-size: 12px;
     line-height: 35px;
     color: #808080;
   }
   .notice .taskRow p{
+    clear: both;
     font-size: 15px;
     color: #696969;
     line-height: 25px;

@@ -10,7 +10,7 @@
         <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
         <h2><span>工号:</span>{{userInfo.code}}</h2>
         <h2><span>职务:</span>合伙人</h2>
-        <h2><span>推荐人:</span>慧元财富</h2>
+        <h2><span>推荐人:</span>{{userInfo.superiorUser ? userInfo.superiorUser.nickname : '惠元财富'}}</h2>
       </van-col>
     </van-row>
 
@@ -18,7 +18,7 @@
     <van-row class="user_income">
       <van-col span="12" class="income_content">
         <h2>总收入</h2>
-        <h1>￥{{userInfo.my_income + userInfo.team_income}}</h1>
+        <h1>￥{{userInfo.total_income}}</h1>
       </van-col>
       <van-col span="12" class="income_content">
         <div @click="goMyIncome">
@@ -65,7 +65,7 @@
       </van-col>
       <van-col span="12" class="handle_content my_notice">
         <div @click="goMyNotice">
-          <van-icon name="chat-o" size="30px" color="#00FF00" info="9"/>
+          <van-icon name="chat-o" size="30px" color="#00FF00" :info="userInfo.notice_num"/>
           <h2>最新通知</h2>
         </div>
       </van-col>
@@ -92,11 +92,7 @@
           <h1>邀请技巧</h1>
         </van-col>
         <van-col span="24">
-          <p>1. 自己先做任务赚钱，并提现，然后分享赚钱乐趣；</p>
-          <p>2. 私下邀请家人、朋友、同学、同事加入赚钱行列，成为你的队员；</p>
-          <p>3. 分享到3个以上微信群，每天坚持发朋友圈，成功邀请几率提升200%；</p>
-          <p>4. 告诉好友：在家就能兼职赚钱，推广拿高额团队佣金；</p>
-          <p>5. 合伙人永享一级队员22%的团队佣金，永享二级队员3%的团队佣金;</p>
+          <p v-for="(item, index) in userInfo.invite" :key="index">{{item}}</p>
         </van-col>
       </van-row>
     </van-popup>
@@ -108,8 +104,7 @@
           <h1>联系客服</h1>
         </van-col>
         <van-col span="24">
-          <p>客服 QQ：2332155808</p>
-          <p>合作邮箱：2332155808@qq.com</p>
+          <p v-for="(item, index) in userInfo.customer" :key="index">{{item}}</p>
         </van-col>
       </van-row>
     </van-popup>
@@ -117,6 +112,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'User',
   data () {
@@ -135,6 +131,13 @@ export default {
     },
     getInfo () {
       let vm = this
+      if(!localStorage.getItem('token')){
+        Toast('请先登录')
+        this.$router.push({
+          name: 'Login'
+        })
+        return
+      }
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')

@@ -13,9 +13,8 @@
 
     <van-row>
       <van-col span="24">
-        <img src="../../static/images/fenxiang.jpg"/>
-        <!--<div id="qrcode"></div>-->
-        <!--<div class="qrcode" ref="qrCodeUrl"></div>-->
+        <!--<img src="../../static/images/fenxiang.jpg"/>-->
+          <div id="qrcode" class="qr_code"></div> <!-- 创建一个div，并设置id为qrcode -->
       </van-col>
     </van-row>
 
@@ -29,27 +28,49 @@
 </template>
 
 <script>
-  // import QRCode from 'qrcodejs2'
+  import { Toast } from 'vant';
+  import QRCode from 'qrcodejs2'
 export default {
   name: 'QrCode',
   data () {
     return {
+      qr_code:''
     }
   },
   created () {
-    // this.creatQrCode()
+    this.init()
   },
   methods: {
-    // creatQrCode() {
-    //   var qrcode = new QRCode('qrcode', {
-    //     text: 'https://www.qtshe.com',
-    //     width: 100,
-    //     height: 100,
-    //     colorDark: '#000000',
-    //     colorLight: '#ffffff',
-    //     correctLevel: QRCode.CorrectLevel.H
-    //   })
-    // },
+    init () {
+      this.getInfo()
+    },
+    getInfo () {
+      let vm = this
+      this.axios.post(this.apiList.apiInfo,'',{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.qr_code = res.data.data.qr_code
+          console.log(vm.qr_code)
+          //生成二维码
+          vm.qrcode()
+        }else{
+          Toast.fail('获取二维码失败')
+        }
+      })
+    },
+    qrcode() {
+      let qrcode = new QRCode('qrcode', {
+        width: 150,
+        height: 150,
+        text: this.qr_code, // 二维码地址
+        colorDark : "#000",
+        colorLight : "#fff",
+        correctLevel: QRCode.CorrectLevel.H
+      })
+    },
     goBack() {
       this.$router.back()
     }
@@ -91,5 +112,9 @@ export default {
     background-color: #00bcd4;
     border-color: #00bcd4;
     color: #FFF;
+  }
+  .qrCode .qr_code{
+    width: 150px;
+    margin: 50px auto!important;
   }
 </style>

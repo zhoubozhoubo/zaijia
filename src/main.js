@@ -13,7 +13,8 @@ Vue.use(Vant)
 Vue.use(Dialog)
 Vue.config.productionTip = false
 
-const host = "http://127.0.0.1:8001/api/";
+// const host = "http://127.0.0.1:8001/api/";
+const host = "http://jianzhi.hmdog.com/api/";
 Vue.prototype.apiList={
   apiAreaList:        host+"5d0253080db26",    //地区列表
   apiBannerList:      host+"5d0286898878a",    //轮播图列表
@@ -28,7 +29,9 @@ Vue.prototype.apiList={
   apiMyTeamList:      host+"5d02879991352",    //用户团队列表
   apiTeamIncomeList:  host+"5d0287d22f573",    //用户团队收入列表
   apiNoticeList:      host+"5d02b2c1a7b23",    //用户消息列表
+  apiReadNotice:      host+"5d0460e82d9c3",    //用户标记消息已读
   apiWithdrawList:    host+"5d0287e451a4c",    //用户提现列表
+  apiAddWithdraw:     host+"5d04437d3bcd4",    //用户申请提现
   apiUserTaskList:    host+"5d0287facb879",    //用户任务列表
   apiAddTask:         host+"5d0288178f14a",    //用户添加任务
   apiSubmitTask:      host+"5d02882d0a05a",    //用户提交任务

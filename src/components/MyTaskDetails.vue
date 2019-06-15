@@ -68,7 +68,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.task.show_img">
+          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.task.show_img" :key="taskImgIndex">
             <img :src="taskImg" />
           </van-col>
 
@@ -82,7 +82,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.task.submit_img">
+          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.task.submit_img" :key="imgIndex">
             <img :src="img" />
           </van-col>
 

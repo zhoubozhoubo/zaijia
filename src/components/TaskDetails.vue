@@ -68,7 +68,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img">
+          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img" :key="taskImgIndex">
             <img :src="taskImg" />
           </van-col>
 
@@ -82,7 +82,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img">
+          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img" :key="imgIndex">
             <img :src="img" />
           </van-col>
 
@@ -157,11 +157,11 @@ export default {
         if (res.data.code === 1) {
           vm.taskDetails = res.data.data
           // 当状态为执行中、审核中时倒计时
-          if(vm.taskDetails.status === 0 || vm.taskDetails.status === 1){
-            if(vm.taskDetails.surplus_time>0){
-              vm.resetTime(vm.taskDetails.surplus_time)
-            }
-          }
+          // if(vm.taskDetails.status === 0 || vm.taskDetails.status === 1){
+          //   if(vm.taskDetails.surplus_time>0){
+          //     vm.resetTime(vm.taskDetails.surplus_time)
+          //   }
+          // }
         }
       })
     },
@@ -185,24 +185,24 @@ export default {
         if (res.data.code === 1) {
           Toast.success(res.data.msg)
           vm.taskDetails.can_receive = 0
-          vm.taskDetails.status = 0
-          if(res.data.data.finish_duration>0){
-            vm.resetTime(res.data.data.finish_duration)
-          }
+          // vm.taskDetails.status = 0
+          // if(res.data.data.finish_duration>0){
+          //   vm.resetTime(res.data.data.finish_duration)
+          // }
         }else{
           Toast(res.data.msg)
         }
       })
     },
     // 提交材料
-    submitData () {
-      console.log('submitData')
-      this.$router.push({
-        name: 'TaskSubmit',
-        params: { id: this.id }
-      })
-    },
-    resetTime(hour) {
+    // submitData () {
+    //   console.log('submitData')
+    //   this.$router.push({
+    //     name: 'TaskSubmit',
+    //     params: { id: this.id }
+    //   })
+    // },
+    /*resetTime(hour) {
       let vm = this
       this.timer = setInterval(() => {
         hour -= 1000;
@@ -216,15 +216,15 @@ export default {
           }else if(vm.taskDetails.status == 1){
             vm.taskDetails.status = 2
           }
-          this.axios.post(this.apiList.apiTaskDetails, {task_id: vm.task_id}, {
-            headers: {
-              'token': localStorage.getItem('token')
-            }
-          }).then(function (res) {
-            if (res.data.code === 1) {
-
-            }
-          })
+          // this.axios.post(this.apiList.apiTaskDetails, {task_id: vm.task_id}, {
+          //   headers: {
+          //     'token': localStorage.getItem('token')
+          //   }
+          // }).then(function (res) {
+          //   if (res.data.code === 1) {
+          //
+          //   }
+          // })
         }
         // if (h < 10) {
         //   h = "0" + h;
@@ -237,13 +237,13 @@ export default {
         }
         vm.countTime = h + ":" + m + ":" + s;
       }, 1000);
-    }
+    }*/
   },
   onHide:function() {
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
   },
   onUnload(){
-    clearInterval(this.timer);
+    // clearInterval(this.timer);
   }
 }
 </script>

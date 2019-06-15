@@ -20,7 +20,7 @@
           <van-col span="22" offset="1" class="all_money">
             <van-icon name="gold-coin" size="60px" color="#FFA500"/>
             <h1>我的零钱</h1>
-            <h2>￥78.23</h2>
+            <h2>￥{{userInfo.money}}</h2>
           </van-col>
         </van-row>
         <!--<van-row class="withdraw_way">
@@ -52,7 +52,7 @@
             </van-checkbox>
           </van-col>
           <van-col span="20">
-              <p>您所提现金额为税前金额，支付宝账号信息需要与身份证信息一致，所提交信息通过审核后，我们将在48小时内转入您的支付宝账号，请确保支付宝账号可查找，提现金额起点为20元。</p>
+              <p>{{userInfo.withdraw_notice}}</p>
           </van-col>
         </van-row>
         <van-row>
@@ -66,10 +66,12 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'Withdraw',
   data () {
     return {
+      userInfo: [],
       form: {
         money: '',
         name: '',
@@ -78,9 +80,27 @@ export default {
       checked: false
     }
   },
+  created () {
+    this.init()
+  },
   methods: {
+    init () {
+      this.getInfo()
+    },
     goBack() {
       this.$router.back()
+    },
+    getInfo () {
+      let vm = this
+      this.axios.post(this.apiList.apiInfo,'',{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.userInfo = res.data.data
+        }
+      })
     },
     goMyWithdraw() {
       this.$router.push({
@@ -89,9 +109,39 @@ export default {
     },
     Withdraw () {
       console.log('Withdraw')
+      let vm = this
+      if (this.form.money === '' || this.form.money === 0) {
+        Toast('请输入提现金额')
+        Toast('请输入支付宝账号')
+        return
+      }
+      if (this.form.name === '' || this.form.name === 0) {
+        Toast('请输入身份证名字')
+        Toast('请输入支付宝账号')
+        return
+      }
+      if (this.form.account === '' || this.form.account === 0) {
+        Toast('请输入支付宝账号')
+        return
+      }
+      this.axios.post(this.apiList.apiAddWithdraw,vm.form,{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          Toast.success(res.data.msg)
+          vm.init()
+          vm.form = {
+            money: '',
+            name: '',
+            account: ''
+          }
+        }else{
+          Toast.fail(res.data.msg)
+        }
+      })
     }
-  },
-  created () {
   }
 }
 </script>
