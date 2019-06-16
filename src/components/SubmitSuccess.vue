@@ -12,9 +12,10 @@
     <div class="nav_block"></div>
 
     <van-row>
-      <van-col span="6" offset="9" class="success_img">
+      <van-col span="20" offset="2" class="success_img">
         <img src="../../static/images/checkboxed.png"/>
         <p>提交成功</p>
+        <p>请耐心等待后台审核，如超时，系统将自动通过</p>
       </van-col>
     </van-row>
 

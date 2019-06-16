@@ -56,7 +56,7 @@
             上传文本
           </van-col>
           <van-col span="24" class="text_area">
-            <van-field :placeholder="areaPlaceholder" type="textarea"/>
+            <van-field :placeholder="areaPlaceholder" v-model="formItem.submit_text" type="textarea" @input="inputText"/>
           </van-col>
         </van-row>
 
@@ -93,6 +93,11 @@
       return {
         id: this.$route.params.id,
         taskDetails: [],
+        formItem: {
+          id: this.$route.params.id,
+          submit_img: '',
+          submit_text: ''
+        },
         submitImgList: [
           {
             id: 1,
@@ -131,7 +136,9 @@
         this.getTaskDetails()
       },
       goBack () {
-        this.$router.back()
+        this.$router.back({
+          params: { task_id: this.taskDetails.task.task_id }
+        })
       },
       getTaskDetails () {
         let vm = this
@@ -147,6 +154,8 @@
             if (vm.taskDetails.status === 0 || vm.taskDetails.status === 1) {
               if (vm.taskDetails.surplus_time > 0) {
                 vm.resetTime(vm.taskDetails.surplus_time)
+              }else{
+                vm.getTaskDetails()
               }
             }
           }
@@ -156,9 +165,12 @@
         console.log('onRead')
         console.log(file)
       },
+      inputText (res) {
+        console.log(res)
+      },
       submitData () {
         let vm = this
-        this.axios.post(this.apiList.apiSubmitTask, {id: vm.taskDetails.id,submit_img: '',submit_text: ''}, {
+        this.axios.post(this.apiList.apiSubmitTask, vm.formItem, {
           headers: {
             'token': localStorage.getItem('token')
           }
@@ -181,7 +193,8 @@
           let s = Math.floor((hour % (1000 * 60)) / 1000);
           if (h == 0 && m == 0 && s == 0) {
             clearInterval(vm.timer);
-            if(vm.taskDetails.status == 0){
+            vm.getTaskDetails()
+            /*if(vm.taskDetails.status == 0){
               vm.taskDetails.status = 4
             }else if(vm.taskDetails.status == 1){
               vm.taskDetails.status = 2
@@ -194,7 +207,7 @@
               if (res.data.code === 1) {
 
               }
-            })
+            })*/
           }
           // if (h < 10) {
           //   h = "0" + h;

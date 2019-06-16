@@ -69,7 +69,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img" :key="taskImgIndex">
+          <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img">
             <img :src="taskImg" />
           </van-col>
 
@@ -83,7 +83,7 @@
           </van-col>
 
           <!--img-->
-          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img" :key="imgIndex">
+          <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img">
             <img :src="img" />
           </van-col>
 
@@ -104,22 +104,21 @@
     <!--receiveTask-->
     <van-row class="receive_row">
       <van-col span="22" offset="1">
-        <van-button class="receive_task" v-if="taskDetails.can_receive === 1" @click="receiveTask">领取任务</van-button>
-        <van-button class="receive_task" v-if="taskDetails.can_receive === 0">已领取</van-button>
-        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 0">执行中
+        <van-button class="receive_task" v-if="taskDetails.can_receive == 1" @click="receiveTask">领取任务</van-button>
+        <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 0" @click="submitData">提交材料
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核
+        <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 1">待审核
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        &lt;!&ndash;<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>&ndash;&gt;
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 2">已通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 3">未通过</van-button>
-        <van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 4">已放弃</van-button>-->
+        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>-->
+        <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 2">已通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 3">未通过</van-button>
+        <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 4">已放弃</van-button>
       </van-col>
     </van-row>
   </div>
@@ -158,11 +157,13 @@ export default {
         if (res.data.code === 1) {
           vm.taskDetails = res.data.data
           // 当状态为执行中、审核中时倒计时
-          // if(vm.taskDetails.status === 0 || vm.taskDetails.status === 1){
-          //   if(vm.taskDetails.surplus_time>0){
-          //     vm.resetTime(vm.taskDetails.surplus_time)
-          //   }
-          // }
+          if(vm.taskDetails.status == 0 || vm.taskDetails.status == 1){
+            if(vm.taskDetails.surplus_time>0){
+              vm.resetTime(vm.taskDetails.surplus_time)
+            }else{
+              vm.getTaskDetails()
+            }
+          }
         }
       })
     },
@@ -186,24 +187,25 @@ export default {
         if (res.data.code === 1) {
           Toast.success(res.data.msg)
           vm.taskDetails.can_receive = 0
-          // vm.taskDetails.status = 0
-          // if(res.data.data.finish_duration>0){
-          //   vm.resetTime(res.data.data.finish_duration)
-          // }
+          vm.taskDetails.status = 0
+          if(res.data.data.finish_duration>0){
+            vm.resetTime(res.data.data.finish_duration)
+          }
         }else{
           Toast(res.data.msg)
         }
       })
     },
     // 提交材料
-    // submitData () {
-    //   console.log('submitData')
-    //   this.$router.push({
-    //     name: 'TaskSubmit',
-    //     params: { id: this.id }
-    //   })
-    // },
-    /*resetTime(hour) {
+    submitData () {
+      console.log('submitData')
+      let vm = this
+      this.$router.push({
+        name: 'TaskSubmit',
+        params: { id: vm.taskDetails.user_task_id }
+      })
+    },
+    resetTime(hour) {
       let vm = this
       this.timer = setInterval(() => {
         hour -= 1000;
@@ -212,20 +214,21 @@ export default {
         let s = Math.floor((hour % (1000 * 60)) / 1000);
         if (h == 0 && m == 0 && s == 0) {
           clearInterval(vm.timer);
-          if(vm.taskDetails.status == 0){
+          vm.getTaskDetails()
+          /*if(vm.taskDetails.status == 0){
             vm.taskDetails.status = 4
           }else if(vm.taskDetails.status == 1){
             vm.taskDetails.status = 2
           }
-          // this.axios.post(this.apiList.apiTaskDetails, {task_id: vm.task_id}, {
-          //   headers: {
-          //     'token': localStorage.getItem('token')
-          //   }
-          // }).then(function (res) {
-          //   if (res.data.code === 1) {
-          //
-          //   }
-          // })
+          vm.axios.post(vm.apiList.apiTaskDetails, {task_id: vm.task_id}, {
+            headers: {
+              'token': localStorage.getItem('token')
+            }
+          }).then(function (res) {
+            if (res.data.code === 1) {
+
+            }
+          })*/
         }
         // if (h < 10) {
         //   h = "0" + h;
@@ -238,13 +241,13 @@ export default {
         }
         vm.countTime = h + ":" + m + ":" + s;
       }, 1000);
-    }*/
+    }
   },
   onHide:function() {
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
   },
   onUnload(){
-    // clearInterval(this.timer);
+    clearInterval(this.timer);
   }
 }
 </script>

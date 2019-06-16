@@ -140,20 +140,20 @@ export default {
     getInfo () {
       let vm = this
       if(!localStorage.getItem('token')){
-        /*Toast('请先登录')
+        Toast('请先登录')
         this.$router.push({
           name: 'Login'
         })
-        return*/
-        /*this.axios.post(this.apiList.apiLogin).then(function (res) {
+        return
+        this.axios.post(this.apiList.apiLogin).then(function (res) {
           console.log(res)
-          /!*if (res.data.code === 1) {
+          /*if (res.data.code === 1) {
             vm.userInfo = res.data.data
-          }*!/
-        })*/
-        window.location.href = this.apiList.apiLogin
+          }*/
+        })
+        // window.location.href = this.apiList.apiLogin
       }
-      /*this.axios.post(this.apiList.apiInfo,'',{
+      this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')
         }
@@ -161,7 +161,7 @@ export default {
         if (res.data.code === 1) {
           vm.userInfo = res.data.data
         }
-      })*/
+      })
     },
     logOut () {
       console.log('logOut')

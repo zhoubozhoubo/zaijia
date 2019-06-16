@@ -45,7 +45,7 @@
             <div style="height: 10px;"></div>
             <van-row class="handle" v-if="myTask.status == 0">
               <van-col span="6" offset="1">
-                <h1><van-icon name="underway-o"/>1:00:57</h1>
+                <h1><van-icon name="underway-o"/>{{myTask.count_time}}</h1>
               </van-col>
               <van-col span="6" offset="5">
                 <h3 @click="giveUp(myTask.id)">放弃任务</h3>
@@ -56,7 +56,7 @@
             </van-row>
             <van-row class="handle" v-else-if="myTask.status === 1">
               <van-col span="6" offset="1">
-                <h1><van-icon name="underway-o"/>1:00:57</h1>
+                <h1><van-icon name="underway-o"/>{{myTask.count_time}}</h1>
               </van-col>
               <van-col span="6" offset="11">
                 <h3>审核中</h3>
@@ -120,6 +120,10 @@ export default {
     initTaskList () {
       this.param.page = 0
       this.taskList = []
+      let vm = this
+      for (let i=0;i<vm.taskList.length;i++) {
+        clearInterval(vm.taskList[i].count_time)
+      }
       this.onLoad()
     },
     onLoad () {
@@ -134,12 +138,80 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.taskList = vm.taskList.concat(res.data.data.data)
+
+          // TODO 倒计时生成
+          for (let i=0;i<vm.taskList.length;i++) {
+            if(vm.taskList[i].surplus_time>0){
+              vm.resetTime(vm.taskList[i].surplus_time,i)
+            }
+          }
+
+
           // 数据全部加载完成
           if (vm.taskList.length >= res.data.data.total) {
             vm.finished = true
           }
         }
       })
+    },
+    getTaskDetails (index) {
+      let vm = this
+      this.axios.post(vm.apiList.apiUserTaskDetails,{id: vm.taskList[index].id},{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          console.log(res)
+          vm.taskList.splice(index, 1)
+          /*vm.taskDetails = res.data.data
+          // 当状态为执行中、审核中时倒计时
+          if (vm.taskDetails.status === 0 || vm.taskDetails.status === 1) {
+            if (vm.taskDetails.surplus_time > 0) {
+              vm.resetTime(vm.taskDetails.surplus_time)
+            }else{
+              vm.getTaskDetails()
+            }
+          }*/
+        }
+      })
+    },
+    resetTime(hour,i) {
+      let vm = this
+      this.taskList[i].timer = setInterval(() => {
+        hour -= 1000;
+        let h = Math.floor(hour / (1000 * 60 * 60));
+        let m = Math.floor((hour % (1000 * 60 * 60)) / (1000 * 60));
+        let s = Math.floor((hour % (1000 * 60)) / 1000);
+        if (h == 0 && m == 0 && s == 0) {
+          clearInterval(vm.taskList[i].timer);
+          vm.getTaskDetails(i)
+          /*if(vm.taskDetails.status == 0){
+            vm.taskDetails.status = 4
+          }else if(vm.taskDetails.status == 1){
+            vm.taskDetails.status = 2
+          }
+          vm.axios.post(vm.apiList.apiTaskDetails, {task_id: vm.task_id}, {
+            headers: {
+              'token': localStorage.getItem('token')
+            }
+          }).then(function (res) {
+            if (res.data.code === 1) {
+
+            }
+          })*/
+        }
+        // if (h < 10) {
+        //   h = "0" + h;
+        // }
+        if (m < 10) {
+          m = "0" + m;
+        }
+        if (s < 10) {
+          s = "0" + s;
+        }
+        vm.taskList[i].count_time = h + ":" + m + ":" + s;
+      }, 1000);
     },
     selectStatus (index) {
       this.param.status = this.statusList[index].value
@@ -178,6 +250,18 @@ export default {
     }
   },
   created () {
+  },
+  onHide:function() {
+    let vm = this
+    for (let i=0;i<vm.taskList.length;i++) {
+        clearInterval(vm.taskList[i].count_time)
+    }
+  },
+  onUnload(){
+    let vm = this
+    for (let i=0;i<vm.taskList.length;i++) {
+      clearInterval(vm.taskList[i].count_time)
+    }
   }
 }
 </script>

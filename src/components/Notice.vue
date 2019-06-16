@@ -19,7 +19,11 @@
       <van-row class="taskRow" v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
         <div>
           <van-col span="22" offset="1">
-            <h1 :class="{'not_read':notice.is_read === 0}"><span class="title">{{notice.title}}</span><van-tag color="#FFA500" plain v-if="notice.is_read === 0" class="status" @click="readNotice(notice.id, noticeIndex)">标记已读</van-tag><span class="time">{{notice.gmt_create}}</span></h1>
+            <h1 :class="{'not_read':notice.is_read === 0}">
+              <span class="title">{{notice.title}}</span>
+              <van-tag color="#FFA500" plain v-if="notice.is_read === 0" class="status" @click="readNotice(notice.id, noticeIndex)">标记已读</van-tag>
+              <van-tag plain v-else class="status">已读</van-tag>
+              <span class="time">{{notice.gmt_create}}</span></h1>
             <p>{{notice.content}}</p>
           </van-col>
         </div>
@@ -113,6 +117,7 @@ export default {
     margin: 0;
   }
   .notice .taskRow{
+    position: relative;
     padding: 5px 0;
   }
   .notice .taskRow h1{
@@ -124,15 +129,23 @@ export default {
   }
   .notice .taskRow h1 .title{
     float: left;
+    width: 70%;
   }
   .notice .taskRow h1 .status{
-    float: left;
-    margin: 8px 0 0 10px;
+    position: absolute;
+    right: 5%;
+    top: 5px;
+    /*float: left;*/
+    /*margin: 8px 0 0 10px;*/
   }
   .notice .taskRow h1 .time{
-    float: right;
+    position: absolute;
+    right: 5%;
+    top: 20px;
+    /*float: right;*/
+    /*width: 200px;*/
     font-size: 12px;
-    line-height: 35px;
+    line-height: 20px;
     color: #808080;
   }
   .notice .taskRow p{
