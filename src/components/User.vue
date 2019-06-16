@@ -65,7 +65,7 @@
       </van-col>
       <van-col span="12" class="handle_content my_notice">
         <div @click="goMyNotice">
-          <van-icon name="chat-o" size="30px" color="#00FF00" :info="userInfo.notice_num"/>
+          <van-icon name="chat-o" size="30px" color="#00FF00" :info="userInfo.notice_num ? userInfo.notice_num :''"/>
           <h2>最新通知</h2>
         </div>
       </van-col>
@@ -108,6 +108,13 @@
         </van-col>
       </van-row>
     </van-popup>
+
+    <div class="block"></div>
+    <van-tabbar v-model="activeBar">
+      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
+      <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
+      <van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -119,7 +126,8 @@ export default {
     return {
       userInfo: [],
       skillShow: false,
-      serviceShow: false
+      serviceShow: false,
+      activeBar: 2
     }
   },
   created () {
@@ -132,13 +140,20 @@ export default {
     getInfo () {
       let vm = this
       if(!localStorage.getItem('token')){
-        Toast('请先登录')
+        /*Toast('请先登录')
         this.$router.push({
           name: 'Login'
         })
-        return
+        return*/
+        /*this.axios.post(this.apiList.apiLogin).then(function (res) {
+          console.log(res)
+          /!*if (res.data.code === 1) {
+            vm.userInfo = res.data.data
+          }*!/
+        })*/
+        window.location.href = this.apiList.apiLogin
       }
-      this.axios.post(this.apiList.apiInfo,'',{
+      /*this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')
         }
@@ -146,7 +161,7 @@ export default {
         if (res.data.code === 1) {
           vm.userInfo = res.data.data
         }
-      })
+      })*/
     },
     logOut () {
       console.log('logOut')
@@ -208,6 +223,9 @@ export default {
 }
 </script>
 <style>
+  .block{
+    height: 60px;
+  }
 </style>
 <style scoped>
   .user{

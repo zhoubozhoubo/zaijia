@@ -2,15 +2,12 @@
   <div class="index">
     <!--location-->
     <van-row class="locationRow">
-      <van-col span="10" offset="1">
+      <van-col span="22" offset="1">
         <div @click="showArea">
           <van-icon name="location" size="20px" class="location"/>
           <span>{{county}}</span>
           <van-icon name="arrow-down" size="20px" class="select"/>
         </div>
-      </van-col>
-      <van-col span="1" offset="11">
-        <van-icon name="manager" size="20px" @click="goUser" class="user"/>
       </van-col>
     </van-row>
     <!--banner-->
@@ -69,6 +66,13 @@
       :actions="orderList"
       @select="selectOrder"
     />
+
+    <div class="block"></div>
+    <van-tabbar v-model="activeBar">
+      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
+      <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
+      <van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>
+    </van-tabbar>
   </div>
 </template>
 
@@ -113,7 +117,8 @@ export default {
           order: 4,
           name: '人气'
         }
-      ]
+      ],
+      activeBar: 0
     }
   },
   created() {
@@ -217,6 +222,11 @@ export default {
   }
 }
 </script>
+<style>
+  .block{
+    height: 60px;
+  }
+</style>
 
 <style scoped>
   .locationRow{
