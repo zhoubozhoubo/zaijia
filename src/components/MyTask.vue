@@ -44,10 +44,10 @@
             <div class="clear"></div>
             <div style="height: 10px;"></div>
             <van-row class="handle" v-if="myTask.status == 0">
-              <van-col span="6" offset="1">
+              <van-col span="8" offset="1">
                 <h1><van-icon name="underway-o"/>{{myTask.count_time}}</h1>
               </van-col>
-              <van-col span="6" offset="5">
+              <van-col span="6" offset="3">
                 <h3 @click="giveUp(myTask.id)">放弃任务</h3>
               </van-col>
               <van-col span="6">
@@ -55,10 +55,10 @@
               </van-col>
             </van-row>
             <van-row class="handle" v-else-if="myTask.status == 1">
-              <van-col span="6" offset="1">
+              <van-col span="8" offset="1">
                 <h1><van-icon name="underway-o"/>{{myTask.count_time}}</h1>
               </van-col>
-              <van-col span="6" offset="11">
+              <van-col span="6" offset="9">
                 <h3>审核中</h3>
               </van-col>
             </van-row>
