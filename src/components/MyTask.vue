@@ -29,7 +29,7 @@
           <van-row>
             <div @click="taskDetails(myTask.id)">
               <van-col span="4" offset="1" class="img">
-                <img :src="myTask.task.task_type.img" />
+                <img :src="myTask.img" />
               </van-col>
               <van-col span="17" offset="1" class="content">
                 <h1>
