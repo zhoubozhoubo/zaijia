@@ -9,9 +9,9 @@ export default {
   name: 'App',
   methods: {
     login () {
-      if(!localStorage.getItem('token')){
+      // if(!localStorage.getItem('token')){
         window.location.href =this.apiList.apiLogin
-      }
+      // }
     }
   },
   created() {
