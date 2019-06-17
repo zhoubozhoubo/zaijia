@@ -133,7 +133,7 @@ export default {
       task_id: this.$route.params.task_id,
       status: 0,
       taskDetails:[],
-      countTime: '',
+      countTime: '--:--:--',
       timer: ''
     }
   },

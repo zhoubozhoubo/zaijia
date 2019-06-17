@@ -8,7 +8,7 @@
         <img :src="userInfo.avatarurl"/>
       </van-col>
       <van-col span="17" offset="1">
-        <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
+        <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}</h1>
         <h2><span>工号:</span>{{userInfo.code}}</h2>
         <h2><span>职务:</span>合伙人</h2>
         <h2><span>推荐人:</span>{{userInfo.superiorUser ? userInfo.superiorUser.nickname : '惠元财富'}}</h2>
@@ -125,7 +125,11 @@ export default {
   name: 'User',
   data () {
     return {
-      userInfo: [],
+      userInfo: {
+        total_income: '-.--',
+        my_income: '-.--',
+        team_income: '-.--'
+      },
       skillShow: false,
       serviceShow: false,
       activeBar: 2
@@ -242,7 +246,7 @@ export default {
     margin: 0;
   }
   .user .user_info{
-    height: 145px;
+    height: 155px;
     /*color: #eee;*/
     /*background-color: #555;*/
     /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=501549062,1145138333&fm=26&gp=0.jpg");*/
