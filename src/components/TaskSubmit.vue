@@ -151,7 +151,7 @@
             console.log(res)
             vm.taskDetails = res.data.data
             // 当状态为执行中、审核中时倒计时
-            if (vm.taskDetails.status === 0 || vm.taskDetails.status === 1) {
+            if (vm.taskDetails.status == 0 || vm.taskDetails.status == 1) {
               if (vm.taskDetails.surplus_time > 0) {
                 vm.resetTime(vm.taskDetails.surplus_time)
               }else{

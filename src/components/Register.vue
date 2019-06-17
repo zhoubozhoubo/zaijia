@@ -102,7 +102,7 @@ export default {
       this.codeStatus = true
       this.timer = setInterval(() => {
         this.countTime --
-        if (this.countTime === 0) {
+        if (this.countTime == 0) {
           clearInterval(this.timer);
           this.codeStatus = false
         }

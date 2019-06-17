@@ -18,17 +18,17 @@
               @load="onLoad">
       <van-row class="withdraw_list" v-for="(withdraw, withdrawIndex) in withdrawList" :key="withdrawIndex">
         <van-col span="16" offset="1">
-          <h1 v-if="withdraw.withdraw_way_id === 2">
+          <h1 v-if="withdraw.withdraw_way_id == 2">
             <span class="wechat">{{withdraw.withdrawType.name}}：</span>"{{withdraw.account}}"
-            <van-tag plain type="primary" v-if="withdraw.status === 0">提现中</van-tag>
-            <van-tag plain type="success" v-else-if="withdraw.status === 1">已通过</van-tag>
-            <van-tag plain type="danger" v-else-if="withdraw.status === 2">未通过</van-tag>
+            <van-tag plain type="primary" v-if="withdraw.status == 0">提现中</van-tag>
+            <van-tag plain type="success" v-else-if="withdraw.status == 1">已通过</van-tag>
+            <van-tag plain type="danger" v-else-if="withdraw.status == 2">未通过</van-tag>
           </h1>
-          <h1 v-if="withdraw.withdraw_way_id === 1">
+          <h1 v-if="withdraw.withdraw_way_id == 1">
             <span class="alipay">{{withdraw.withdrawType.name}}：</span>"{{withdraw.account}}"
-            <van-tag plain type="primary" v-if="withdraw.status === 0">提现中</van-tag>
-            <van-tag plain type="success" v-else-if="withdraw.status === 1">已通过</van-tag>
-            <van-tag plain type="danger" v-else-if="withdraw.status === 2">未通过</van-tag>
+            <van-tag plain type="primary" v-if="withdraw.status == 0">提现中</van-tag>
+            <van-tag plain type="success" v-else-if="withdraw.status == 1">已通过</van-tag>
+            <van-tag plain type="danger" v-else-if="withdraw.status == 2">未通过</van-tag>
           </h1>
           <h2>{{withdraw.gmt_create}}</h2>
         </van-col>

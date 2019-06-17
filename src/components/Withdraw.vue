@@ -110,15 +110,15 @@ export default {
     Withdraw () {
       console.log('Withdraw')
       let vm = this
-      if (this.form.money === '' || this.form.money === 0) {
+      if (this.form.money == '' || this.form.money == 0) {
         Toast('请输入提现金额')
         return
       }
-      if (this.form.name === '' || this.form.name === 0) {
+      if (this.form.name == '') {
         Toast('请输入身份证名字')
         return
       }
-      if (this.form.account === '' || this.form.account === 0) {
+      if (this.form.account == '') {
         Toast('请输入支付宝账号')
         return
       }

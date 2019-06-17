@@ -19,9 +19,9 @@
       <van-row class="taskRow" v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
         <div>
           <van-col span="22" offset="1">
-            <h1 :class="{'not_read':notice.is_read === 0}">
+            <h1 :class="{'not_read':notice.is_read == 0}">
               <span class="title">{{notice.title}}</span>
-              <van-tag color="#FFA500" plain v-if="notice.is_read === 0" class="status" @click="readNotice(notice.id, noticeIndex)">标记已读</van-tag>
+              <van-tag color="#FFA500" plain v-if="notice.is_read == 0" class="status" @click="readNotice(notice.id, noticeIndex)">标记已读</van-tag>
               <van-tag plain v-else class="status">已读</van-tag>
               <span class="time">{{notice.gmt_create}}</span></h1>
             <p>{{notice.content}}</p>

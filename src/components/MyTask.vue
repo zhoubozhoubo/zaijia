@@ -54,7 +54,7 @@
                 <van-button @click="goOn(myTask.id)">继续任务</van-button>
               </van-col>
             </van-row>
-            <van-row class="handle" v-else-if="myTask.status === 1">
+            <van-row class="handle" v-else-if="myTask.status == 1">
               <van-col span="6" offset="1">
                 <h1><van-icon name="underway-o"/>{{myTask.count_time}}</h1>
               </van-col>
@@ -166,7 +166,7 @@ export default {
           vm.taskList.splice(index, 1)
           /*vm.taskDetails = res.data.data
           // 当状态为执行中、审核中时倒计时
-          if (vm.taskDetails.status === 0 || vm.taskDetails.status === 1) {
+          if (vm.taskDetails.status == 0 || vm.taskDetails.status == 1) {
             if (vm.taskDetails.surplus_time > 0) {
               vm.resetTime(vm.taskDetails.surplus_time)
             }else{

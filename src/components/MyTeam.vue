@@ -13,7 +13,7 @@
 
     <van-row class="team_nav">
       <div v-for="(grade, gradeIndex) in gradeList" :key="gradeIndex" @click="selectGrade(gradeIndex)">
-        <van-col class="team_nav_item" :class="{'actice':grade.value === param.type}">
+        <van-col class="team_nav_item" :class="{'actice':grade.value == param.type}">
           <span>{{grade.name}}</span>
         </van-col>
       </div>

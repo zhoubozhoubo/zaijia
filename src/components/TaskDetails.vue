@@ -45,7 +45,7 @@
             重复执行：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.is_repeat === 1 ? '是': '否'}}
+            {{taskDetails.is_repeat == 1 ? '是': '否'}}
           </van-col>
 
           <!--step-->
@@ -115,7 +115,7 @@
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>-->
+        <!--<van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 1">待审核</van-button>-->
         <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 2">已通过</van-button>
         <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 3">未通过</van-button>
         <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 4">已放弃</van-button>

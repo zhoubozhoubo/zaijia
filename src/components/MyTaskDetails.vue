@@ -45,7 +45,7 @@
             重复执行：
           </van-col>
           <van-col span="18" class="label_content">
-            {{taskDetails.task.is_repeat === 1 ? '是': '否'}}
+            {{taskDetails.task.is_repeat == 1 ? '是': '否'}}
           </van-col>
 
           <!--step-->
@@ -104,7 +104,7 @@
     <!--receiveTask-->
     <van-row class="receive_row">
       <van-col span="22" offset="1">
-        <!--<van-button class="receive_task" v-if="taskDetails.can_receive === 1" @click="receiveTask">领取任务</van-button>-->
+        <!--<van-button class="receive_task" v-if="taskDetails.can_receive == 1" @click="receiveTask">领取任务</van-button>-->
         <van-button class="submit_data" v-if="taskDetails.status == 0" @click="submitData">提交材料
           <span class="time">
             <van-icon name="underway-o" class="clock"/>{{countTime}}
@@ -115,7 +115,7 @@
             <van-icon name="underway-o" class="clock"/>{{countTime}}
           </span>
         </van-button>
-        <!--<van-button class="submit_data" v-if="taskDetails.can_receive === 0 && taskDetails.status === 1">待审核</van-button>-->
+        <!--<van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 1">待审核</van-button>-->
         <van-button class="submit_data" v-if="taskDetails.status == 2">已通过</van-button>
         <van-button class="submit_data" v-if="taskDetails.status == 3">未通过</van-button>
         <van-button class="submit_data" v-if="taskDetails.status == 4">已放弃</van-button>
@@ -157,7 +157,7 @@ export default {
         if (res.data.code === 1) {
           vm.taskDetails = res.data.data
           // 当状态为执行中、审核中时倒计时
-          if(vm.taskDetails.status === 0 || vm.taskDetails.status === 1){
+          if(vm.taskDetails.status == 0 || vm.taskDetails.status == 1){
             if(vm.taskDetails.surplus_time>0){
               vm.resetTime(vm.taskDetails.surplus_time)
             }
@@ -192,7 +192,7 @@ export default {
               'token': localStorage.getItem('token')
             }
           }).then(function (res) {
-            if (res.data.code === 1) {
+            if (res.data.code == 1) {
 
             }
           })
