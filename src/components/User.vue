@@ -131,6 +131,13 @@ export default {
     }
   },
   created () {
+    if(this.$route.query.token){
+      //登录后存储token
+      let token = this.$route.query.token
+      localStorage.setItem('token',token)
+    }
+  },
+  mounted () {
     this.init()
   },
   methods: {
