@@ -13,8 +13,8 @@ Vue.use(Vant)
 Vue.use(Dialog)
 Vue.config.productionTip = false
 
-const host = "http://127.0.0.1:8001/api/";
-// const host = "http://jianzhi.hmdog.com/api/";
+// const host = "http://127.0.0.1:8001/api/";
+const host = "http://jianzhi.hmdog.com/api/";
 Vue.prototype.apiList={
   apiAreaList:        host+"5d0253080db26",    //地区列表
   apiBannerList:      host+"5d0286898878a",    //轮播图列表
