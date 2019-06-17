@@ -191,6 +191,7 @@ export default {
           if(res.data.data.finish_duration>0){
             vm.resetTime(res.data.data.finish_duration)
           }
+          vm.taskDetails.user_task_id = res.data.data.id
         }else{
           Toast(res.data.msg)
         }
