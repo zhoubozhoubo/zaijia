@@ -123,6 +123,9 @@ export default {
   },
   created() {
     this.init()
+    //登录后存储token
+    let token = this.$route.query.token
+    console.log(token)
   },
   methods: {
     initTaskList () {

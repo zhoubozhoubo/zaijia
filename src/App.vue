@@ -6,7 +6,17 @@
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    login () {
+      if(!localStorage.getItem('token')){
+        window.location.href =this.apiList.apiLogin
+      }
+    }
+  },
+  created() {
+    this.login()
+  }
 }
 </script>
 
