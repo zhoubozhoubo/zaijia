@@ -4,7 +4,8 @@
     <!--userinfo-->
     <van-row class="user_info">
       <van-col span="4" offset="1">
-        <img src="https://wx.qlogo.cn/mmopen/vi_32/h3GVU1Iz7BaOmSSK6NrSBOibq9BzPMo4f4Gaic5pIS95CGMJEMouJQEjjSNPfjqbc11ibicnKJNqicFlLJatGQQNx2g/132"/>
+        <!--<img src="https://wx.qlogo.cn/mmopen/vi_32/h3GVU1Iz7BaOmSSK6NrSBOibq9BzPMo4f4Gaic5pIS95CGMJEMouJQEjjSNPfjqbc11ibicnKJNqicFlLJatGQQNx2g/132"/>-->
+        <img :src="userInfo.avatarurl"/>
       </van-col>
       <van-col span="17" offset="1">
         <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}<van-icon name="share" size="20px" class="logout" @click="logOut"/></h1>
