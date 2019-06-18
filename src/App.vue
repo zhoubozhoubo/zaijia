@@ -38,9 +38,10 @@ export default {
           'token': localStorage.getItem('token')
         }
       }).then(function (res) {
-        if (res.data.code === -19) {
-          window.location.href =vm.apiList.apiLogin
-        }
+        console.log(res)
+        // if (res.data.code === -19) {
+        //   window.location.href =vm.apiList.apiLogin
+        // }
       })
     }
   },
