@@ -13,8 +13,9 @@
 
     <van-row class="newsContent">
       <van-col span="22" offset="1">
-        <h1>新闻标题</h1>
-        <h2>2019-06-18<span class="number">123</span><van-icon name="eye-o" size="16px"/></h2>
+        <h1>{{newsDetails.title}}</h1>
+        <h2>{{newsDetails.gmt_create}}<span class="number">{{newsDetails.number}}</span><van-icon name="eye-o" size="16px"/></h2>
+        <div class="content" v-html="newsDetails.content"></div>
       </van-col>
     </van-row>
   </div>
@@ -25,7 +26,8 @@ export default {
   name: 'NewsDetails',
   data () {
     return {
-      new_id: this.$route.params.new_id,
+      news_id: this.$route.params.news_id,
+      newsDetails: []
     }
   },
   created() {
@@ -38,13 +40,23 @@ export default {
     goBack() {
       this.$router.back()
     },
-    getNewsDetails() {
+    getNewsDetails () {
       let vm = this
-    }
+      this.axios.get(this.apiList.apiNewsDetails,{
+        params: {news_id: vm.news_id}
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          vm.newsDetails = res.data.data
+        }
+      })
+    },
   }
 }
 </script>
 <style>
+  .nav_block{
+    height: 40px;
+  }
 </style>
 <style scoped>
   .navRow{
@@ -68,8 +80,10 @@ export default {
     margin: 0;
   }
   .newsDetails h1{
+    font-size: 22px;
     text-align: center;
     line-height: 50px;
+    margin-top: 10px;
   }
   .newsDetails h2{
     font-size: 14px;
@@ -79,11 +93,14 @@ export default {
   }
   .newsDetails h2 .van-icon{
     float: right;
-    margin-left: 10px;
+    margin-right: 10px;
     line-height: 30px;
   }
   .newsDetails h2 .number{
     float: right;
     line-height: 30px;
+  }
+  .newsDetails .newsContent .content img{
+    width: 100%!important;
   }
 </style>

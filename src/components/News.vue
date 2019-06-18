@@ -1,6 +1,23 @@
 <template>
   <div class="news">
 
+    <van-row class="navRow">
+      <van-col span="2" offset="1">
+      </van-col>
+      <van-col span="18" class="nav_title">
+        <span>最新资讯</span>
+      </van-col>
+    </van-row>
+    <div class="nav_block"></div>
+
+    <van-row class="news_nav">
+      <div v-for="(newsType, newsTypeIndex) in newsTypeList" :key="newsTypeIndex" @click="selectNewsType(newsTypeIndex)">
+        <van-col class="news_nav_item" :class="{'actice':newsType.news_type_id === param.news_type_id}">
+          <span>{{newsType.name}}</span>
+        </van-col>
+      </div>
+    </van-row>
+
     <!--news-->
     <van-list v-model="loading"
               :finished="finished"
@@ -9,11 +26,11 @@
       <van-row class="newsRow" v-for="(news, newsIndex) in newsList" :key="newsIndex">
         <div @click="goNewsDetails(news.news_id)">
           <van-col span="6" offset="1">
-            <img :src="news.newsType.img"/>
+            <img :src="news.img"/>
           </van-col>
           <van-col span="15" offset="1" class="newsContent">
             <h1>{{news.title}}</h1>
-            <h2>2019-06-18<span class="number">123</span><van-icon name="eye-o" size="16px"/></h2>
+            <h2>{{news.gmt_create}}<span class="number">{{news.number}}</span><van-icon name="eye-o" size="16px"/></h2>
             <p>新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</p>
           </van-col>
         </div>
@@ -35,51 +52,109 @@ export default {
   name: 'News',
   data () {
     return {
+      param: {
+        news_type_id: 1,
+        page:0
+      },
       activeBar: 1,
       loading: false,
       finished: false,
-      newsList: [
-        {
-          new_id: 1,
-          title: '新闻标题',
-          newsType: {
-            img: 'static/images/banner1.jpg'
-          }
-        },
-        {
-          new_id: 1,
-          title: '新闻标题',
-          newsType: {
-            img: 'static/images/banner1.jpg'
-          }
-        }
-      ]
+      newsTypeList:[],
+      newsList: []
     }
   },
   created () {
+    this.getNewsTypeList()
   },
   methods: {
+    goBack () {
+      this.$router.back()
+    },
+    initNewsList () {
+      this.param.page = 0
+      this.newsList = []
+      this.onLoad()
+    },
+    getNewsTypeList () {
+      let vm = this;
+      this.axios.get(this.apiList.apiNewsTypeList).then(function (res) {
+        if (res.data.code === 1) {
+          vm.newsTypeList = res.data.data
+        }
+      })
+    },
+    onLoad () {
+      let vm = this;
+      this.param.page++
+      this.axios.get(this.apiList.apiNewsList,{
+        params: this.param
+      }).then(function (res) {
+        if (res.data.code === 1) {
+          // 加载状态结束
+          vm.loading = false
+          vm.newsList = vm.newsList.concat(res.data.data.data)
+
+          // 数据全部加载完成
+          if (vm.newsList.length >= res.data.data.total) {
+            vm.finished = true
+          }
+        }
+      })
+    },
     goNewsDetails (id) {
       console.log('goNewsDetails')
       this.$router.push({
         name: 'NewsDetails',
-        params: { new_id: id }
+        params: { news_id: id }
       })
     },
-    onLoad () {
-
+    selectNewsType (index) {
+      this.param.news_type_id = this.newsTypeList[index].news_type_id
+      this.initNewsList()
     }
   }
 }
 </script>
 <style>
+  .nav_block{
+    height: 40px;
+  }
   .block{
     height: 60px;
   }
 </style>
 <style scoped>
+  .navRow{
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 40px;
+    background-color: #3f3f3f;
+    color: #fff;
+    font-size: 16px;
+    line-height: 40px;
+  }
+  .navRow .nav_icon{
+    float: left;
+    line-height: 40px;
+  }
+  .navRow .nav_title{
+    text-align: center;
+  }
   .news h1,h2,p{
     margin: 0;
+  }
+  .news .news_nav .news_nav_item{
+    width: 20%;
+    text-align: center;
+    padding: 5px 0;
+  }
+  .news .news_nav .actice{
+    color: red;
+    border-bottom: 2px solid red;
+  }
+  .news .news_nav .news_nav_item span{
+    font-size: 14px;
   }
   .news .newsRow{
     height: 110px;
@@ -111,6 +186,7 @@ export default {
   .news .newsRow h2 .number{
     float: right;
     line-height: 30px;
+    margin-left: 5px;
   }
   .news .newsRow p{
     font-size: 16px;

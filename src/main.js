@@ -16,8 +16,11 @@ Vue.config.productionTip = false
 // const host = "http://127.0.0.1:8001/api/";
 const host = "http://jianzhi.hmdog.com/api/";
 Vue.prototype.apiList={
-  apiUpload:        host+"5d08606042e0e",    //文件上传
+  apiUpload:          host+"5d08606042e0e",    //文件上传
   apiAreaList:        host+"5d0253080db26",    //地区列表
+  apiNewsTypeList:    host+"5d0928d42c8e4",    //新闻类型列表
+  apiNewsList:        host+"5d092b3207a43",    //新闻列表
+  apiNewsDetails:     host+"5d092d1e330fa",    //新闻详情
   apiBannerList:      host+"5d0286898878a",    //轮播图列表
   apiLinkList:        host+"5d0286b4ea311",    //链接列表
   apiTaskList:        host+"5d0286cb35cb3",    //任务列表
