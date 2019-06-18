@@ -8,6 +8,22 @@
 export default {
   name: 'App',
   methods: {
+    /*login () {
+      let vm = this
+      if(!localStorage.getItem('token')){
+        Toast('请先登录')
+        vm.$router.push({
+          name: 'Login'
+        })
+        return
+        /!*this.axios.post(this.apiList.apiLogin).then(function (res) {
+          console.log(res)
+          /!*if (res.data.code === 1) {
+            vm.userInfo = res.data.data
+          }*!/
+        })*!/
+      }
+    },*/
     login () {
       if(!localStorage.getItem('token')){
         window.location.href =this.apiList.apiLogin
@@ -29,7 +45,7 @@ export default {
     }
   },
   created() {
-    this.login()
+    // this.login()
   }
 }
 </script>

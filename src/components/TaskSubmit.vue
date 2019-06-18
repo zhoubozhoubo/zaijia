@@ -31,22 +31,26 @@
           </van-col>
         </van-row>
 
-        <van-row>
+        <van-row v-if="taskDetails.task.submit_way == 2">
           <van-col span="24" class="title">
             提交图片
           </van-col>
           <van-col span="6" class="submit_img" v-for="(img, imgIndex) in taskDetails.task.submit_img" :key="imgIndex">
-            <img :src="img" />
+            <img :src="img"  @click="subImgView(imgIndex)"/>
           </van-col>
         </van-row>
 
-        <van-row>
+        <van-row v-if="taskDetails.task.submit_way == 2">
           <van-col span="24" class="title">
             上传图片
           </van-col>
+          <van-col span="6" class="upload_img" v-for="(item,index) in formItem.submit_img" :key="index">
+            <img class="image" :src="item" @click="imgView(index)">
+            <van-icon name="clear" size="20px" color="#FF0000" class="close_icon" @click="imgclose(index)"/>
+          </van-col>
           <van-col span="6" class="upload_img">
             <van-uploader :after-read="onRead">
-              <van-icon name="plus" size="30px" color="#fff" class="add_icon"/>
+              <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
           </van-col>
         </van-row>
@@ -82,6 +86,10 @@
         <van-button class="submit_data" v-if="taskDetails.status == 4">已放弃</van-button>
       </van-col>
     </van-row>
+
+    <van-popup v-model="imgShow" class="show_img">
+      <img :src="showImg">
+    </van-popup>
   </div>
 </template>
 
@@ -92,40 +100,24 @@
     data () {
       return {
         id: this.$route.params.id,
-        taskDetails: [],
+        taskDetails: {
+          task: {
+            take_care: ''
+          }
+        },
         formItem: {
           id: this.$route.params.id,
-          submit_img: '',
+          submit_img: [],
           submit_text: ''
         },
-        submitImgList: [
-          {
-            id: 1,
-            src: 'static/images/checkboxed.png',
-            url: ''
-          },
-          {
-            id: 2,
-            src: 'static/images/checkboxed.png',
-            url: ''
-          },
-          {
-            id: 3,
-            src: 'static/images/checkboxed.png',
-            url: ''
-          },
-          {
-            id: 4,
-            src: 'static/images/checkboxed.png',
-            url: ''
-          }
-        ],
         areaPlaceholder: '1、新人注册领红包页面截图\n' +
           '2、借条审核通过通知短信截图\n' +
           '3、借款成功短信截图\n' +
           '文字提交：姓名+手机号',
         countTime: '--:--:--',
-        timer: ''
+        timer: '',
+        imgShow: false,
+        showImg: ''
       }
     },
     created() {
@@ -161,9 +153,41 @@
           }
         })
       },
-      onRead(file) {
+      /*onRead(file) {
         console.log('onRead')
         console.log(file)
+      },*/
+      onRead (file) {
+        //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+        let fd = new FormData()
+        if (file && file.length) { // 判断是否是多图上传 多图则循环添加进去
+          file.forEach(item => {
+            fd.append("file", item.file)//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+          })
+        } else {
+          fd.append("file", file.file)
+        }
+        this.axios.post(this.apiList.apiUpload, fd) //url是服务器的提交地址
+        //成功回调
+          .then(res => {
+            console.log(res.data.data.fileUrl)
+            //将服务器返回的图片链接添加进img数组，进行预览展示
+            this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+          })
+      },
+      //删除预览图片按钮
+      imgclose (index) {
+        this.formItem.submit_img.splice(index, 1)
+      },
+      //图片大图
+      subImgView (index) {
+        this.showImg = this.taskDetails.task.submit_img[index]
+        this.imgShow = true
+      },
+      //图片大图
+      imgView (index) {
+        this.showImg = this.formItem.submit_img[index]
+        this.imgShow = true
       },
       inputText (res) {
         console.log(res)
@@ -277,12 +301,29 @@
     border-radius: 4px;
   }
   .taskSubmit .upload_img{
+    position: relative;
     height: 80px;
     text-align: center;
-    background-color: #ccc;
+    /*background-color: #ccc;*/
+  }
+  .taskSubmit .upload_img img{
+    width: 60px;
+    height: 80px;
+    border: 1px solid #00BCD4;
+    border-radius: 4px;
   }
   .taskSubmit .upload_img .add_icon{
-    margin: 25px 10px;
+    /*margin: 25px 10px;*/
+    border: 1px solid #00BCD4;
+    border-radius: 4px;
+    width: 60px;
+    height: 80px;
+    line-height: 82px;
+  }
+  .taskSubmit .upload_img .close_icon{
+    position: absolute;
+    top: 0;
+    right: 0;
   }
   .taskSubmit .text_area{
     /*height: 100px!important;*/
@@ -321,5 +362,13 @@
   .taskSubmit .receive_row .submit_data .time .clock{
     float: left;
     margin: 6px 4px 0 0;
+  }
+  .taskSubmit .show_img {
+    width: 90%;
+    text-align: center;
+  }
+  .taskSubmit .show_img img {
+    max-width: 100%;
+    max-height: 90%;
   }
 </style>

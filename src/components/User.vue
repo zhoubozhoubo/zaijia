@@ -132,7 +132,8 @@ export default {
       },
       skillShow: false,
       serviceShow: false,
-      activeBar: 2
+      activeBar: 2,
+      subscribe: 1
     }
   },
   created () {
@@ -151,19 +152,19 @@ export default {
     },
     getInfo () {
       let vm = this
-      /*if(!localStorage.getItem('token')){
+      if(!localStorage.getItem('token')){
         Toast('请先登录')
         this.$router.push({
           name: 'Login'
         })
         return
-        /!*this.axios.post(this.apiList.apiLogin).then(function (res) {
+        /*this.axios.post(this.apiList.apiLogin).then(function (res) {
           console.log(res)
           /!*if (res.data.code === 1) {
             vm.userInfo = res.data.data
           }*!/
-        })*!/
-      }*/
+        })*/
+      }
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')
@@ -265,6 +266,10 @@ export default {
     color: #FFA500;
     line-height: 40px;
     margin-top: 20px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
   .user .user_info h1 .logout{
     float: right;
@@ -277,6 +282,10 @@ export default {
     /*color: #C0C0C0;*/
     color: #FFF;
     line-height: 25px;
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    width: 100%;
   }
   .user .user_info h2 span{
     margin-right: 5px;
