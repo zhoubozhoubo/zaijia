@@ -70,7 +70,7 @@
 
           <!--img-->
           <van-col span="6" class="task_img" v-for="(taskImg, taskImgIndex) in taskDetails.show_img">
-            <img :src="taskImg" />
+            <img :src="taskImg"  @click="subImgView(taskImgIndex)"/>
           </van-col>
 
           <van-col span="24" class="label_title">
@@ -84,7 +84,7 @@
 
           <!--img-->
           <van-col span="6" class="task_img" v-for="(img, imgIndex) in taskDetails.submit_img">
-            <img :src="img" />
+            <img :src="img" @click="imgView(imgIndex)"/>
           </van-col>
 
           <van-col span="24" class="label_title">
@@ -121,6 +121,10 @@
         <van-button class="submit_data" v-if="taskDetails.can_receive == 0 && taskDetails.status == 4">已放弃</van-button>
       </van-col>
     </van-row>
+
+    <van-popup v-model="imgShow" class="show_img">
+      <img :src="showImg">
+    </van-popup>
   </div>
 </template>
 
@@ -134,7 +138,9 @@ export default {
       status: 0,
       taskDetails:[],
       countTime: '--:--:--',
-      timer: ''
+      timer: '',
+      imgShow: false,
+      showImg: ''
     }
   },
   created() {
@@ -242,7 +248,17 @@ export default {
         }
         vm.countTime = h + ":" + m + ":" + s;
       }, 1000);
-    }
+    },
+    //图片大图
+    subImgView (index) {
+      this.showImg = this.taskDetails.show_img[index]
+      this.imgShow = true
+    },
+    //图片大图
+    imgView (index) {
+      this.showImg = this.taskDetails.submit_img[index]
+      this.imgShow = true
+    },
   },
   onHide:function() {
     clearInterval(this.timer);
@@ -285,6 +301,8 @@ export default {
     font-size: 17px;
     color: #223a50;
     line-height: 40px;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskDetails .money{
     text-align: right;
@@ -301,14 +319,20 @@ export default {
     font-size: 14px;
     color: #888;
     line-height: 30px;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskDetails .label_content{
     font-size: 14px;
     color: #223a50;
     line-height: 30px;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskDetails .text_content{
     line-height: 25px;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskDetails .red_content{
     color: #ff618e;
@@ -368,5 +392,13 @@ export default {
   .taskDetails .receive_row .submit_data .time .clock{
     float: left;
     margin: 6px 4px 0 0;
+  }
+  .taskDetails .show_img {
+    width: 90%;
+    text-align: center;
+  }
+  .taskDetails .show_img img {
+    max-width: 100%;
+    max-height: 90%;
   }
 </style>

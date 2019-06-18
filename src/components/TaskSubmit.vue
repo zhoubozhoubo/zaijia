@@ -285,11 +285,15 @@
     font-weight: 600;
     font-size: 18px;
     color: #555;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskSubmit .content{
     font-size: 14px;
     line-height: 22px;
     color: #555;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskSubmit .submit_img{
     text-align: center;

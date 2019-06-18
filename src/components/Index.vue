@@ -275,6 +275,8 @@ export default {
   }
   .taskRow h1{
     font-size: 14px;
+    word-wrap: break-word;
+    word-break: normal;
   }
   .taskRow h2{
     font-size: 13px;
