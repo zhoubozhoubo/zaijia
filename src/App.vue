@@ -25,12 +25,11 @@ export default {
       }
     },*/
     login () {
-      /*if(!localStorage.getItem('token')){
+      if(!localStorage.getItem('token')){
         window.location.href =this.apiList.apiLogin
       }else{
         this.getInfo()
-      }*/
-      window.location.href =this.apiList.apiLogin
+      }
     },
     getInfo () {
       let vm = this
@@ -39,7 +38,6 @@ export default {
           'token': localStorage.getItem('token')
         }
       }).then(function (res) {
-        console.log(res)
         if (res.data.code === -19) {
           window.location.href =vm.apiList.apiLogin
         }
