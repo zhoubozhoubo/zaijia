@@ -11,7 +11,21 @@ export default {
     login () {
       if(!localStorage.getItem('token')){
         window.location.href =this.apiList.apiLogin
+      }else{
+        this.getInfo()
       }
+    },
+    getInfo () {
+      let vm = this
+      this.axios.post(vm.apiList.apiInfo,'',{
+        headers: {
+          'token': localStorage.getItem('token')
+        }
+      }).then(function (res) {
+        if (res.data.code === -19) {
+          window.location.href =vm.apiList.apiLogin
+        }
+      })
     }
   },
   created() {
