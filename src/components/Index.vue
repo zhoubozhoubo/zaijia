@@ -175,7 +175,7 @@ export default {
       this.onLoad()
     },
     init () {
-      this.getWeChatSign()
+      // this.getWeChatSign()
       this.getAreaList()
       this.getBannerList()
       this.getLinkList()
