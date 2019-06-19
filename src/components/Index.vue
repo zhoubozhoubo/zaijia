@@ -58,7 +58,7 @@
     </van-list>
     <!--areaShow-->
     <van-popup v-model="areaShow" position="bottom" :overlay="true">
-      <van-area :area-list="areaList" value="110101" title="城市" :columns-num="2" @confirm="confirmArea" @cancel="cancelArea"/>
+      <van-area :area-list="areaList" value="110100" title="城市" :columns-num="2" @confirm="confirmArea" @cancel="cancelArea"/>
     </van-popup>
     <!--orderShow-->
     <van-actionsheet
@@ -107,7 +107,7 @@ export default {
         order: 0,
         page:0
       },
-      county: '成都',
+      county: '全国',
       areaShow: false,
       areaList: [],
       order: '默认排序',
@@ -150,15 +150,15 @@ export default {
       window.location.href =this.apiList.apiLogin
     },
     initWechat () {
-      /*wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: '', // 必填，公众号的唯一标识
-        timestamp: '', // 必填，生成签名的时间戳
-        nonceStr: '', // 必填，生成签名的随机串
-        signature: '',// 必填，签名
-        jsApiList: [] // 必填，需要使用的JS接口列表
-      });*/
-      wx.config(this.wxConfig)
+      wx.config({
+        appId: "wxc5b8b08c2e2b506f",
+        debug: true,
+        jsApiList: (49) ["onWXDeviceBluetoothStateChange", "onWXDeviceStateChange", "openProductSpecificView", "addCard", "chooseCard", "openCard", "translateVoice", "getNetworkType", "openLocation", "getLocation", "onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "chooseImage", "previewImage", "uploadImage", "downloadImage", "closeWindow", "scanQRCode", "chooseWXPay", "hideOptionMenu", "showOptionMenu", "hideMenuItems", "showMenuItems", "hideAllNonBaseMenuItem", "showAllNonBaseMenuItem", "startScanWXDevice", "stopScanWXDevice", "onWXDeviceBindStateChange", "onScanWXDeviceResult", "onReceiveDataFromWXDevice", "startRecord", "stopRecord", "onVoiceRecordEnd", "playVoice", "pauseVoice", "stopVoice", "onVoicePlayEnd", "uploadVoice", "downloadVoice", "openWXDeviceLib", "closeWXDeviceLib", "getWXDeviceInfos", "sendDataToWXDevice", "disconnectWXDevice", "getWXDeviceTicket", "connectWXDevice"],
+        nonceStr: "gon0bvj9v6xnwc2k",
+        signature: "33d71b01c89ab6e64b66370c9013c6f0fef9f1a1",
+        timestamp: "1560978197"
+      });
+      // wx.config(this.wxConfig)
       wx.checkJsApi({
         jsApiList: ['getLocation'],
         success: function (res) {
@@ -196,6 +196,7 @@ export default {
     },
     init () {
       // this.getWeChatSign()
+      // this.initWechat()
       this.getAreaList()
       this.getBannerList()
       this.getLinkList()
