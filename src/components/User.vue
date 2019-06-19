@@ -163,7 +163,7 @@ export default {
   },
   mounted () {
     this.init()
-    if (!localStorage.getItem('subscribe')) {
+    if (localStorage.getItem('subscribe') != 1) {
       this.qrcodeShow = true
     }
   },
