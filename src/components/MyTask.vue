@@ -118,12 +118,12 @@ export default {
       this.$router.back()
     },
     initTaskList () {
-      this.param.page = 0
-      this.taskList = []
       let vm = this
       for (let i=0;i<vm.taskList.length;i++) {
         clearInterval(vm.taskList[i].count_time)
       }
+      this.param.page = 0
+      this.taskList = []
       this.onLoad()
     },
     onLoad () {
