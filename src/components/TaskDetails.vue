@@ -53,10 +53,10 @@
             任务说明
           </van-col>
           <template v-for="(stepItem, stepIndex) in taskDetails.step">
-            <van-col span="1" class="label_content text_content">
+            <van-col span="2" class="label_content text_content">
              {{stepIndex+1}}、
             </van-col>
-            <van-col span="23" class="label_content text_content">
+            <van-col span="22" class="label_content text_content">
               {{stepItem}}
             </van-col>
           </template>
