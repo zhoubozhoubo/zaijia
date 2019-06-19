@@ -413,7 +413,7 @@ export default {
     line-height: 25px;
   }
   .user .qrcode{
-    width: 300px;
+    width: 260px;
     border-radius: 5px;
     padding: 20px;
     text-align: center;

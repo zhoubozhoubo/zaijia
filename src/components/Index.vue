@@ -357,4 +357,13 @@ export default {
     color: #ff618e;
     margin-right: 20px;
   }
+  .index .qrcode{
+    width: 260px;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+  }
+  .index .qrcode img{
+    width: 200px
+  }
 </style>
