@@ -12,7 +12,7 @@
 
     <van-row class="news_nav">
       <div v-for="(newsType, newsTypeIndex) in newsTypeList" :key="newsTypeIndex" @click="selectNewsType(newsTypeIndex)">
-        <van-col class="news_nav_item" :class="{'actice':newsType.news_type_id === param.news_type_id}">
+        <van-col class="news_nav_item" :class="{'actice':newsType.news_type_id == param.news_type_id}">
           <span>{{newsType.name}}</span>
         </van-col>
       </div>

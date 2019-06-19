@@ -67,6 +67,17 @@
       @select="selectOrder"
     />
 
+    <!--qrcode-->
+    <van-popup v-model="qrcodeShow" class="qrcode" :close-on-click-overlay="false">
+      <van-row>
+        <van-col span="24">
+          <h1>惠元财富</h1>
+          <img src="../../static/images/huiyuancaifu.jpg"/>
+          <p>请扫描二维码关注公众号</p>
+        </van-col>
+      </van-row>
+    </van-popup>
+
     <div class="block"></div>
     <van-tabbar v-model="activeBar">
       <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
@@ -122,10 +133,14 @@ export default {
         }
       ],
       activeBar: 0,
-      wxConfig: []
+      wxConfig: [],
+      qrcodeShow: false
     }
   },
   created() {
+    if (localStorage.getItem('subscribe') != 1) {
+      this.qrcodeShow = true
+    }
     this.init()
   },
   methods: {
