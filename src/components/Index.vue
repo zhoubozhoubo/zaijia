@@ -74,6 +74,7 @@
           <h1>惠元财富</h1>
           <img src="../../static/images/huiyuancaifu.jpg"/>
           <p>请扫描二维码关注公众号</p>
+          <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
       </van-row>
     </van-popup>
@@ -144,6 +145,9 @@ export default {
     this.init()
   },
   methods: {
+    haveFollow () {
+      window.location.href =this.apiList.apiLogin
+    },
     initWechat () {
       /*wx.config({
         debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
@@ -365,5 +369,9 @@ export default {
   }
   .index .qrcode img{
     width: 200px
+  }
+  .index .qrcode .have_follow{
+    text-align: right;
+    color: #3399ff;
   }
 </style>

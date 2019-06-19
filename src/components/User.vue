@@ -117,6 +117,7 @@
           <h1>惠元财富</h1>
           <img src="../../static/images/huiyuancaifu.jpg"/>
           <p>请扫描二维码关注公众号</p>
+          <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
       </van-row>
     </van-popup>
@@ -170,6 +171,9 @@ export default {
   methods: {
     init () {
       this.getInfo()
+    },
+    haveFollow () {
+      window.location.href =this.apiList.apiLogin
     },
     getInfo () {
       let vm = this
@@ -420,5 +424,9 @@ export default {
   }
   .user .qrcode img{
     width: 200px
+  }
+  .user .qrcode .have_follow{
+    text-align: right;
+    color: #3399ff;
   }
 </style>
