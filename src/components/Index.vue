@@ -91,6 +91,7 @@
 <!--<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>-->
 
 <script>
+  import { Toast } from 'vant';
   import wx from "weixin-jsapi"
 export default {
   name: 'Index',
@@ -187,11 +188,11 @@ export default {
       });
     },
     initTaskList () {
-      this.param.page = 0
-      this.taskList = []
       this.areaShow = false
       this.orderShow = false
-      this.onLoad()
+      this.param.page = 0
+      this.finished = false
+      this.taskList = []
     },
     init () {
       // this.getWeChatSign()
@@ -238,6 +239,11 @@ export default {
       })
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.get(this.apiList.apiTaskList,{
@@ -248,6 +254,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.taskList = vm.taskList.concat(res.data.data.data)
+          Toast.clear()
           // 数据全部加载完成
           if (vm.taskList.length >= res.data.data.total) {
             vm.finished = true

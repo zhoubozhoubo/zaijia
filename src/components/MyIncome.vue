@@ -30,6 +30,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'MyIncome',
   data () {
@@ -47,6 +48,11 @@ export default {
       this.$router.back()
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.post(this.apiList.apiMyIncomeList,this.param,{
@@ -59,6 +65,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.incomeList = vm.incomeList.concat(res.data.data.data)
+          Toast.clear()
           // 数据全部加载完成
           if (vm.incomeList.length >= res.data.data.total) {
             vm.finished = true

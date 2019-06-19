@@ -22,6 +22,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'NewsDetails',
   data () {
@@ -41,12 +42,18 @@ export default {
       this.$router.back()
     },
     getNewsDetails () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       this.axios.get(this.apiList.apiNewsDetails,{
         params: {news_id: vm.news_id}
       }).then(function (res) {
         if (res.data.code === 1) {
           vm.newsDetails = res.data.data
+          Toast.clear()
         }
       })
     },

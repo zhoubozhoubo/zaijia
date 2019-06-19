@@ -45,6 +45,11 @@ export default {
       this.getInfo()
     },
     getInfo () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
@@ -56,6 +61,7 @@ export default {
           console.log(vm.qr_code)
           //生成二维码
           vm.qrcode()
+          Toast.clear()
         }else{
           Toast.fail('获取二维码失败')
         }

@@ -133,6 +133,11 @@
         })
       },
       getTaskDetails () {
+        Toast.loading({
+          mask: true,
+          message: '加载中...',
+          duration: 0
+        });
         let vm = this
         this.axios.post(this.apiList.apiUserTaskDetails,{id: vm.id},{
           headers: {
@@ -150,6 +155,7 @@
                 vm.getTaskDetails()
               }
             }
+            Toast.clear()
           }
         })
       },
@@ -158,6 +164,11 @@
         console.log(file)
       },*/
       onRead (file) {
+        Toast.loading({
+          mask: true,
+          message: '上传中...',
+          duration: 0
+        });
         //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
         let fd = new FormData()
         if (file && file.length) { // 判断是否是多图上传 多图则循环添加进去
@@ -173,11 +184,14 @@
             console.log(res.data.data.fileUrl)
             //将服务器返回的图片链接添加进img数组，进行预览展示
             this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+            Toast.clear()
+            Toast('上传成功')
           })
       },
       //删除预览图片按钮
       imgclose (index) {
         this.formItem.submit_img.splice(index, 1)
+        Toast('删除成功')
       },
       //图片大图
       subImgView (index) {
@@ -191,12 +205,17 @@
       },
       //关闭大图
       hideImg () {
-        this.imgShow = true
+        this.imgShow = false
       },
       inputText (res) {
         console.log(res)
       },
       submitData () {
+        Toast.loading({
+          mask: true,
+          message: '加载中...',
+          duration: 0
+        });
         let vm = this
         this.axios.post(this.apiList.apiSubmitTask, vm.formItem, {
           headers: {
@@ -204,6 +223,7 @@
           }
         }).then(function (res) {
           if (res.data.code === 1) {
+            Toast.clear()
             vm.$router.push({
               name: 'SubmitSuccess'
             })

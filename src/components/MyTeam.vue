@@ -39,6 +39,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'MyTeam',
   data () {
@@ -70,10 +71,15 @@ export default {
     },
     initUserList () {
       this.param.page = 0
+      this.finished = false
       this.userList = []
-      this.onLoad()
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.post(this.apiList.apiMyTeamList, this.param,{
@@ -85,6 +91,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.userList = vm.userList.concat(res.data.data.data)
+          Toast.clear()
           // 数据全部加载完成
           if (vm.userList.length >= res.data.data.total) {
             vm.finished = true

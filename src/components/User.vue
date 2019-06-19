@@ -176,6 +176,11 @@ export default {
       window.location.href =this.apiList.apiLogin
     },
     getInfo () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       // if(!localStorage.getItem('token')){
       //   Toast('请先登录')
@@ -197,6 +202,7 @@ export default {
       }).then(function (res) {
         if (res.data.code === 1) {
           vm.userInfo = res.data.data
+          Toast.clear()
         }
       })
     },

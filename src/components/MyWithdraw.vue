@@ -42,6 +42,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'MyWithdraw',
   data () {
@@ -61,6 +62,11 @@ export default {
       this.$router.back()
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.post(this.apiList.apiWithdrawList,this.param,{
@@ -72,6 +78,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.withdrawList = vm.withdrawList.concat(res.data.data.data)
+          Toast.clear()
           // 数据全部加载完成
           if (vm.withdrawList.length >= res.data.data.total) {
             vm.finished = true

@@ -28,7 +28,7 @@
       <van-row class="task_row" v-for="(myTask, myTaskIndex) in taskList" :key="myTaskIndex">
         <van-col span="22" offset="1" class="task_list">
           <van-row>
-            <div @click="taskDetails(myTask.id)">
+            <div @click="taskDetails(myTask.task_id)">
               <van-col span="4" offset="1" class="img">
                 <img :src="myTask.img" />
               </van-col>
@@ -77,6 +77,7 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'MyTask',
   data () {
@@ -124,10 +125,15 @@ export default {
         clearInterval(vm.taskList[i].timer)
       }
       this.param.page = 0
+      this.finished = false
       this.taskList = []
-      this.onLoad()
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.post(this.apiList.apiUserTaskList,this.param,{
@@ -139,6 +145,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.taskList = vm.taskList.concat(res.data.data.data)
+          Toast.clear()
 
           // TODO 倒计时生成
           for (let i=0;i<vm.taskList.length;i++) {
@@ -230,10 +237,10 @@ export default {
         params: { id: id }
       })
     },
-    taskDetails (id) {
+    taskDetails (task_id) {
       this.$router.push({
-        name: 'MyTaskDetails',
-        params: { id: id }
+        name: 'TaskDetails',
+        params: { task_id: task_id }
       })
     },
     confirmGiveUp () {

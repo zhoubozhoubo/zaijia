@@ -49,12 +49,13 @@
 </template>
 
 <script>
+  import { Toast } from 'vant';
 export default {
   name: 'News',
   data () {
     return {
       param: {
-        news_type_id: 1,
+        news_type_id: 2,
         page:0
       },
       activeBar: 1,
@@ -73,8 +74,8 @@ export default {
     },
     initNewsList () {
       this.param.page = 0
+      this.finished = false
       this.newsList = []
-      this.onLoad()
     },
     getNewsTypeList () {
       let vm = this;
@@ -85,6 +86,11 @@ export default {
       })
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.get(this.apiList.apiNewsList,{
@@ -94,6 +100,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.newsList = vm.newsList.concat(res.data.data.data)
+          Toast.clear()
 
           // 数据全部加载完成
           if (vm.newsList.length >= res.data.data.total) {

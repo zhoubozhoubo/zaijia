@@ -154,6 +154,11 @@ export default {
       this.$router.back()
     },
     getTaskDetails () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       this.axios.post(this.apiList.apiTaskDetails,{task_id: vm.task_id},{
         headers: {
@@ -170,13 +175,20 @@ export default {
               vm.getTaskDetails()
             }
           }
+          Toast.clear()
         }
       })
     },
     // 领取任务
     receiveTask () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       if(!localStorage.getItem('token')){
+        Toast.clear()
         Toast('请先登录')
         this.$router.push({
           name: 'Login'
@@ -198,6 +210,7 @@ export default {
             vm.resetTime(res.data.data.finish_duration)
           }
           vm.taskDetails.user_task_id = res.data.data.id
+          Toast.clear()
         }else{
           Toast(res.data.msg)
         }
@@ -261,7 +274,7 @@ export default {
     },
     //关闭大图
     hideImg () {
-      this.imgShow = true
+      this.imgShow = false
     }
   },
   onHide:function() {

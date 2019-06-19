@@ -53,6 +53,11 @@ export default {
       this.$router.back()
     },
     onLoad () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this;
       this.param.page++
       this.axios.post(this.apiList.apiNoticeList,this.param,{
@@ -64,6 +69,7 @@ export default {
           // 加载状态结束
           vm.loading = false
           vm.noticeList = vm.noticeList.concat(res.data.data.data)
+          Toast.clear()
           // 数据全部加载完成
           if (vm.noticeList.length >= res.data.data.total) {
             vm.finished = true
