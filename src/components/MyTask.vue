@@ -18,6 +18,7 @@
         </van-col>
       </div>
     </van-row>
+    <div class="bar_block"></div>
 
     <!--tasklist-->
     <van-list v-model="loading"
@@ -120,7 +121,7 @@ export default {
     initTaskList () {
       let vm = this
       for (let i=0;i<vm.taskList.length;i++) {
-        clearInterval(vm.taskList[i].count_time)
+        clearInterval(vm.taskList[i].timer)
       }
       this.param.page = 0
       this.taskList = []
@@ -254,13 +255,13 @@ export default {
   onHide:function() {
     let vm = this
     for (let i=0;i<vm.taskList.length;i++) {
-        clearInterval(vm.taskList[i].count_time)
+        clearInterval(vm.taskList[i].timer)
     }
   },
   onUnload(){
     let vm = this
     for (let i=0;i<vm.taskList.length;i++) {
-      clearInterval(vm.taskList[i].count_time)
+      clearInterval(vm.taskList[i].timer)
     }
   }
 }
@@ -268,6 +269,9 @@ export default {
 <style>
   .nav_block{
     height: 40px;
+  }
+  .bar_block{
+    height: 31px;
   }
   .clear{
     clear: both;
@@ -293,6 +297,12 @@ export default {
   }
   .myTask h1,h2,h3{
     margin: 0;
+  }
+  .myTask .task_nav {
+    width: 100%;
+    height: 31px;
+    position: fixed;
+    background-color: #FFFFFF;
   }
   .myTask .task_nav .task_nav_item{
     width: 20%;

@@ -123,7 +123,7 @@
     </van-row>
 
     <van-popup v-model="imgShow" class="show_img">
-      <img :src="showImg">
+      <img :src="showImg" @click="hideImg">
     </van-popup>
   </div>
 </template>
@@ -259,6 +259,10 @@ export default {
       this.showImg = this.taskDetails.submit_img[index]
       this.imgShow = true
     },
+    //关闭大图
+    hideImg () {
+      this.imgShow = true
+    }
   },
   onHide:function() {
     clearInterval(this.timer);

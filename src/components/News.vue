@@ -17,6 +17,7 @@
         </van-col>
       </div>
     </van-row>
+    <div class="bar_block"></div>
 
     <!--news-->
     <van-list v-model="loading"
@@ -119,6 +120,9 @@ export default {
   .nav_block{
     height: 40px;
   }
+  .bar_block{
+    height: 31px;
+  }
   .block{
     height: 60px;
   }
@@ -143,6 +147,12 @@ export default {
   }
   .news h1,h2,p{
     margin: 0;
+  }
+  .news .news_nav {
+    width: 100%;
+    height: 31px;
+    position: fixed;
+    background-color: #FFFFFF;
   }
   .news .news_nav .news_nav_item{
     width: 20%;

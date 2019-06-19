@@ -60,7 +60,7 @@
             上传文本
           </van-col>
           <van-col span="24" class="text_area">
-            <van-field :placeholder="areaPlaceholder" v-model="formItem.submit_text" type="textarea" @input="inputText"/>
+            <van-field :placeholder="taskDetails.task.submit_notice" v-model="formItem.submit_text" type="textarea" @input="inputText"/>
           </van-col>
         </van-row>
 
@@ -88,7 +88,7 @@
     </van-row>
 
     <van-popup v-model="imgShow" class="show_img">
-      <img :src="showImg">
+      <img :src="showImg" @click="hideImg">
     </van-popup>
   </div>
 </template>
@@ -187,6 +187,10 @@
       //图片大图
       imgView (index) {
         this.showImg = this.formItem.submit_img[index]
+        this.imgShow = true
+      },
+      //关闭大图
+      hideImg () {
         this.imgShow = true
       },
       inputText (res) {

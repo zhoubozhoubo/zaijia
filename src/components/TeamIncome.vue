@@ -18,6 +18,7 @@
         </van-col>
       </div>
     </van-row>
+    <div class="bar_block"></div>
 
     <!--incomelist-->
     <van-list v-model="loading"
@@ -123,6 +124,12 @@ export default {
   }
   .teamIncome h1{
     margin: 0;
+  }
+  .teamIncome .team_nav {
+    width: 100%;
+    height: 31px;
+    position: fixed;
+    background-color: #FFFFFF;
   }
   .teamIncome .team_nav .team_nav_item{
     width: 50%;

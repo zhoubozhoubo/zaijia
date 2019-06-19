@@ -18,6 +18,7 @@
         </van-col>
       </div>
     </van-row>
+    <div class="bar_block"></div>
 
     <!--userlist-->
     <van-list v-model="loading"
@@ -102,6 +103,9 @@ export default {
   .nav_block{
     height: 40px;
   }
+  .bar_block{
+    height: 31px;
+  }
 </style>
 <style scoped>
   .navRow{
@@ -123,6 +127,12 @@ export default {
   }
   .myTeam h1{
     margin: 0;
+  }
+  .myTeam .team_nav {
+    width: 100%;
+    height: 31px;
+    position: fixed;
+    background-color: #FFFFFF;
   }
   .myTeam .team_nav .team_nav_item{
     width: 50%;
