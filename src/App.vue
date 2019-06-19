@@ -46,6 +46,9 @@ export default {
   },
   created() {
     this.login()
+    if (localStorage.getItem('subscribe') != 1) {
+      this.qrcodeShow = true
+    }
   }
 }
 </script>
