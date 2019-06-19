@@ -110,6 +110,17 @@
       </van-row>
     </van-popup>
 
+    <!--qrcode-->
+    <van-popup v-model="qrcodeShow" class="qrcode" :close-on-click-overlay="false">
+      <van-row>
+        <van-col span="24">
+          <h1>惠元财富</h1>
+          <img src="../../static/images/huiyuancaifu.jpg"/>
+          <p>请扫描二维码关注公众号</p>
+        </van-col>
+      </van-row>
+    </van-popup>
+
     <div class="block"></div>
     <van-tabbar v-model="activeBar">
       <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
@@ -121,8 +132,10 @@
 
 <script>
   import { Toast } from 'vant';
+  import Page from "../../../www_tmp/YXJ-StoreWeb/build/vendors";
 export default {
   name: 'User',
+  components: {Page},
   data () {
     return {
       userInfo: {
@@ -132,8 +145,8 @@ export default {
       },
       skillShow: false,
       serviceShow: false,
-      activeBar: 2,
-      subscribe: 1
+      qrcodeShow: false,
+      activeBar: 2
     }
   },
   created () {
@@ -142,9 +155,17 @@ export default {
       let token = this.$route.query.token
       localStorage.setItem('token',token)
     }
+    if(this.$route.query.subscribe){
+      //登录后存储subscribe
+      let subscribe = this.$route.query.subscribe
+      localStorage.setItem('subscribe',subscribe)
+    }
   },
   mounted () {
     this.init()
+    if (!localStorage.getItem('subscribe')) {
+      this.qrcodeShow = true
+    }
   },
   methods: {
     init () {
@@ -152,19 +173,19 @@ export default {
     },
     getInfo () {
       let vm = this
-      if(!localStorage.getItem('token')){
-        Toast('请先登录')
-        this.$router.push({
-          name: 'Login'
-        })
-        return
-        /*this.axios.post(this.apiList.apiLogin).then(function (res) {
-          console.log(res)
-          /!*if (res.data.code === 1) {
-            vm.userInfo = res.data.data
-          }*!/
-        })*/
-      }
+      // if(!localStorage.getItem('token')){
+      //   Toast('请先登录')
+      //   this.$router.push({
+      //     name: 'Login'
+      //   })
+      //   return
+      //   /*this.axios.post(this.apiList.apiLogin).then(function (res) {
+      //     console.log(res)
+      //     /!*if (res.data.code === 1) {
+      //       vm.userInfo = res.data.data
+      //     }*!/
+      //   })*/
+      // }
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')
@@ -390,5 +411,14 @@ export default {
     font-size: 16px;
     color: #696969;
     line-height: 25px;
+  }
+  .user .qrcode{
+    width: 300px;
+    border-radius: 5px;
+    padding: 20px;
+    text-align: center;
+  }
+  .user .qrcode img{
+    width: 200px
   }
 </style>
