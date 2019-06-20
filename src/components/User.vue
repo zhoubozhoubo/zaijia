@@ -115,7 +115,7 @@
       <van-row>
         <van-col span="24">
           <h1>惠元财富</h1>
-          <img src="../../static/images/huiyuancaifu.jpg"/>
+          <img :src="wechatQrCode"/>
           <p>请扫描二维码关注公众号</p>
           <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
@@ -147,7 +147,8 @@ export default {
       skillShow: false,
       serviceShow: false,
       qrcodeShow: false,
-      activeBar: 2
+      activeBar: 2,
+      wechatQrCode: ''
     }
   },
   created () {
@@ -165,6 +166,7 @@ export default {
   mounted () {
     this.init()
     if (localStorage.getItem('subscribe') != 1) {
+      this.getWechatQrCode()
       this.qrcodeShow = true
     }
   },
@@ -174,6 +176,16 @@ export default {
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin
+    },
+    // 获取微信公众号二维码
+    getWechatQrCode () {
+      let vm = this
+      this.axios.get(this.apiList.apiWechatQrCode).then(function (res) {
+        if (res.data.code === 1) {
+          console.log(res)
+          vm.wechatQrCode = res.data.data
+        }
+      })
     },
     getInfo () {
       Toast.loading({

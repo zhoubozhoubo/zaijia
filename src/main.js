@@ -18,6 +18,7 @@ const host = "http://jianzhi.hmdog.com/api/";
 Vue.prototype.apiList={
   apiWeChatSign:      host+"5d09ec134b44e",    //微信签名
   apiUpload:          host+"5d08606042e0e",    //文件上传
+  apiWechatQrCode:    host+"5d0b5433d9ae1",    //微信公众号二维码
   apiAreaList:        host+"5d0253080db26",    //地区列表
   apiNewsTypeList:    host+"5d0928d42c8e4",    //新闻类型列表
   apiNewsList:        host+"5d092b3207a43",    //新闻列表

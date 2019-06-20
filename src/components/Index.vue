@@ -72,7 +72,7 @@
       <van-row>
         <van-col span="24">
           <h1>惠元财富</h1>
-          <img src="../../static/images/huiyuancaifu.jpg"/>
+          <img :src="wechatQrCode"/>
           <p>请扫描二维码关注公众号</p>
           <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
@@ -136,11 +136,13 @@ export default {
       ],
       activeBar: 0,
       wxConfig: [],
-      qrcodeShow: false
+      qrcodeShow: false,
+      wechatQrCode: ''
     }
   },
   created() {
     if (localStorage.getItem('subscribe') != 1) {
+      this.getWechatQrCode()
       this.qrcodeShow = true
     }
     this.init()
@@ -209,6 +211,16 @@ export default {
           console.log(res)
           vm.wxConfig = res.data.data
           vm.initWechat()
+        }
+      })
+    },
+    // 获取微信公众号二维码
+    getWechatQrCode () {
+      let vm = this
+      this.axios.get(this.apiList.apiWechatQrCode).then(function (res) {
+        if (res.data.code === 1) {
+          console.log(res)
+          vm.wechatQrCode = res.data.data
         }
       })
     },
