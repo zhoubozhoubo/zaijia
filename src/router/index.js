@@ -17,6 +17,7 @@ import MyIncome from '@/components/MyIncome'
 import Withdraw from '@/components/Withdraw'
 import MyWithdraw from '@/components/MyWithdraw'
 import News from '@/components/News'
+import NewsCopy from '@/components/NewsCopy'
 import NewsDetails from '@/components/NewsDetails'
 
 Vue.use(Router)
@@ -107,6 +108,11 @@ export default new Router({
       path: '/News',
       name: 'News',
       component: News
+    },
+    {
+      path: '/NewsCopy',
+      name: 'NewsCopy',
+      component: NewsCopy
     },
     {
       path: '/NewsDetails',

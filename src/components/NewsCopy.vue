@@ -41,9 +41,9 @@
 
     <div class="block"></div>
     <van-tabbar v-model="activeBar" active-color="#ed4014">
-      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
+      <!--<van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>-->
       <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
-      <!--<van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>-->
+      <van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
@@ -51,14 +51,14 @@
 <script>
   import { Toast } from 'vant';
 export default {
-  name: 'News',
+  name: 'NewsCopy',
   data () {
     return {
       param: {
         news_type_id: 2,
         page:0
       },
-      activeBar: 1,
+      activeBar: 0,
       loading: false,
       finished: false,
       newsTypeList:[],

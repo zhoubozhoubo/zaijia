@@ -114,17 +114,17 @@
     <van-popup v-model="qrcodeShow" class="qrcode" :close-on-click-overlay="false">
       <van-row>
         <van-col span="24">
-          <h1>惠元财富</h1>
+          <h1>慧元财富</h1>
           <img :src="wechatQrCode"/>
-          <p>请扫描二维码关注公众号</p>
+          <p>请长按二维码识别关注公众号</p>
           <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
       </van-row>
     </van-popup>
 
     <div class="block"></div>
-    <van-tabbar v-model="activeBar">
-      <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
+    <van-tabbar v-model="activeBar" active-color="#ed4014">
+      <!--<van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>-->
       <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
       <van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>
     </van-tabbar>
@@ -147,7 +147,7 @@ export default {
       skillShow: false,
       serviceShow: false,
       qrcodeShow: false,
-      activeBar: 2,
+      activeBar: 1,
       wechatQrCode: ''
     }
   },

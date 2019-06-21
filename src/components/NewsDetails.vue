@@ -107,7 +107,7 @@ export default {
     float: right;
     line-height: 30px;
   }
-  .newsDetails .newsContent .content img{
-    width: 100%!important;
+  .newsDetails .newsContent .content p img{
+    width: 100px!important;
   }
 </style>
