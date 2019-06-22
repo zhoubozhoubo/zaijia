@@ -52,7 +52,7 @@
                 <h3 @click="giveUp(myTask.id)">放弃任务</h3>
               </van-col>
               <van-col span="6">
-                <van-button @click="goOn(myTask.id)">继续任务</van-button>
+                <van-button @click="goOn(myTask.task_id)">继续任务</van-button>
               </van-col>
             </van-row>
             <van-row class="handle" v-else-if="myTask.status == 1">
@@ -230,11 +230,11 @@ export default {
       this.id = id
       this.giveUpShow = true
     },
-    goOn (id) {
+    goOn (task_id) {
       console.log('goOn')
       this.$router.push({
-        name: 'MyTaskDetails',
-        params: { id: id }
+        name: 'TaskDetails',
+        params: { task_id: task_id }
       })
     },
     taskDetails (task_id) {
