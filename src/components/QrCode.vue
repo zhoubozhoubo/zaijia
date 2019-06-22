@@ -13,13 +13,16 @@
 
     <van-row>
       <van-col span="24">
+        <img :src="backImg"/>
         <!--<img src="../../static/images/fenxiang.jpg"/>-->
-          <div id="qrcode" class="qr_code"></div> <!-- 创建一个div，并设置id为qrcode -->
+          <div id="qrcode" class="qr_code">
+            <img :src="avatarurl"/>
+          </div> <!-- 创建一个div，并设置id为qrcode -->
       </van-col>
     </van-row>
 
     <van-row>
-      <van-col span="22" offset="1">
+      <van-col span="24">
         <van-button>长按图片分享或保存</van-button>
       </van-col>
     </van-row>
@@ -34,7 +37,9 @@ export default {
   name: 'QrCode',
   data () {
     return {
-      qr_code:''
+      qr_code:'',
+      backImg:'',
+      avatarurl: ''
     }
   },
   created () {
@@ -43,6 +48,16 @@ export default {
   methods: {
     init () {
       this.getInfo()
+      this.getWechatQrCode()
+    },
+    getWechatQrCode () {
+      let vm = this
+      this.axios.get(this.apiList.apiWechatQrCode).then(function (res) {
+        if (res.data.code === 1) {
+          console.log(res)
+          vm.backImg = res.data.data
+        }
+      })
     },
     getInfo () {
       Toast.loading({
@@ -58,6 +73,7 @@ export default {
       }).then(function (res) {
         if (res.data.code === 1) {
           vm.qr_code = res.data.data.qr_code
+          vm.avatarurl = res.data.data.avatarurl
           console.log(vm.qr_code)
           //生成二维码
           vm.qrcode()
@@ -69,8 +85,8 @@ export default {
     },
     qrcode() {
       let qrcode = new QRCode('qrcode', {
-        width: 150,
-        height: 150,
+        width: 240,
+        height: 240,
         text: this.qr_code, // 二维码地址
         colorDark : "#000",
         colorLight : "#fff",
@@ -110,9 +126,11 @@ export default {
     width: 100%;
   }
   .qrCode button{
+    position: fixed;
+    bottom: 0;
     width: 100%;
     height: 40px;
-    margin: 10px 0 20px;
+    /*margin: 10px 0 20px;*/
     line-height: 40px;
     font-size: 14px;
     background-color: #00bcd4;
@@ -120,7 +138,18 @@ export default {
     color: #FFF;
   }
   .qrCode .qr_code{
-    width: 150px;
-    margin: 50px auto!important;
+    position: absolute;
+    top: 230px;
+    left: 50%;
+    margin-left: -120px;
+    width: 240px;
+    /*margin: 50px auto!important;*/
+  }
+  .qrCode .qr_code img{
+    position: absolute;
+    top: 95px;
+    left: 50%;
+    margin-left: -20px;
+    width: 40px;
   }
 </style>

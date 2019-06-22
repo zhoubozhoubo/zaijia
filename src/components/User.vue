@@ -116,7 +116,7 @@
       <van-row>
         <van-col span="24">
           <h1>慧元财富</h1>
-          <img :src="wechatQrCode"/>
+          <img src="../../static/images/huiyuancaifu.jpg"/>
           <p>请长按二维码识别关注公众号</p>
           <p class="have_follow" @click="haveFollow">我已关注</p>
         </van-col>
@@ -149,7 +149,6 @@ export default {
       serviceShow: false,
       qrcodeShow: false,
       activeBar: 1,
-      wechatQrCode: ''
     }
   },
   created () {
@@ -178,16 +177,6 @@ export default {
     haveFollow () {
       window.location.href =this.apiList.apiLogin
     },
-    // 获取微信公众号二维码
-    getWechatQrCode () {
-      let vm = this
-      this.axios.get(this.apiList.apiWechatQrCode).then(function (res) {
-        if (res.data.code === 1) {
-          console.log(res)
-          vm.wechatQrCode = res.data.data
-        }
-      })
-    },
     getInfo () {
       Toast.loading({
         mask: true,
@@ -195,19 +184,19 @@ export default {
         duration: 0
       });
       let vm = this
-      // if(!localStorage.getItem('token')){
-      //   Toast('请先登录')
-      //   this.$router.push({
-      //     name: 'Login'
-      //   })
-      //   return
-      //   /*this.axios.post(this.apiList.apiLogin).then(function (res) {
-      //     console.log(res)
-      //     /!*if (res.data.code === 1) {
-      //       vm.userInfo = res.data.data
-      //     }*!/
-      //   })*/
-      // }
+      /*if(!localStorage.getItem('token')){
+        Toast('请先登录')
+        this.$router.push({
+          name: 'Login'
+        })
+        return
+        /!*this.axios.post(this.apiList.apiLogin).then(function (res) {
+          console.log(res)
+          /!*if (res.data.code === 1) {
+            vm.userInfo = res.data.data
+          }*!/
+        })*!/
+      }*/
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
           'token': localStorage.getItem('token')
