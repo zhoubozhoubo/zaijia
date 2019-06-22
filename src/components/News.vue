@@ -56,7 +56,7 @@ export default {
   data () {
     return {
       param: {
-        news_type_id: this.$route.params.news_type_id,
+        news_type_id: 1,
         page:0
       },
       activeBar: 1,
@@ -67,7 +67,6 @@ export default {
     }
   },
   created () {
-    // this.getNewsTypeList()
   },
   methods: {
     goBack () {
@@ -77,14 +76,6 @@ export default {
       this.param.page = 0
       this.finished = false
       this.newsList = []
-    },
-    getNewsTypeList () {
-      let vm = this;
-      this.axios.get(this.apiList.apiNewsTypeList).then(function (res) {
-        if (res.data.code === 1) {
-          vm.newsTypeList = res.data.data
-        }
-      })
     },
     onLoad () {
       Toast.loading({
@@ -116,11 +107,7 @@ export default {
         name: 'NewsDetails',
         params: { news_id: id }
       })
-    },
-    /*selectNewsType (index) {
-      this.param.news_type_id = this.newsTypeList[index].news_type_id
-      this.initNewsList()
-    }*/
+    }
   }
 }
 </script>
@@ -175,7 +162,7 @@ export default {
     font-size: 14px;
   }
   .news .newsRow{
-    height: 110px;
+    /*height: 110px;*/
     padding: 10px 0;
     border-bottom: 1px solid #eaeaea;
   }

@@ -64,6 +64,13 @@ export default {
   .nav_block{
     height: 40px;
   }
+  .newsDetails .newsContent .content p{
+    word-wrap: break-word;
+    word-break: normal;
+  }
+  .newsDetails .newsContent .content p img{
+    max-width: 100%;
+  }
 </style>
 <style scoped>
   .navRow{
@@ -106,8 +113,5 @@ export default {
   .newsDetails h2 .number{
     float: right;
     line-height: 30px;
-  }
-  .newsDetails .newsContent .content p img{
-    width: 100px!important;
   }
 </style>

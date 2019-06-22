@@ -277,10 +277,17 @@ export default {
     },
     goNews (news_type_id) {
       console.log('goMyTeam')
-      this.$router.push({
-        name: 'News',
-        params: { news_type_id: news_type_id }
-      })
+      if (news_type_id == 1) {
+        this.$router.push({
+          name: 'News',
+          params: { news_type_id: news_type_id }
+        })
+      }else if (news_type_id == 2) {
+        this.$router.push({
+          name: 'NewsCopy',
+          params: { news_type_id: news_type_id }
+        })
+      }
     }
   }
 }
