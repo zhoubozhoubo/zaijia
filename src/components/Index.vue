@@ -141,7 +141,6 @@ export default {
   },
   created() {
     if (localStorage.getItem('subscribe') != 1) {
-      this.getWechatQrCode()
       this.qrcodeShow = true
     }
     this.init()
