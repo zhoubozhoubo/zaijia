@@ -14,6 +14,7 @@
         <h2><span>推荐人:</span>{{userInfo.superiorUser ? userInfo.superiorUser.nickname : '慧元财富'}}</h2>
       </van-col>
     </van-row>
+    <div class="top_block"></div>
 
     <!--userincome-->
     <van-row class="user_income">
@@ -123,11 +124,11 @@
     </van-popup>
 
     <div class="block"></div>
-    <van-tabbar v-model="activeBar" active-color="#ed4014">
-      <!--<van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>-->
+    <!--<van-tabbar v-model="activeBar" active-color="#ed4014">
+      &lt;!&ndash;<van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>&ndash;&gt;
       <van-tabbar-item icon="new-o" to="NewsCopy">最新资讯</van-tabbar-item>
       <van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>
-    </van-tabbar>
+    </van-tabbar>-->
   </div>
 </template>
 
@@ -172,7 +173,7 @@ export default {
   },
   methods: {
     init () {
-      this.getInfo()
+      // this.getInfo()
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin
@@ -281,6 +282,9 @@ export default {
   .block{
     height: 60px;
   }
+  .top_block{
+    height: 155px;
+  }
 </style>
 <style scoped>
   .user{
@@ -290,6 +294,9 @@ export default {
     margin: 0;
   }
   .user .user_info{
+    position: fixed;
+    z-index: 999;
+    width: 100%;
     height: 155px;
     /*color: #eee;*/
     /*background-color: #555;*/
@@ -334,6 +341,7 @@ export default {
     margin-right: 5px;
   }
   .user .user_income{
+
     height: 155px;
     /*background-color: #555;*/
     color: #eee;
@@ -389,7 +397,7 @@ export default {
   .user .other_info{
     text-align: center;
     padding: 10px 0;
-    margin: 10px 0 50px;
+    margin: 40px 0 60px;
     background-color: #fff;
   }
   .user .other_info h1{

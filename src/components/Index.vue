@@ -80,11 +80,11 @@
     </van-popup>
 
     <div class="block"></div>
-    <van-tabbar v-model="activeBar" active-color="#ed4014">
+    <!--<van-tabbar v-model="activeBar" active-color="#ed4014">
       <van-tabbar-item icon="wap-home" to="/">首页</van-tabbar-item>
       <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
-      <!--<van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>-->
-    </van-tabbar>
+      &lt;!&ndash;<van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>&ndash;&gt;
+    </van-tabbar>-->
   </div>
 </template>
 
