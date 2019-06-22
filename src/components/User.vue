@@ -173,7 +173,7 @@ export default {
   },
   methods: {
     init () {
-      // this.getInfo()
+      this.getInfo()
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin
