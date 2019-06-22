@@ -47,10 +47,10 @@
           <h2>邀请有礼</h2>
         </div>
       </van-col>
-      <van-col span="12" class="handle_content my_qr">
-        <div @click="showSkill">
-          <van-icon name="aim" size="30px" color="#00FFFF"/>
-          <h2>邀请技巧</h2>
+      <van-col span="12" class="handle_content my_notice">
+        <div @click="goNews(1)">
+          <van-icon name="chat-o" size="30px" color="#EE799F"/>
+          <h2>新人须知</h2>
         </div>
       </van-col>
       <van-col span="12" class="handle_content my_task">
@@ -67,7 +67,7 @@
       </van-col>
       <van-col span="12" class="handle_content my_notice">
         <div @click="goMyNotice">
-          <van-icon name="chat-o" size="30px" color="#00FF00" :info="userInfo.notice_num ? userInfo.notice_num :''"/>
+          <van-icon name="volume-o" size="30px" color="#00FF00" :info="userInfo.notice_num ? userInfo.notice_num :''"/>
           <h2>最新通知</h2>
         </div>
       </van-col>
@@ -75,6 +75,18 @@
         <div @click="showService">
           <van-icon name="phone-circle-o" size="30px" color="#808000"/>
           <h2>联系客服</h2>
+        </div>
+      </van-col>
+      <van-col span="12" class="handle_content my_notice">
+        <div @click="goNews(2)">
+          <van-icon name="comment-o" size="30px" color="#EE00EE"/>
+          <h2>最新资讯</h2>
+        </div>
+      </van-col>
+      <van-col span="12" class="handle_content my_qr">
+        <div @click="showSkill">
+          <van-icon name="aim" size="30px" color="#00FFFF"/>
+          <h2>邀请技巧</h2>
         </div>
       </van-col>
     </van-row>
@@ -166,13 +178,12 @@ export default {
   mounted () {
     this.init()
     if (localStorage.getItem('subscribe') != 1) {
-      this.getWechatQrCode()
       this.qrcodeShow = true
     }
   },
   methods: {
     init () {
-      this.getInfo()
+      // this.getInfo()
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin
@@ -262,6 +273,13 @@ export default {
       console.log('goMyTeam')
       this.$router.push({
         name: 'MyTeam'
+      })
+    },
+    goNews (news_type_id) {
+      console.log('goMyTeam')
+      this.$router.push({
+        name: 'News',
+        params: { news_type_id: news_type_id }
       })
     }
   }
