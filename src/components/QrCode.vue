@@ -16,9 +16,10 @@
         <img :src="qr_code"/>
         <!--<img :src="backImg"/>-->
         <!--<img src="../../static/images/fenxiang.jpg"/>-->
-          <div id="qrcode" class="qr_code">
+        <!-- 创建一个div，并设置id为qrcode -->
+          <!--<div id="qrcode" class="qr_code">
             <img :src="avatarurl"/>
-          </div> <!-- 创建一个div，并设置id为qrcode -->
+          </div>-->
       </van-col>
     </van-row>
 
