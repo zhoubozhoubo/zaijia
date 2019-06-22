@@ -139,7 +139,7 @@ export default {
   }
   .qrCode .qr_code{
     position: absolute;
-    top: 230px;
+    top: 200px;
     left: 50%;
     margin-left: -120px;
     width: 240px;
