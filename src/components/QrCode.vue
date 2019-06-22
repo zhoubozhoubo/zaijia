@@ -13,7 +13,8 @@
 
     <van-row>
       <van-col span="24">
-        <img :src="backImg"/>
+        <img :src="qr_code"/>
+        <!--<img :src="backImg"/>-->
         <!--<img src="../../static/images/fenxiang.jpg"/>-->
           <div id="qrcode" class="qr_code">
             <img :src="avatarurl"/>
@@ -48,7 +49,7 @@ export default {
   methods: {
     init () {
       this.getInfo()
-      this.getWechatQrCode()
+      // this.getWechatQrCode()
     },
     getWechatQrCode () {
       let vm = this
@@ -76,7 +77,7 @@ export default {
           vm.avatarurl = res.data.data.avatarurl
           console.log(vm.qr_code)
           //生成二维码
-          vm.qrcode()
+          // vm.qrcode()
           Toast.clear()
         }else{
           Toast.fail('获取二维码失败')
