@@ -342,7 +342,7 @@ export default {
   }
   .myTask .task_list .content h1 .title{
     float: left;
-    width: 70%;
+    width: 60%;
     display: block;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -361,6 +361,7 @@ export default {
   }
   .myTask .task_list .content h2{
     font-size: 14px;
+    clear: both;
     color: #696969;
     line-height: 40px;
   }

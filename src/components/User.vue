@@ -11,7 +11,7 @@
         <h1>{{userInfo.nickname ? userInfo.nickname : '暂无昵称'}}</h1>
         <h2><span>工号:</span>{{userInfo.code}}</h2>
         <h2><span>职务:</span>合伙人</h2>
-        <h2><span>推荐人:</span>{{userInfo.superiorUser ? userInfo.superiorUser.nickname : '惠元财富'}}</h2>
+        <h2><span>推荐人:</span>{{userInfo.superiorUser ? userInfo.superiorUser.nickname : '慧元财富'}}</h2>
       </van-col>
     </van-row>
 

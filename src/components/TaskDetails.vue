@@ -14,11 +14,11 @@
     <van-row>
       <van-col span="22" offset="1">
         <van-row>
-          <van-col span="18" class="title">
+          <van-col span="16" class="title">
             {{taskDetails.title}}
           </van-col>
-          <van-col span="6" class="money">
-            ￥{{taskDetails.money}}<span>/次</span>
+          <van-col span="8" class="money">
+            <p>￥{{taskDetails.money}}<span>/次</span></p>
           </van-col>
           <div style="clear: both;"></div>
 
@@ -327,7 +327,11 @@ export default {
     color: #ff618e;
     line-height: 40px;
   }
-  .taskDetails .money span{
+  .taskDetails .money p{
+    margin: 0;
+    float: right;
+  }
+  .taskDetails .money p span{
     margin-left: 5px;
     font-size: 12px;
     color: #888;

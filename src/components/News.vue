@@ -55,7 +55,7 @@ export default {
   data () {
     return {
       param: {
-        news_type_id: 2,
+        news_type_id: 1,
         page:0
       },
       activeBar: 1,
