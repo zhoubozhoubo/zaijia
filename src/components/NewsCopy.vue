@@ -162,7 +162,7 @@
     font-size: 14px;
   }
   .news .newsRow{
-    height: 110px;
+    /*height: 110px;*/
     padding: 10px 0;
     border-bottom: 1px solid #eaeaea;
   }
