@@ -33,7 +33,7 @@
           <van-col span="15" offset="1" class="newsContent">
             <h1>{{news.title}}</h1>
             <h2>{{news.gmt_create}}<span class="number">{{news.number}}</span><van-icon name="eye-o" size="16px"/></h2>
-            <p>新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介新闻简介</p>
+            <p>{{news.comment}}</p>
           </van-col>
         </div>
       </van-row>
