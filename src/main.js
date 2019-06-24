@@ -13,8 +13,8 @@ Vue.use(Vant)
 Vue.use(Dialog)
 Vue.config.productionTip = false
 
-const host = "http://127.0.0.1:8001/api/";
-// const host = "http://jianzhi.hmdog.com/api/";
+// const host = "http://127.0.0.1:8001/api/";
+const host = "http://jianzhi.hmdog.com/api/";
 // const host = "http://zaijia.huiyuancaifu.cn/api/";
 Vue.prototype.apiList={
   apiWeChatSign:      host+"5d09ec134b44e",    //微信签名
