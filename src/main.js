@@ -13,8 +13,8 @@ Vue.use(Vant)
 Vue.use(Dialog)
 Vue.config.productionTip = false
 
-// const host = "http://127.0.0.1:8001/api/";
-const host = "http://jianzhi.hmdog.com/api/";
+const host = "http://127.0.0.1:8001/api/";
+// const host = "http://jianzhi.hmdog.com/api/";
 // const host = "http://zaijia.huiyuancaifu.cn/api/";
 Vue.prototype.apiList={
   apiWeChatSign:      host+"5d09ec134b44e",    //微信签名
@@ -48,6 +48,19 @@ Vue.prototype.apiList={
 
 Vue.prototype.axios=Axios
 Vue.prototype.fly=Fly
+
+
+
+// var geolocation = new qq.maps.Geolocation("7XXBZ-X753F-4A3JN-JENMQ-LSMTZ-M6FCR", "jianke");
+// geolocation.getLocation(function (res) {
+//   // $('.currentCity span').html(res.city);
+//   // $('.may_city a').html(res.city);
+//   console.log(res.city)
+// }, function (err) {
+//   console.log(err)
+// }, {
+//   timeout: 3000
+// })
 
 /* eslint-disable no-new */
 new Vue({

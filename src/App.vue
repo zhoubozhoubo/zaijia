@@ -45,7 +45,7 @@ export default {
     }
   },
   created() {
-    this.login()
+    // this.login()
   }
 }
 </script>

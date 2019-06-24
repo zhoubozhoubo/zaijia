@@ -88,11 +88,11 @@
   </div>
 </template>
 
-<!--<script src="http://res.wx.qq.com/open/js/jweixin-1.4.0.js"></script>-->
-
+<!--<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=d4332e5adb8b584442266763d20b978c"></script>-->
 <script>
+  import { location } from "../../utils/locationutil";
   import { Toast } from 'vant';
-  import wx from "weixin-jsapi"
+  // import wx from "weixin-jsapi"
 export default {
   name: 'Index',
   data () {
@@ -140,25 +140,41 @@ export default {
     }
   },
   created() {
-    if (localStorage.getItem('subscribe') != 1) {
+    /*if (localStorage.getItem('subscribe') != 1) {
       this.qrcodeShow = true
-    }
+    }*/
     this.init()
   },
+  mounted() {
+    // this.getLocation(); // 调用获取地理位置
+    // this.localtion(); // 调用获取地理位置
+  },
   methods: {
+    // 获取地图定位
+    getLocation() {
+      let _that = this;
+      let geolocation = location.initMap("map-container"); //定位
+      AMap.event.addListener(geolocation, "complete", result => {
+        _that.lat = result.position.lat;
+        _that.lng = result.position.lng;
+        _that.province = result.addressComponent.province;
+        _that.city = result.addressComponent.city;
+        _that.district = result.addressComponent.district;
+      });
+    },
     haveFollow () {
       window.location.href =this.apiList.apiLogin
     },
     initWechat () {
-      wx.config({
-        appId: "wxc5b8b08c2e2b506f",
-        debug: true,
-        jsApiList: (49) ["onWXDeviceBluetoothStateChange", "onWXDeviceStateChange", "openProductSpecificView", "addCard", "chooseCard", "openCard", "translateVoice", "getNetworkType", "openLocation", "getLocation", "onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "chooseImage", "previewImage", "uploadImage", "downloadImage", "closeWindow", "scanQRCode", "chooseWXPay", "hideOptionMenu", "showOptionMenu", "hideMenuItems", "showMenuItems", "hideAllNonBaseMenuItem", "showAllNonBaseMenuItem", "startScanWXDevice", "stopScanWXDevice", "onWXDeviceBindStateChange", "onScanWXDeviceResult", "onReceiveDataFromWXDevice", "startRecord", "stopRecord", "onVoiceRecordEnd", "playVoice", "pauseVoice", "stopVoice", "onVoicePlayEnd", "uploadVoice", "downloadVoice", "openWXDeviceLib", "closeWXDeviceLib", "getWXDeviceInfos", "sendDataToWXDevice", "disconnectWXDevice", "getWXDeviceTicket", "connectWXDevice"],
-        nonceStr: "gon0bvj9v6xnwc2k",
-        signature: "33d71b01c89ab6e64b66370c9013c6f0fef9f1a1",
-        timestamp: "1560978197"
-      });
-      // wx.config(this.wxConfig)
+      // wx.config({
+      //   appId: "wxc5b8b08c2e2b506f",
+      //   debug: true,
+      //   jsApiList: (49) ["onWXDeviceBluetoothStateChange", "onWXDeviceStateChange", "openProductSpecificView", "addCard", "chooseCard", "openCard", "translateVoice", "getNetworkType", "openLocation", "getLocation", "onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "chooseImage", "previewImage", "uploadImage", "downloadImage", "closeWindow", "scanQRCode", "chooseWXPay", "hideOptionMenu", "showOptionMenu", "hideMenuItems", "showMenuItems", "hideAllNonBaseMenuItem", "showAllNonBaseMenuItem", "startScanWXDevice", "stopScanWXDevice", "onWXDeviceBindStateChange", "onScanWXDeviceResult", "onReceiveDataFromWXDevice", "startRecord", "stopRecord", "onVoiceRecordEnd", "playVoice", "pauseVoice", "stopVoice", "onVoicePlayEnd", "uploadVoice", "downloadVoice", "openWXDeviceLib", "closeWXDeviceLib", "getWXDeviceInfos", "sendDataToWXDevice", "disconnectWXDevice", "getWXDeviceTicket", "connectWXDevice"],
+      //   nonceStr: "gon0bvj9v6xnwc2k",
+      //   signature: "33d71b01c89ab6e64b66370c9013c6f0fef9f1a1",
+      //   timestamp: "1560978197"
+      // });
+      wx.config(this.wxConfig)
       wx.checkJsApi({
         jsApiList: ['getLocation'],
         success: function (res) {
@@ -195,7 +211,7 @@ export default {
       this.taskList = []
     },
     init () {
-      // this.getWeChatSign()
+      this.getWeChatSign()
       // this.initWechat()
       this.getAreaList()
       this.getBannerList()
