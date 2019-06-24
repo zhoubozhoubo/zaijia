@@ -90,7 +90,7 @@
 
 <!--<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=d4332e5adb8b584442266763d20b978c"></script>-->
 <script>
-  import { location } from "../../utils/locationutil";
+  // import { location } from "../../utils/locationutil";
   import { Toast } from 'vant';
   // import wx from "weixin-jsapi"
 export default {
@@ -151,7 +151,7 @@ export default {
   },
   methods: {
     // 获取地图定位
-    getLocation() {
+    /*getLocation() {
       let _that = this;
       let geolocation = location.initMap("map-container"); //定位
       AMap.event.addListener(geolocation, "complete", result => {
@@ -161,7 +161,7 @@ export default {
         _that.city = result.addressComponent.city;
         _that.district = result.addressComponent.district;
       });
-    },
+    },*/
     haveFollow () {
       window.location.href =this.apiList.apiLogin
     },
@@ -174,9 +174,11 @@ export default {
       //   signature: "33d71b01c89ab6e64b66370c9013c6f0fef9f1a1",
       //   timestamp: "1560978197"
       // });
+      // console.log(this.wxConfig.jsApiList)
+      // return
       wx.config(this.wxConfig)
       wx.checkJsApi({
-        jsApiList: ['getLocation'],
+        jsApiList: ["getLocation"],
         success: function (res) {
           if (res.checkResult.getLocation == false) {
             alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
@@ -186,21 +188,21 @@ export default {
       })
       wx.ready(function(){
         // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+
+        wx.getLocation({
+          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          success: function (res) {
+            console.log(res)
+            var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+            var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+            var speed = res.speed; // 速度，以米/每秒计
+            var accuracy = res.accuracy; // 位置精度
+          }
+        });
       });
       wx.error(function(res){
         console.log(res)
         // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
-      });
-
-      wx.getLocation({
-        type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-        success: function (res) {
-          console.log(res)
-          var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-          var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-          var speed = res.speed; // 速度，以米/每秒计
-          var accuracy = res.accuracy; // 位置精度
-        }
       });
     },
     initTaskList () {
@@ -219,11 +221,13 @@ export default {
     },
     // 获取微信签名
     getWeChatSign () {
+      // alert(window.location.href.split('#')[0])
+      // return
       let vm = this
       this.axios.get(this.apiList.apiWeChatSign).then(function (res) {
         if (res.data.code === 1) {
-          console.log(res)
           vm.wxConfig = res.data.data
+          console.log(vm.wxConfig)
           vm.initWechat()
         }
       })
