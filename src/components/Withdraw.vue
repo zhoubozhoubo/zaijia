@@ -138,7 +138,6 @@ export default {
           'token': localStorage.getItem('token')
         }
       }).then(function (res) {
-        Toast.clear()
         if (res.data.code === 1) {
           Toast.success(res.data.msg)
           vm.init()
