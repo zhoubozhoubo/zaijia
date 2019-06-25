@@ -204,7 +204,7 @@ export default {
               params: {
                 key: "CNJBZ-5HNC3-JSH3K-3LZBD-LA4LK-27BN5",
                 // key: "7XXBZ-X753F-4A3JN-JENMQ-LSMTZ-M6FCR",
-                location: longitude + "," + latitude
+                location: latitude + "," + longitude
               }
             }).then(res => {
               console.log(res)
