@@ -178,7 +178,7 @@ export default {
       // return
       wx.config(this.wxConfig)
       wx.checkJsApi({
-        jsApiList: ["getLocation"],
+        jsApiList: ["getLocation","geoLocation"],
         success: function (res) {
           if (res.checkResult.getLocation == false) {
             alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
@@ -224,7 +224,11 @@ export default {
       // alert(window.location.href.split('#')[0])
       // return
       let vm = this
-      this.axios.get(this.apiList.apiWeChatSign).then(function (res) {
+      this.axios.get(this.apiList.apiWeChatSign,{
+        params: {
+          url: window.location.href.split('#')[0]
+        }
+      }).then(function (res) {
         if (res.data.code === 1) {
           vm.wxConfig = res.data.data
           console.log(vm.wxConfig)
