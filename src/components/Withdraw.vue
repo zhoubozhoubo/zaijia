@@ -91,6 +91,11 @@ export default {
       this.$router.back()
     },
     getInfo () {
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       let vm = this
       this.axios.post(this.apiList.apiInfo,'',{
         headers: {
@@ -98,6 +103,7 @@ export default {
         }
       }).then(function (res) {
         if (res.data.code === 1) {
+          Toast.clear()
           vm.userInfo = res.data.data
         }
       })
@@ -122,12 +128,18 @@ export default {
         Toast('请输入支付宝账号')
         return
       }
+      Toast.loading({
+        mask: true,
+        message: '加载中...',
+        duration: 0
+      });
       this.axios.post(this.apiList.apiAddWithdraw,vm.form,{
         headers: {
           'token': localStorage.getItem('token')
         }
       }).then(function (res) {
         if (res.data.code === 1) {
+          Toast.clear()
           Toast.success(res.data.msg)
           vm.init()
           vm.form = {
