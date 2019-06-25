@@ -228,10 +228,14 @@ export default {
               let address = json.result.address_component.city;
               //切换城市
               vm.param.city_name = address
-              vm.giveUpShow = true
-              // vm.taskList = []
-              // vm.onLoad()
-              // Toast.success('已切换到您所在的城市:' + address);
+              vm.county =vm.param.city_name
+              // vm.initTaskList()
+              // vm.giveUpShow = true
+              vm.param.page = 0
+              vm.finished = false
+              vm.taskList = []
+              vm.onLoad()
+              Toast.success('已切换到您所在的城市:' + address);
               console.log(vm.param.city_name)
             }).catch(err => {
               console.log(err)
@@ -307,11 +311,17 @@ export default {
       this.initTaskList()
     },
     onLoad () {
-      Toast.loading({
-        mask: true,
-        message: '加载中...',
-        duration: 0
-      });
+      if(this.param.city === ''){
+        if(this.param.city_name === ''){
+          console.log('return')
+          return
+        }
+      }
+      // Toast.loading({
+      //   mask: true,
+      //   message: '加载中...',
+      //   duration: 0
+      // });
       let vm = this;
       this.param.page++
       this.axios.get(this.apiList.apiTaskList,{
