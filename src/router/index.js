@@ -27,7 +27,10 @@ export default new Router({
     {
       path: '/',
       name: 'Index',
-      component: Index
+      component: Index,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/TaskDetails',
@@ -47,7 +50,10 @@ export default new Router({
     {
       path: '/User',
       name: 'User',
-      component: User
+      component: User,
+      meta: {
+        keepAlive: true
+      }
     },
     {
       path: '/Register',

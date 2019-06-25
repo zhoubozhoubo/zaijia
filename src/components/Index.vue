@@ -85,6 +85,11 @@
       <van-tabbar-item icon="new-o" to="News">最新资讯</van-tabbar-item>
       &lt;!&ndash;<van-tabbar-item icon="manager-o" to="User">个人中心</van-tabbar-item>&ndash;&gt;
     </van-tabbar>-->
+    <van-dialog v-model="giveUpShow"
+                :title="'切换到您所在的城市('+param.city_name+')吗？'"
+                show-cancel-button
+                @confirm="confirmGiveUp">
+    </van-dialog>
   </div>
 </template>
 
@@ -104,6 +109,7 @@ export default {
       finished: false,
       param: {
         city: '',
+        city_name: '',
         order: 0,
         page:0
       },
@@ -136,7 +142,8 @@ export default {
       ],
       activeBar: 0,
       wxConfig: [],
-      qrcodeShow: false
+      qrcodeShow: false,
+      giveUpShow: false
     }
   },
   created() {
@@ -193,24 +200,42 @@ export default {
         wx.getLocation({
           type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
           success: function (res) {
-            console.log(res)
+            // console.log(res)
             // var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
             // var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
             // var speed = res.speed; // 速度，以米/每秒计
             // var accuracy = res.accuracy; // 位置精度
             const latitude = res.latitude;
             const longitude = res.longitude;
-            vm.axios.get('https://apis.map.qq.com/ws/geocoder/v1/', {
+            const key = 'CNJBZ-5HNC3-JSH3K-3LZBD-LA4LK-27BN5';
+            const locationData = latitude + "," + longitude;
+            /*vm.axios.get('https://apis.map.qq.com/ws/geocoder/v1/', {
               params: {
-                key: "CNJBZ-5HNC3-JSH3K-3LZBD-LA4LK-27BN5",
-                // key: "7XXBZ-X753F-4A3JN-JENMQ-LSMTZ-M6FCR",
-                location: latitude + "," + longitude
+                key: key,
+                location: locationData
               }
             }).then(res => {
               console.log(res)
               // city = res.regeocode.addressComponent.city;
               // self.currentCity = city;
-            });
+            });*/
+            vm.$jsonp('https://apis.map.qq.com/ws/geocoder/v1/', {
+              key: key,
+              callbackName: 'QQmap',
+              output: 'jsonp',
+              location: locationData
+            }).then(json => {
+              let address = json.result.address_component.city;
+              //切换城市
+              vm.param.city_name = address
+              vm.giveUpShow = true
+              // vm.taskList = []
+              // vm.onLoad()
+              // Toast.success('已切换到您所在的城市:' + address);
+              console.log(vm.param.city_name)
+            }).catch(err => {
+              console.log(err)
+            })
           }
         });
       });
@@ -226,7 +251,7 @@ export default {
       this.finished = false
       this.taskList = []
     },
-    init () {
+    init() {
       this.getWeChatSign()
       // this.initWechat()
       this.getAreaList()
@@ -245,7 +270,7 @@ export default {
       }).then(function (res) {
         if (res.data.code === 1) {
           vm.wxConfig = res.data.data
-          console.log(vm.wxConfig)
+          // console.log(vm.wxConfig)
           vm.initWechat()
         }
       })
@@ -276,6 +301,10 @@ export default {
           vm.linkList = res.data.data
         }
       })
+    },
+    confirmGiveUp () {
+      this.county =this.param.city_name
+      this.initTaskList()
     },
     onLoad () {
       Toast.loading({
@@ -312,9 +341,10 @@ export default {
       this.areaShow = true
     },
     confirmArea (res) {
-      console.log(res)
+      // console.log(res)
       this.county = res[1].name
       this.param.city = res[1].code
+      this.param.city_name = ''
       this.initTaskList()
     },
     cancelArea () {
