@@ -283,13 +283,13 @@ export default {
       if(!localStorage.getItem('token')){
         window.location.href =vm.apiList.apiLogin + '?page=0'
       }else{
+        vm.getWeChatSign()
         this.axios.post(this.apiList.apiInfo,'',{
           headers: {
             'token': localStorage.getItem('token')
           }
         }).then(function (res) {
           if(res.data.code === 1){
-            vm.getWeChatSign()
           }else if (res.data.code === -19) {
             window.location.href =vm.apiList.apiLogin + '?page=0'
           }
