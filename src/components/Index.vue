@@ -273,7 +273,6 @@ export default {
     },
     init() {
       this.getInfo()
-      this.getWeChatSign()
       // this.initWechat()
       this.getAreaList()
       this.getBannerList()
@@ -289,7 +288,9 @@ export default {
             'token': localStorage.getItem('token')
           }
         }).then(function (res) {
-          if (res.data.code === -19) {
+          if(res.data.code === 1){
+            vm.getWeChatSign()
+          }else if (res.data.code === -19) {
             window.location.href =vm.apiList.apiLogin + '?page=0'
           }
         })
