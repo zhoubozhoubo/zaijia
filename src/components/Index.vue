@@ -272,11 +272,28 @@ export default {
       this.taskList = []
     },
     init() {
+      this.getInfo()
       this.getWeChatSign()
       // this.initWechat()
       this.getAreaList()
       this.getBannerList()
       this.getLinkList()
+    },
+    getInfo () {
+      let vm = this
+      if(!localStorage.getItem('token')){
+        window.location.href =vm.apiList.apiLogin + '?page=0'
+      }else{
+        this.axios.post(this.apiList.apiInfo,'',{
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        }).then(function (res) {
+          if (res.data.code === -19) {
+            window.location.href =vm.apiList.apiLogin + '?page=0'
+          }
+        })
+      }
     },
     // 获取微信签名
     getWeChatSign () {
