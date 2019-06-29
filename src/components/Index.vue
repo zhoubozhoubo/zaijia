@@ -152,7 +152,7 @@ export default {
       let token = this.$route.query.token
       localStorage.setItem('token',token)
     }
-    if(this.$route.query.subscribe != ''){
+    if(this.$route.query.subscribe==1||this.$route.query.subscribe==0){
       //登录后存储subscribe
       let subscribe = this.$route.query.subscribe
       localStorage.setItem('subscribe',subscribe)
