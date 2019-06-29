@@ -147,12 +147,28 @@ export default {
     }
   },
   created() {
-    /*if (localStorage.getItem('subscribe') != 1) {
-      this.qrcodeShow = true
-    }*/
-    this.init()
+    if(this.$route.query.token){
+      //登录后存储token
+      let token = this.$route.query.token
+      localStorage.setItem('token',token)
+    }
+    if(this.$route.query.subscribe != ''){
+      //登录后存储subscribe
+      let subscribe = this.$route.query.subscribe
+      localStorage.setItem('subscribe',subscribe)
+    }
+
   },
   mounted() {
+    if (localStorage.getItem('subscribe') != 1) {
+      this.qrcodeShow = true
+    }
+    let vm = this
+    if(!localStorage.getItem('token')){
+      window.location.href =vm.apiList.apiLogin + '?page=0'
+    }else{
+      this.init()
+    }
     // this.getLocation(); // 调用获取地理位置
     // this.localtion(); // 调用获取地理位置
   },
@@ -170,7 +186,7 @@ export default {
       });
     },*/
     haveFollow () {
-      window.location.href =this.apiList.apiLogin
+      window.location.href =this.apiList.apiLogin + '?page=0'
     },
     initWechat () {
       let vm = this

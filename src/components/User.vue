@@ -169,7 +169,7 @@ export default {
       let token = this.$route.query.token
       localStorage.setItem('token',token)
     }
-    if(this.$route.query.subscribe){
+    if(this.$route.query.subscribe != ''){
       //登录后存储subscribe
       let subscribe = this.$route.query.subscribe
       localStorage.setItem('subscribe',subscribe)
@@ -186,38 +186,42 @@ export default {
       this.getInfo()
     },
     haveFollow () {
-      window.location.href =this.apiList.apiLogin
+      window.location.href =this.apiList.apiLogin + '?page=1'
     },
     getInfo () {
-      Toast.loading({
-        mask: true,
-        message: '加载中...',
-        duration: 0
-      });
       let vm = this
-      /*if(!localStorage.getItem('token')){
-        Toast('请先登录')
+      if(!localStorage.getItem('token')){
+        window.location.href =vm.apiList.apiLogin + '?page=1'
+        /*Toast('请先登录')
         this.$router.push({
           name: 'Login'
         })
-        return
-        /!*this.axios.post(this.apiList.apiLogin).then(function (res) {
+        return*/
+        /*this.axios.post(this.apiList.apiLogin).then(function (res) {
           console.log(res)
           /!*if (res.data.code === 1) {
             vm.userInfo = res.data.data
           }*!/
-        })*!/
-      }*/
-      this.axios.post(this.apiList.apiInfo,'',{
-        headers: {
-          'token': localStorage.getItem('token')
-        }
-      }).then(function (res) {
-        if (res.data.code === 1) {
-          vm.userInfo = res.data.data
-          Toast.clear()
-        }
-      })
+        })*/
+      }else{
+        Toast.loading({
+          mask: true,
+          message: '加载中...',
+          duration: 0
+        });
+        this.axios.post(this.apiList.apiInfo,'',{
+          headers: {
+            'token': localStorage.getItem('token')
+          }
+        }).then(function (res) {
+          if (res.data.code === 1) {
+            vm.userInfo = res.data.data
+            Toast.clear()
+          }else if (res.data.code === -19) {
+            window.location.href =vm.apiList.apiLogin + '?page=1'
+          }
+        })
+      }
     },
     logOut () {
       console.log('logOut')
