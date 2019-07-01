@@ -39,7 +39,7 @@
                   <span class="money">￥{{myTask.task.money}}</span>
                 </h1>
                 <!--<h2>已领取{{myTask.task.have_number}}次 通过率{{myTask.ratio}}%</h2>-->
-                <h2>已领取{{myTask.task.have_number}}次</h2>
+                <h2>已被任务已被{{myTask.task.have_number}}人领取</h2>
               </van-col>
             </div>
 
