@@ -187,14 +187,14 @@ export default {
         duration: 0
       });
       let vm = this
-      if(!localStorage.getItem('token')){
+      /*if(!localStorage.getItem('token')){
         Toast.clear()
         Toast('请先登录')
         this.$router.push({
           name: 'Login'
         })
         return
-      }
+      }*/
       this.axios.post(this.apiList.apiAddTask,{
         task_id: vm.task_id
       },{
@@ -210,10 +210,10 @@ export default {
             vm.resetTime(res.data.data.finish_duration)
           }
           vm.taskDetails.user_task_id = res.data.data.id
-          Toast.clear()
         }else{
           Toast(res.data.msg)
         }
+        Toast.clear()
       })
     },
     // 提交材料
