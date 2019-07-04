@@ -178,12 +178,12 @@ export default {
   mounted () {
     this.init()
     if (localStorage.getItem('subscribe') != 1) {
-      this.qrcodeShow = true
+      // this.qrcodeShow = true
     }
   },
   methods: {
     init () {
-      this.getInfo()
+      // this.getInfo()
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin + '?page=1'
@@ -319,7 +319,7 @@ export default {
     /*color: #eee;*/
     /*background-color: #555;*/
     /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=501549062,1145138333&fm=26&gp=0.jpg");*/
-    background-image: url("../../static/images/user_one.jpeg");
+    background-image: url("/static/images/user_one.jpeg");
   }
   .user .user_info img{
     width: 60px;
@@ -364,7 +364,7 @@ export default {
     /*background-color: #555;*/
     color: #eee;
     margin-top: 1px;
-    background-image: url("../../static/images/user_two.jpeg");
+    background-image: url("/static/images/user_two.jpeg");
   }
   .user .user_income .income_content{
     text-align: center;
