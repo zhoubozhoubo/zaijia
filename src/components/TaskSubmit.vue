@@ -48,11 +48,11 @@
             <img class="image" :src="item" @click="imgView(index)">
             <van-icon name="clear" size="20px" color="#FF0000" class="close_icon" @click="imgclose(index)"/>
           </van-col>
-          <!--<van-col span="6" class="upload_img">
+          <van-col span="6" class="upload_img">
             <van-uploader :after-read="onRead">
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
-          </van-col>-->
+          </van-col>
           <van-col span="6" class="upload_img">
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon" @click="upImg"/>
           </van-col>
@@ -197,7 +197,7 @@
           success: function (res) {
             console.log(res)
             let localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
+            vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
             // console.log(vm.formItem.submit_img)
             for (let i=0;i<localIds.length;i++) {
               wx.getLocalImgData({
@@ -205,7 +205,7 @@
                 success: function (res) {
                   // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
                   // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-                  vm.formItem.submit_img.push(res.localData);
+                  // vm.formItem.submit_img.push(res.localData);
                 }
               });
             }
