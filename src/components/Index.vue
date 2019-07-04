@@ -10,6 +10,8 @@
         </div>
       </van-col>
     </van-row>
+    <div class="nav_block"></div>
+
     <!--banner-->
     <van-row class="bannerRow">
       <van-col span="24">
@@ -419,14 +421,21 @@ export default {
   .block{
     height: 60px;
   }
-</style>
+  .nav_block{
+    height: 40px;
+  }
+</style>`
 
 <style scoped>
   .locationRow{
+    position: fixed;
+    top: 0;
+    width: 100%;
     height: 40px;
     background-color: #3f3f3f;
     color: #fff;
     font-size: 16px;
+    line-height: 40px;
   }
   .locationRow .location,.locationRow .select,.locationRow .user{
     line-height: 40px;
@@ -436,7 +445,7 @@ export default {
   }
   .locationRow span{
     float: left;
-    margin: 10px 5px 0;
+    margin: 0 5px;
   }
   .bannerRow img{
     width: 100%;
