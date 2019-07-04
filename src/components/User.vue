@@ -319,7 +319,7 @@ export default {
     /*color: #eee;*/
     /*background-color: #555;*/
     /*background-image: url("https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=501549062,1145138333&fm=26&gp=0.jpg");*/
-    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560156721470&di=a625d21781a90f48dcdf104095ca9403&imgtype=0&src=http%3A%2F%2Fimg3.redocn.com%2Ftupian%2F20150129%2Fhongsexiqingdonggantupianbeijing_3884592.jpg");
+    background-image: url("../../static/images/user_one.jpeg");
   }
   .user .user_info img{
     width: 60px;
@@ -364,7 +364,7 @@ export default {
     /*background-color: #555;*/
     color: #eee;
     margin-top: 1px;
-    background-image: url("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1560157106571&di=fdb78efa626e913ad65ba352fe9deb33&imgtype=0&src=http%3A%2F%2Fpic2.16pic.com%2F00%2F00%2F96%2F16pic_96661_b.jpg");
+    background-image: url("../../static/images/user_two.jpeg");
   }
   .user .user_income .income_content{
     text-align: center;
