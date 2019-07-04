@@ -178,12 +178,12 @@ export default {
   mounted () {
     this.init()
     if (localStorage.getItem('subscribe') != 1) {
-      // this.qrcodeShow = true
+      this.qrcodeShow = true
     }
   },
   methods: {
     init () {
-      // this.getInfo()
+      this.getInfo()
     },
     haveFollow () {
       window.location.href =this.apiList.apiLogin + '?page=1'
