@@ -181,10 +181,12 @@
         this.axios.post(this.apiList.apiUpload, fd) //url是服务器的提交地址
         //成功回调
           .then(res => {
-            console.log(res.data.data.fileUrl)
+            Toast.clear()
+            console.log(res.data.data.name)
+            console.log(res.data.data.error)
+            return
             //将服务器返回的图片链接添加进img数组，进行预览展示
             this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
-            Toast.clear()
             Toast('上传成功')
           })
       },
