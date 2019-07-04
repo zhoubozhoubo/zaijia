@@ -53,9 +53,9 @@
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
           </van-col>
-          <van-col span="6" class="upload_img">
+          <!--<van-col span="6" class="upload_img">
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon" @click="upImg"/>
-          </van-col>
+          </van-col>-->
         </van-row>
 
         <van-row>
@@ -182,9 +182,6 @@
         //成功回调
           .then(res => {
             Toast.clear()
-            Toast(res.data.data.name)
-            Toast(res.data.data.error)
-            return
             //将服务器返回的图片链接添加进img数组，进行预览展示
             this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
             Toast('上传成功')
