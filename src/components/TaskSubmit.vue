@@ -54,9 +54,7 @@
             </van-uploader>
           </van-col>
           <van-col span="6" class="upload_img">
-            <van-uploader :after-read="upImg">
-              <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
-            </van-uploader>
+              <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon" @click="upImg"/>
           </van-col>
         </van-row>
 
