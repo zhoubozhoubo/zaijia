@@ -53,6 +53,11 @@
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
           </van-col>
+          <van-col span="6" class="upload_img">
+            <van-uploader :after-read="upImg">
+              <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
+            </van-uploader>
+          </van-col>
         </van-row>
 
         <van-row>
@@ -160,7 +165,7 @@
           }
         })
       },
-      /*onRead (file) {
+      onRead (file) {
         Toast.loading({
           mask: true,
           message: '上传中...',
@@ -184,8 +189,8 @@
             Toast.clear()
             Toast('上传成功')
           })
-      },*/
-      onRead (file) {
+      },
+      upImg () {
         let vm =this
         wx.chooseImage({
           count: 1, // 默认9
@@ -193,25 +198,9 @@
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             console.log(res)
-            vm.localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            // vm.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+            vm.localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            vm.formItem.submit_img = res.localIds;
           }
-        });
-        //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
-        let fd = new FormData()
-        if (file && file.length) { // 判断是否是多图上传 多图则循环添加进去
-          file.forEach(item => {
-            fd.append("file", item.file)//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
-          })
-        } else {
-          fd.append("file", file.file)
-        }
-        this.axios.post(this.apiList.apiUpload, fd).then(res => {
-          console.log(res.data.data.fileUrl)
-          //将服务器返回的图片链接添加进img数组，进行预览展示
-          this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
-          // Toast.clear()
-          Toast('上传成功')
         })
       },
       //删除预览图片按钮
