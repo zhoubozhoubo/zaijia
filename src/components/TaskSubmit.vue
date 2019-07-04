@@ -48,11 +48,11 @@
             <img class="image" :src="item" @click="imgView(index)">
             <van-icon name="clear" size="20px" color="#FF0000" class="close_icon" @click="imgclose(index)"/>
           </van-col>
-          <van-col span="6" class="upload_img">
+          <!--<van-col span="6" class="upload_img">
             <van-uploader :after-read="onRead">
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
-          </van-col>
+          </van-col>-->
           <van-col span="6" class="upload_img">
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon" @click="upImg"/>
           </van-col>
@@ -191,13 +191,14 @@
       upImg () {
         let vm =this
         wx.chooseImage({
-          count: 1, // 默认9
+          count: 9, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
             console.log(res)
             vm.localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            vm.formItem.submit_img = res.localIds;
+            vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
+            console.log(vm.formItem.submit_img)
           }
         })
       },
