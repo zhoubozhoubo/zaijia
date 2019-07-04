@@ -436,6 +436,7 @@ export default {
     color: #fff;
     font-size: 16px;
     line-height: 40px;
+    z-index: 9999;
   }
   .locationRow .location,.locationRow .select,.locationRow .user{
     line-height: 40px;
