@@ -237,7 +237,7 @@
               wx.getLocalImgData({
                 localId: localIds[i], // 图片的localID
                 success: function (res) {
-                  Toast(res.localData)
+                  Toast('上传成功')
                   // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
                   // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
                   // vm.formItem.submit_img.push(res.localData);
