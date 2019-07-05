@@ -234,6 +234,7 @@
             //   duration: 0
             // });
             for (let i=0;i<localIds.length;i++) {
+              Toast(i)
               wx.getLocalImgData({
                 localId: localIds[i], // 图片的localID
                 success: function (res) {
