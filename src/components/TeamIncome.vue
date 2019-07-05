@@ -27,7 +27,8 @@
               @load="onLoad">
       <van-row class="income_list" v-for="(income, incomeIndex) in incomeList" :key="incomeIndex">
         <van-col span="16" offset="1">
-          <h1>"{{income.fromUser.nickname}}" 在 "{{income.gmt_create}}" 完成了任务 "{{income.task.title}}"</h1>
+          <h1 v-if="income.type == 3">"在 "{{income.gmt_create}}" 完成了任务 "{{income.task.title}}", 被邀请用户"{{income.fromUser.nickname}}"关注了公众号</h1>
+          <h1 v-else>"{{income.fromUser.nickname}}" 在 "{{income.gmt_create}}" 完成了任务 "{{income.task.title}}"</h1>
         </van-col>
         <van-col span="5" offset="1" class="money">
           <span>+{{income.money}}</span>
