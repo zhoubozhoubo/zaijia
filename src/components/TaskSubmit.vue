@@ -114,7 +114,8 @@
         formItem: {
           id: this.$route.params.id,
           submit_img: [],
-          submit_text: ''
+          submit_text: '',
+          submit_server_id: []
         },
         areaPlaceholder: '1、新人注册领红包页面截图\n' +
           '2、借条审核通过通知短信截图\n' +
@@ -226,7 +227,7 @@
           success: function (res) {
             console.log(res)
             let localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
+            vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
             // console.log(vm.formItem.submit_img)
             // Toast.loading({
             //   mask: true,
@@ -234,25 +235,32 @@
             //   duration: 0
             // });
             for (let i=0;i<localIds.length;i++) {
-              Toast(i)
-              wx.getLocalImgData({
-                localId: localIds[i], // 图片的localID
+              wx.uploadImage({
+                localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
                 success: function (res) {
-                  Toast('上传成功')
-                  // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                  // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-                  // vm.formItem.submit_img.push(res.localData);
-
-                  /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
-                  let fd = new FormData()
-                  fd.append("file", res.localData)
-                  vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
-                    //将服务器返回的图片链接添加进img数组，进行预览展示
-                    // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
-                    vm.formItem.submit_img.push(res.data.data.fileUrl);
-                  })*/
+                  // var serverId = res.serverId; // 返回图片的服务器端ID
+                  vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
                 }
               });
+              // wx.getLocalImgData({
+              //   localId: localIds[i], // 图片的localID
+              //   success: function (res) {
+              //     Toast('上传成功')
+              //     // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+              //     // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
+              //     // vm.formItem.submit_img.push(res.localData);
+              //
+              //     /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+              //     let fd = new FormData()
+              //     fd.append("file", res.localData)
+              //     vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
+              //       //将服务器返回的图片链接添加进img数组，进行预览展示
+              //       // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+              //       vm.formItem.submit_img.push(res.data.data.fileUrl);
+              //     })*/
+              //   }
+              // });
             }
             // Toast.clear()
             // Toast('上传成功')
