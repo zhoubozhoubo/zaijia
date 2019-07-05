@@ -242,29 +242,28 @@
         })
       },
       upFile (file) {
-        console.log(file)
-        /*let vm =this
-        wx.chooseImage({
-          count: 9, // 默认9
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-          success: function (res) {
-            console.log(res)
-            let localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
-            // console.log(vm.formItem.submit_img)
-            for (let i=0;i<localIds.length;i++) {
-              wx.getLocalImgData({
-                localId: localIds[i], // 图片的localID
-                success: function (res) {
-                  // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-                  // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-                  // vm.formItem.submit_img.push(res.localData);
-                }
-              });
-            }
-          }
-        })*/
+        Toast.loading({
+          mask: true,
+          message: '上传中...',
+          duration: 0
+        });
+        //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+        let fd = new FormData()
+        if (file && file.length) { // 判断是否是多图上传 多图则循环添加进去
+          file.forEach(item => {
+            fd.append("file", item.file)//第一个参数字符串可以填任意命名，第二个根据对象属性来找到file
+          })
+        } else {
+          fd.append("file", file.file)
+        }
+        this.axios.post(this.apiList.apiUpload, fd) //url是服务器的提交地址
+        //成功回调
+          .then(res => {
+            Toast.clear()
+            //将服务器返回的图片链接添加进img数组，进行预览展示
+            this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+            Toast('上传成功')
+          })
       },
       //删除预览图片按钮
       imgclose (index) {
