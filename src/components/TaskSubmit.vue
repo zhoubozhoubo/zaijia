@@ -164,11 +164,14 @@
         })
       },
       onRead (file) {
-        Toast.loading({
-          mask: true,
-          message: '上传中...',
-          duration: 0
-        });
+        // Toast.loading({
+        //   mask: true,
+        //   message: '上传中...',
+        //   duration: 0
+        // });
+        console.log(file)
+        return
+
         //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
         let fd = new FormData()
         if (file && file.length) { // 判断是否是多图上传 多图则循环添加进去
