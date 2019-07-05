@@ -165,11 +165,11 @@
         })
       },
       onRead (file) {
-        // Toast.loading({
-        //   mask: true,
-        //   message: '上传中...',
-        //   duration: 0
-        // });
+        Toast.loading({
+          mask: true,
+          message: '上传中...',
+          duration: 0
+        });
         // 大于1.5MB的jpeg和png图片都缩小像素上传
         if(/\/(?:jpeg|png)/i.test(file.file.type)&&file.file.size>1500000) {
           // 创建Canvas对象(画布)
@@ -189,7 +189,7 @@
             如果不指定缩小的像素图片将以图片原始大小进行绘制，图片像素如果大于画布将会从左上角开始按画布大小部分绘制图片，最后的图片就是张局部图。*/
             context.drawImage(img, 0, 0, 400, 300)
             // 将绘制完成的图片重新转化为base64编码，file.file.type为图片类型，0.92为默认压缩质量
-            file.content = canvas.toDataURL(file.file.type, 0.92)
+            file.content = canvas.toDataURL(file.file.type, 0.5)
             // 最后将base64编码的图片保存到数组中，留待上传。
             // this.imgBase64.push(file.content)
           }
