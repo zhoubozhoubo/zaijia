@@ -239,16 +239,16 @@
                 success: function (res) {
                   // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
                   // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-                  // vm.formItem.submit_img.push(res.localData);
+                  vm.formItem.submit_img.push(res.localData);
 
-                  //注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+                  /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
                   let fd = new FormData()
                   fd.append("file", res.localData)
                   vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
                     //将服务器返回的图片链接添加进img数组，进行预览展示
                     // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
                     vm.formItem.submit_img.push(res.data.data.fileUrl);
-                  })
+                  })*/
                 }
               });
             }
