@@ -53,10 +53,10 @@
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon"/>
             </van-uploader>
           </van-col>
-          <van-col span="6" class="upload_img">
-            <!--<input style="width: 20px; height: 20px; background-color: #333;" type="file" @click="upFile"/>-->
+          <!--<van-col span="6" class="upload_img">
+            &lt;!&ndash;<input style="width: 20px; height: 20px; background-color: #333;" type="file" @click="upFile"/>&ndash;&gt;
               <van-icon name="plus" size="30px" color="#00BCD4" class="add_icon" @click="upImg"/>
-          </van-col>
+          </van-col>-->
         </van-row>
 
         <van-row>
