@@ -53,7 +53,10 @@
           </van-col>
           <van-col span="18" offset="1" class="taskContent">
             <h1>{{task.title}}</h1>
-            <h2><span class="money">{{task.money}}元/次</span>剩余{{task.surplus_number}}次</h2>
+            <h2>
+              <span class="money" v-if="task.money">{{task.money}}元/次</span>
+              剩余{{task.surplus_number}}次
+            </h2>
           </van-col>
         </div>
       </van-row>
