@@ -112,13 +112,13 @@ export default {
       param: {
         city: '',
         city_name: '',
-        order: 0,
+        order: 1,
         page:0
       },
       county: '全国',
       areaShow: false,
       areaList: [],
-      order: '默认排序',
+      order: '价格由高到低',
       orderShow: false,
       orderList: [
         {
