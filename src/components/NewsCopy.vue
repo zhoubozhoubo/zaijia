@@ -132,6 +132,7 @@
     color: #fff;
     font-size: 16px;
     line-height: 40px;
+    z-index: 9999;
   }
   .navRow .nav_icon{
     float: left;
