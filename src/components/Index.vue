@@ -319,8 +319,6 @@ export default {
             vm.initWechat()
           },3000)
         }
-      }).cache(function (res) {
-        vm.onLoad()
       })
     },
     // 获取地区列表
