@@ -314,8 +314,13 @@ export default {
         if (res.data.code === 1) {
           vm.wxConfig = res.data.data
           // console.log(vm.wxConfig)
-          vm.initWechat()
+          // vm.initWechat()
+          setTimeout(function () {
+            vm.initWechat()
+          },3000)
         }
+      }).cache(function (res) {
+        vm.onLoad()
       })
     },
     // 获取地区列表
