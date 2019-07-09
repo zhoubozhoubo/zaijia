@@ -355,12 +355,12 @@ export default {
       this.initTaskList()
     },
     onLoad () {
-      if(this.param.city === ''){
-        if(this.param.city_name === ''){
-          console.log('return')
-          return
-        }
-      }
+      // if(this.param.city === ''){
+      //   if(this.param.city_name === ''){
+      //     console.log('return')
+      //     return
+      //   }
+      // }
       // Toast.loading({
       //   mask: true,
       //   message: '加载中...',
