@@ -128,7 +128,8 @@
         imgShow: false,
         showImg: '',
         localIds: '',
-        imgBase64: ''
+        imgBase64: '',
+        wxConfig: []
       }
     },
     created() {
@@ -136,12 +137,57 @@
     },
     methods: {
       init () {
-        // this.getTaskDetails()
+        this.getTaskDetails()
+        this.getWeChatSign()
       },
       goBack () {
         this.$router.back({
           params: { task_id: this.taskDetails.task.task_id }
         })
+      },
+      // 获取微信签名
+      getWeChatSign () {
+        let vm = this
+        this.axios.get(this.apiList.apiWeChatSign,{
+          params: {
+            url: window.location.href.split('#')[0]
+          }
+        }).then(function (res) {
+          if (res.data.code === 1) {
+            vm.wxConfig = res.data.data
+            vm.initWechat()
+          }
+        })
+      },
+      initWechat () {
+        let vm = this
+        // wx.config({
+        //   appId: "wxc5b8b08c2e2b506f",
+        //   debug: true,
+        //   jsApiList: (49) ["onWXDeviceBluetoothStateChange", "onWXDeviceStateChange", "openProductSpecificView", "addCard", "chooseCard", "openCard", "translateVoice", "getNetworkType", "openLocation", "getLocation", "onMenuShareTimeline", "onMenuShareAppMessage", "onMenuShareQQ", "onMenuShareWeibo", "onMenuShareQZone", "chooseImage", "previewImage", "uploadImage", "downloadImage", "closeWindow", "scanQRCode", "chooseWXPay", "hideOptionMenu", "showOptionMenu", "hideMenuItems", "showMenuItems", "hideAllNonBaseMenuItem", "showAllNonBaseMenuItem", "startScanWXDevice", "stopScanWXDevice", "onWXDeviceBindStateChange", "onScanWXDeviceResult", "onReceiveDataFromWXDevice", "startRecord", "stopRecord", "onVoiceRecordEnd", "playVoice", "pauseVoice", "stopVoice", "onVoicePlayEnd", "uploadVoice", "downloadVoice", "openWXDeviceLib", "closeWXDeviceLib", "getWXDeviceInfos", "sendDataToWXDevice", "disconnectWXDevice", "getWXDeviceTicket", "connectWXDevice"],
+        //   nonceStr: "gon0bvj9v6xnwc2k",
+        //   signature: "33d71b01c89ab6e64b66370c9013c6f0fef9f1a1",
+        //   timestamp: "1560978197"
+        // });
+        // console.log(this.wxConfig.jsApiList)
+        // return
+        wx.config(this.wxConfig)
+        /*wx.checkJsApi({
+          jsApiList: ["getLocation","geoLocation"],
+          success: function (res) {
+            if (res.checkResult.getLocation == false) {
+              alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+              return;
+            }
+          }
+        })*/
+        wx.ready(function(){
+          // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+        });
+        wx.error(function(res){
+          console.log(res)
+          // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+        });
       },
       getTaskDetails () {
         Toast.loading({
@@ -237,34 +283,34 @@
             //   message: '上传中...',
             //   duration: 0
             // });
-            // for (let i=0;i<localIds.length;i++) {
-            //   wx.uploadImage({
-            //     localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
-            //     isShowProgressTips: 1, // 默认为1，显示进度提示
-            //     success: function (res) {
-            //       // var serverId = res.serverId; // 返回图片的服务器端ID
-            //       vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
-            //     }
-            //   });
-            //   // wx.getLocalImgData({
-            //   //   localId: localIds[i], // 图片的localID
-            //   //   success: function (res) {
-            //   //     Toast('上传成功')
-            //   //     // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-            //   //     // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-            //   //     // vm.formItem.submit_img.push(res.localData);
-            //   //
-            //   //     /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
-            //   //     let fd = new FormData()
-            //   //     fd.append("file", res.localData)
-            //   //     vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
-            //   //       //将服务器返回的图片链接添加进img数组，进行预览展示
-            //   //       // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
-            //   //       vm.formItem.submit_img.push(res.data.data.fileUrl);
-            //   //     })*/
-            //   //   }
-            //   // });
-            // }
+            for (let i=0;i<localIds.length;i++) {
+              wx.uploadImage({
+                localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                  // var serverId = res.serverId; // 返回图片的服务器端ID
+                  vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
+                }
+              });
+              // wx.getLocalImgData({
+              //   localId: localIds[i], // 图片的localID
+              //   success: function (res) {
+              //     Toast('上传成功')
+              //     // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+              //     // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
+              //     // vm.formItem.submit_img.push(res.localData);
+              //
+              //     /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+              //     let fd = new FormData()
+              //     fd.append("file", res.localData)
+              //     vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
+              //       //将服务器返回的图片链接添加进img数组，进行预览展示
+              //       // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+              //       vm.formItem.submit_img.push(res.data.data.fileUrl);
+              //     })*/
+              //   }
+              // });
+            }
             // Toast.clear()
             // Toast('上传成功')
           }
