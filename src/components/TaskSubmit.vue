@@ -40,7 +40,8 @@
           </van-col>
         </van-row>
 
-        <van-row v-if="taskDetails.task.submit_way == 2">
+        <!--<van-row v-if="taskDetails.task.submit_way == 2">-->
+        <van-row>
           <van-col span="24" class="title">
             上传图片
           </van-col>
@@ -106,6 +107,7 @@
     data () {
       return {
         id: this.$route.params.id,
+        // id: 12,
         taskDetails: {
           task: {
             take_care: ''
@@ -134,7 +136,7 @@
     },
     methods: {
       init () {
-        this.getTaskDetails()
+        // this.getTaskDetails()
       },
       goBack () {
         this.$router.back({
@@ -220,6 +222,7 @@
       },
       upImg () {
         let vm =this
+        console.log('upImg')
         wx.chooseImage({
           count: 9, // 默认9
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
@@ -234,34 +237,34 @@
             //   message: '上传中...',
             //   duration: 0
             // });
-            for (let i=0;i<localIds.length;i++) {
-              wx.uploadImage({
-                localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
-                isShowProgressTips: 1, // 默认为1，显示进度提示
-                success: function (res) {
-                  // var serverId = res.serverId; // 返回图片的服务器端ID
-                  vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
-                }
-              });
-              // wx.getLocalImgData({
-              //   localId: localIds[i], // 图片的localID
-              //   success: function (res) {
-              //     Toast('上传成功')
-              //     // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
-              //     // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
-              //     // vm.formItem.submit_img.push(res.localData);
-              //
-              //     /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
-              //     let fd = new FormData()
-              //     fd.append("file", res.localData)
-              //     vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
-              //       //将服务器返回的图片链接添加进img数组，进行预览展示
-              //       // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
-              //       vm.formItem.submit_img.push(res.data.data.fileUrl);
-              //     })*/
-              //   }
-              // });
-            }
+            // for (let i=0;i<localIds.length;i++) {
+            //   wx.uploadImage({
+            //     localId: localIds[i], // 需要上传的图片的本地ID，由chooseImage接口获得
+            //     isShowProgressTips: 1, // 默认为1，显示进度提示
+            //     success: function (res) {
+            //       // var serverId = res.serverId; // 返回图片的服务器端ID
+            //       vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
+            //     }
+            //   });
+            //   // wx.getLocalImgData({
+            //   //   localId: localIds[i], // 图片的localID
+            //   //   success: function (res) {
+            //   //     Toast('上传成功')
+            //   //     // var localData = res.localData; // localData是图片的base64数据，可以用img标签显示
+            //   //     // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localData);
+            //   //     // vm.formItem.submit_img.push(res.localData);
+            //   //
+            //   //     /*//注意，我们这里没有使用form表单提交文件，所以需要用new FormData来进行提交
+            //   //     let fd = new FormData()
+            //   //     fd.append("file", res.localData)
+            //   //     vm.axios.post(vm.apiList.apiUpload, fd).then(res => {
+            //   //       //将服务器返回的图片链接添加进img数组，进行预览展示
+            //   //       // this.formItem.submit_img = this.formItem.submit_img.concat(res.data.data.fileUrl)
+            //   //       vm.formItem.submit_img.push(res.data.data.fileUrl);
+            //   //     })*/
+            //   //   }
+            //   // });
+            // }
             // Toast.clear()
             // Toast('上传成功')
           }
