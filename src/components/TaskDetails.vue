@@ -144,11 +144,11 @@ export default {
     }
   },
   created() {
-    if(localStorage.getItem('task_id')){
-      this.task_id = localStorage.getItem('task_id')
-    }else{
+    if(this.$route.params.task_id){
       this.task_id = this.$route.params.task_id
       localStorage.setItem('task_id', this.task_id)
+    }else{
+      this.task_id = localStorage.getItem('task_id')
     }
     this.init()
   },
