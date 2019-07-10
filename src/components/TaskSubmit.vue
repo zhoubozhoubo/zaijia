@@ -141,9 +141,7 @@
         this.getWeChatSign()
       },
       goBack () {
-        this.$router.back({
-          params: { task_id: this.taskDetails.task.task_id }
-        })
+        this.$router.back()
       },
       // 获取微信签名
       getWeChatSign () {
