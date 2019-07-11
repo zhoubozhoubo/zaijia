@@ -356,6 +356,7 @@
       //删除预览图片按钮
       imgclose (index) {
         this.formItem.submit_img.splice(index, 1)
+        this.formItem.submit_server_id.splice(index, 1)
         Toast('删除成功')
       },
       //图片大图
