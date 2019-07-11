@@ -137,10 +137,14 @@
     },
     methods: {
       init () {
+        this.formItem.submit_img = []
+        this.formItem.submit_server_id = []
         this.getTaskDetails()
         this.getWeChatSign()
       },
       goBack () {
+        this.formItem.submit_img = []
+        this.formItem.submit_server_id = []
         this.$router.back()
       },
       // 获取微信签名
