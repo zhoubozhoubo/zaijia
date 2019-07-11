@@ -272,9 +272,8 @@
           sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
           sourceType: ['album'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
-            console.log(res)
             let localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            // vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
+            vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
             // console.log(vm.formItem.submit_img)
             // Toast.loading({
             //   mask: true,
