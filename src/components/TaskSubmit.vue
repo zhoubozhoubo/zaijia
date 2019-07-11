@@ -275,6 +275,15 @@
             alert(res.localIds)
             let localIds = res.localIds // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
             vm.formItem.submit_img = vm.formItem.submit_img.concat(res.localIds);
+              wx.uploadImage({
+                localId: localIds, // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                  alert(res.serverId)
+                  // var serverId = res.serverId; // 返回图片的服务器端ID
+                  vm.formItem.submit_server_id = vm.formItem.submit_server_id.concat(res.serverId);
+                }
+              });
             // console.log(vm.formItem.submit_img)
             // Toast.loading({
             //   mask: true,
