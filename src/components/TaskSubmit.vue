@@ -133,7 +133,11 @@
       }
     },
     created() {
-      this.init()
+      if(this.id){
+        this.init()
+      }else{
+        this.goBack()
+      }
     },
     methods: {
       init () {
